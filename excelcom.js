@@ -369,7 +369,7 @@
                                                 ID: (rec[0] || "").trim(),
                                                 DESCRIPTION: (rec[1] || "").trim(),
                                                 H1: (rec[2] || "").trim(),
-                                                currency: (rec[3] || "").trim(),
+                                                costcenter: (rec[3] || "").trim(),
                                             });
                                         }
                                     }
