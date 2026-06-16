@@ -1,9 +1,6 @@
 (function () {
     "use strict";
 
-    // =========================================================
-    // MAIN WIDGET TEMPLATE
-    // =========================================================
     var tmpl = document.createElement("template");
     tmpl.innerHTML = `
         <style>
@@ -13,12 +10,10 @@
                 font-family:"72", Arial, Helvetica, sans-serif;
                 color:#1f2d3d;
             }
-
             .excel-widget{
                 width:100%;
                 box-sizing:border-box;
             }
-
             .upload-card{
                 border:1px solid #d9d9d9;
                 border-radius:10px;
@@ -26,7 +21,6 @@
                 box-shadow:0 2px 8px rgba(0,0,0,0.08);
                 padding:14px;
             }
-
             .upload-header{
                 display:flex;
                 align-items:center;
@@ -35,19 +29,11 @@
                 gap:12px;
                 flex-wrap:wrap;
             }
-
             .upload-title{
                 font-size:15px;
                 font-weight:700;
                 color:#0a6ed1;
             }
-
-            .upload-subtitle{
-                font-size:12px;
-                color:#6a6d70;
-                margin-top:2px;
-            }
-
             .status-badge{
                 font-size:11px;
                 font-weight:600;
@@ -57,14 +43,12 @@
                 color:#354a5f;
                 border:1px solid #d9d9d9;
             }
-
             .toolbar-actions{
                 display:flex;
                 gap:8px;
                 flex-wrap:wrap;
-                margin-bottom:10px;
+                margin-bottom:12px;
             }
-
             .toolbar-btn{
                 appearance:none;
                 border:1px solid #c7ced4;
@@ -77,39 +61,50 @@
                 cursor:pointer;
                 transition:all 0.2s ease;
             }
-
             .toolbar-btn:hover{
                 border-color:#0a6ed1;
                 color:#0a6ed1;
-                box-shadow:0 0 0 2px rgba(10,110,209,0.08);
             }
-
             .toolbar-btn.primary{
                 background:#0a6ed1;
                 color:#ffffff;
                 border-color:#0a6ed1;
             }
-
             .toolbar-btn.primary:hover{
                 background:#085caf;
-                border-color:#085caf;
                 color:#ffffff;
+                border-color:#085caf;
             }
-
             .toolbar-btn:disabled{
                 opacity:0.55;
                 cursor:not-allowed;
             }
-
+            .upload-area{
+                border:1px dashed #b8c4d1;
+                border-radius:10px;
+                padding:14px;
+                background:#fafcff;
+            }
+            .upload-row{
+                display:flex;
+                gap:10px;
+                align-items:center;
+                flex-wrap:wrap;
+            }
+            .file-input{
+                font-size:12px;
+                padding:8px;
+                border:1px solid #d9d9d9;
+                border-radius:8px;
+                background:#fff;
+            }
             .progress-wrap{
                 display:none;
                 margin-top:12px;
             }
-
             .progress-wrap.show{
                 display:block;
             }
-
             .progress-label-row{
                 display:flex;
                 justify-content:space-between;
@@ -118,7 +113,6 @@
                 font-size:12px;
                 color:#354a5f;
             }
-
             .progress-bar{
                 width:100%;
                 height:10px;
@@ -127,44 +121,37 @@
                 overflow:hidden;
                 border:1px solid #d9d9d9;
             }
-
             .progress-fill{
                 width:0%;
                 height:100%;
                 background:linear-gradient(90deg, #0a6ed1, #4db1ff);
                 transition:width 0.25s ease;
             }
-
             .summary-grid{
                 display:none;
                 grid-template-columns:repeat(4, minmax(0, 1fr));
                 gap:8px;
                 margin-top:12px;
             }
-
             .summary-grid.show{
                 display:grid;
             }
-
             .summary-item{
                 border:1px solid #e5e7eb;
                 border-radius:8px;
                 padding:10px;
                 background:#fafbfc;
             }
-
             .summary-item .k{
                 font-size:11px;
                 color:#6a6d70;
                 margin-bottom:4px;
             }
-
             .summary-item .v{
                 font-size:15px;
                 font-weight:700;
                 color:#1f2d3d;
             }
-
             .log-box{
                 display:none;
                 margin-top:12px;
@@ -179,29 +166,21 @@
                 color:#354a5f;
                 white-space:pre-wrap;
             }
-
             .log-box.show{
                 display:block;
             }
-
             .footer-note{
                 margin-top:10px;
                 font-size:11px;
                 color:#6a6d70;
             }
-
-            @media (max-width: 700px){
-                .summary-grid{
-                    grid-template-columns:repeat(2, minmax(0, 1fr));
-                }
-            }
         </style>
+
         <div class="excel-widget">
             <div class="upload-card">
                 <div class="upload-header">
                     <div>
-                        <div class="upload-title">Excel Upload</div>
-                        <div class="upload-subtitle">Upload and validate Excel data before sending it to SAC script</div>
+                        <div class="upload-title" id="titleEl">Excel Upload</div>
                     </div>
                     <div class="status-badge" id="statusBadge">Ready</div>
                 </div>
@@ -211,7 +190,13 @@
                     <button type="button" class="toolbar-btn" id="downloadErrorBtn" disabled>Download Error Log</button>
                 </div>
 
-                <div id="ui5_host"></div>
+                <div class="upload-area">
+                    <div class="upload-row">
+                        <input type="file" id="fileInput" class="file-input" accept=".xls,.xlsx,.xlsm,.csv" />
+                        <button type="button" class="toolbar-btn primary" id="uploadBtn">Upload</button>
+                        <button type="button" class="toolbar-btn" id="clearBtn">Clear</button>
+                    </div>
+                </div>
 
                 <div class="progress-wrap" id="progressWrap">
                     <div class="progress-label-row">
@@ -243,28 +228,19 @@
                 </div>
 
                 <div class="log-box" id="logBox"></div>
-
-                <div class="footer-note" id="footerNote">
-                    Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter
-                </div>
+                <div class="footer-note" id="footerNote">Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter</div>
             </div>
         </div>
     `;
 
     var _shadowRoot;
     var _result = "";
-    var _widgetId = "";
-    var _ui5ViewPlaced = false;
-    var _xlsxLoaded = false;
 
     class Excel extends HTMLElement {
         constructor() {
             super();
-
             _shadowRoot = this.attachShadow({ mode: "open" });
             _shadowRoot.appendChild(tmpl.content.cloneNode(true));
-
-            _widgetId = createGuid();
 
             this._export_settings = {
                 title: "",
@@ -272,97 +248,43 @@
                 icon: "",
                 unit: "",
                 footer: "",
-                widgetName: ""
+                errorlogfilename: "Excel_Upload_Error_Log.csv",
+                templatefilename: "Excel_Upload_Template.csv"
             };
 
-            this._subscription = null;
-            this._firstConnection = 0;
-            this._designMode = false;
-            this.metadata = "";
             this._errorLog = [];
             this._validData = [];
+            this._designMode = false;
 
-            this._bindToolbarActions();
+            this._bindEvents();
         }
 
         connectedCallback() {
             this._setStatus("Ready");
-            this._setFooter("Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter");
-            this._attachBuilderMetadataListener();
-        }
-
-        disconnectedCallback() {
-            if (this._subscription) {
-                this._subscription();
-                this._subscription = null;
-            }
+            this._applyHeaderSettings();
+            this._loadExcelLibrary();
         }
 
         onCustomWidgetBeforeUpdate(changedProperties) {
             if ("designMode" in changedProperties) {
                 this._designMode = changedProperties.designMode;
             }
-
-            if ("widgetName" in changedProperties) {
-                this._export_settings.widgetName = changedProperties.widgetName;
-            }
         }
 
         onCustomWidgetAfterUpdate(changedProperties) {
-            var that = this;
-            this._applyHeaderSettings();
+            if ("title" in changedProperties) this.title = changedProperties.title;
+            if ("subtitle" in changedProperties) this.subtitle = changedProperties.subtitle;
+            if ("icon" in changedProperties) this.icon = changedProperties.icon;
+            if ("unit" in changedProperties) this.unit = changedProperties.unit;
+            if ("footer" in changedProperties) this.footer = changedProperties.footer;
+            if ("errorlogfilename" in changedProperties) this.errorlogfilename = changedProperties.errorlogfilename;
+            if ("templatefilename" in changedProperties) this.templatefilename = changedProperties.templatefilename;
 
-            loadScriptOnce("https://sacplanning2025.github.io/Company_widget/xlsxxxcom.js", _shadowRoot)
-                .then(function () {
-                    _xlsxLoaded = true;
-                    that._renderWidget(changedProperties);
-                })
-                .catch(function (e) {
-                    console.log(e);
-                    that._showError("Failed to load Excel library");
-                });
-        }
-
-        get title() {
-            return this._export_settings.title;
-        }
-        set title(value) {
-            this._export_settings.title = value || "";
-            this._applyHeaderSettings();
-        }
-
-        get subtitle() {
-            return this._export_settings.subtitle;
-        }
-        set subtitle(value) {
-            this._export_settings.subtitle = value || "";
-            this._applyHeaderSettings();
-        }
-
-        get icon() {
-            return this._export_settings.icon;
-        }
-        set icon(value) {
-            this._export_settings.icon = value || "";
-        }
-
-        get unit() {
-            return this._export_settings.unit;
-        }
-        set unit(value) {
-            this._export_settings.unit = _result || value || "";
-        }
-
-        get footer() {
-            return this._export_settings.footer;
-        }
-        set footer(value) {
-            this._export_settings.footer = value || "";
             this._applyHeaderSettings();
         }
 
         static get observedAttributes() {
-            return ["title", "subtitle", "icon", "unit", "footer", "link"];
+            return ["title", "subtitle", "icon", "unit", "footer", "errorlogfilename", "templatefilename"];
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
@@ -371,147 +293,298 @@
             }
         }
 
-        _bindToolbarActions() {
+        get title() { return this._export_settings.title; }
+        set title(value) {
+            this._export_settings.title = value || "";
+            this._applyHeaderSettings();
+        }
+
+        get subtitle() { return this._export_settings.subtitle; }
+        set subtitle(value) {
+            this._export_settings.subtitle = value || "";
+        }
+
+        get icon() { return this._export_settings.icon; }
+        set icon(value) { this._export_settings.icon = value || ""; }
+
+        get unit() { return this._export_settings.unit; }
+        set unit(value) { this._export_settings.unit = _result || value || ""; }
+
+        get footer() { return this._export_settings.footer; }
+        set footer(value) {
+            this._export_settings.footer = value || "";
+            this._applyHeaderSettings();
+        }
+
+        get errorlogfilename() { return this._export_settings.errorlogfilename; }
+        set errorlogfilename(value) { this._export_settings.errorlogfilename = value || "Excel_Upload_Error_Log.csv"; }
+
+        get templatefilename() { return this._export_settings.templatefilename; }
+        set templatefilename(value) { this._export_settings.templatefilename = value || "Excel_Upload_Template.csv"; }
+
+        _bindEvents() {
             var that = this;
 
             setTimeout(function () {
-                var templateBtn = _shadowRoot.getElementById("downloadTemplateBtn");
-                var errorBtn = _shadowRoot.getElementById("downloadErrorBtn");
+                _shadowRoot.getElementById("downloadTemplateBtn").addEventListener("click", function () {
+                    that._downloadTemplate();
+                });
 
-                if (templateBtn) {
-                    templateBtn.addEventListener("click", function () {
-                        that._downloadTemplate();
-                    });
-                }
+                _shadowRoot.getElementById("downloadErrorBtn").addEventListener("click", function () {
+                    that._downloadErrorLog();
+                });
 
-                if (errorBtn) {
-                    errorBtn.addEventListener("click", function () {
-                        that._downloadErrorLog();
-                    });
-                }
+                _shadowRoot.getElementById("uploadBtn").addEventListener("click", function () {
+                    that._processUpload();
+                });
+
+                _shadowRoot.getElementById("clearBtn").addEventListener("click", function () {
+                    that._clearAll();
+                });
             }, 0);
         }
 
         _applyHeaderSettings() {
-            var titleEl = _shadowRoot.querySelector(".upload-title");
-            var subTitleEl = _shadowRoot.querySelector(".upload-subtitle");
+            var titleEl = _shadowRoot.getElementById("titleEl");
+            var footerEl = _shadowRoot.getElementById("footerNote");
 
-            if (titleEl) {
-                titleEl.textContent = this._export_settings.title || "Excel Upload";
-            }
-
-            if (subTitleEl) {
-                subTitleEl.textContent = this._export_settings.subtitle || "Upload and validate Excel data before sending it to SAC script";
-            }
-
-            this._setFooter(this._export_settings.footer || "Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter");
+            titleEl.textContent = this._export_settings.title || "Excel Upload";
+            footerEl.textContent = this._export_settings.footer || "Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter";
         }
 
         _setStatus(text) {
-            var el = _shadowRoot.getElementById("statusBadge");
-            if (el) {
-                el.textContent = text;
-            }
-        }
-
-        _setFooter(text) {
-            var el = _shadowRoot.getElementById("footerNote");
-            if (el) {
-                el.textContent = text || "";
-            }
+            _shadowRoot.getElementById("statusBadge").textContent = text;
         }
 
         _setProgress(percent, text) {
             var wrap = _shadowRoot.getElementById("progressWrap");
-            var fill = _shadowRoot.getElementById("progressFill");
-            var pText = _shadowRoot.getElementById("progressText");
-            var pPercent = _shadowRoot.getElementById("progressPercent");
-
-            if (wrap) {
-                wrap.classList.add("show");
-            }
-            if (fill) {
-                fill.style.width = Math.max(0, Math.min(100, percent)) + "%";
-            }
-            if (pText) {
-                pText.textContent = text || "";
-            }
-            if (pPercent) {
-                pPercent.textContent = Math.round(percent) + "%";
-            }
+            wrap.classList.add("show");
+            _shadowRoot.getElementById("progressFill").style.width = percent + "%";
+            _shadowRoot.getElementById("progressText").textContent = text || "";
+            _shadowRoot.getElementById("progressPercent").textContent = percent + "%";
         }
 
         _hideProgress() {
-            var wrap = _shadowRoot.getElementById("progressWrap");
-            if (wrap) {
-                wrap.classList.remove("show");
-            }
+            _shadowRoot.getElementById("progressWrap").classList.remove("show");
         }
 
         _setSummary(rows, valid, invalid, sheet) {
             var grid = _shadowRoot.getElementById("summaryGrid");
-            if (grid) {
-                grid.classList.add("show");
-            }
-
-            _shadowRoot.getElementById("sumRows").textContent = String(rows || 0);
-            _shadowRoot.getElementById("sumValid").textContent = String(valid || 0);
-            _shadowRoot.getElementById("sumInvalid").textContent = String(invalid || 0);
-            _shadowRoot.getElementById("sumSheet").textContent = String(sheet || "-");
+            grid.classList.add("show");
+            _shadowRoot.getElementById("sumRows").textContent = rows || 0;
+            _shadowRoot.getElementById("sumValid").textContent = valid || 0;
+            _shadowRoot.getElementById("sumInvalid").textContent = invalid || 0;
+            _shadowRoot.getElementById("sumSheet").textContent = sheet || "-";
         }
 
         _log(message, reset) {
             var box = _shadowRoot.getElementById("logBox");
-            if (!box) {
-                return;
-            }
-
-            if (reset === true) {
+            if (reset) {
                 box.textContent = "";
             }
-
             box.classList.add("show");
             box.textContent += (box.textContent ? "\n" : "") + message;
         }
 
-        _showError(message) {
-            this._setStatus("Error");
-            this._log(message, true);
-            this._hideProgress();
+        _loadExcelLibrary() {
+            var that = this;
+            loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js", _shadowRoot)
+                .then(function () {
+                    that._setStatus("Ready");
+                    that._log("Excel library loaded successfully", true);
+                })
+                .catch(function () {
+                    that._setStatus("Error");
+                    that._log("Failed to load Excel library", true);
+                });
         }
 
-        _firePropertiesChanged() {
-            this.unit = _result;
-            this.dispatchEvent(new CustomEvent("propertiesChanged", {
-                detail: {
-                    properties: {
-                        unit: this.unit
+        _processUpload() {
+            var that = this;
+            var input = _shadowRoot.getElementById("fileInput");
+            var file = input.files && input.files[0] ? input.files[0] : null;
+
+            if (!file) {
+                this._setStatus("Warning");
+                this._log("Please select a file before upload", true);
+                return;
+            }
+
+            if (typeof XLSX === "undefined") {
+                this._setStatus("Error");
+                this._log("Excel library is not loaded. Check internet/CDN access.", true);
+                return;
+            }
+
+            this._setStatus("Processing");
+            this._setProgress(10, "Reading file...");
+            this._errorLog = [];
+            this._validData = [];
+            this._enableErrorDownload(false);
+            this._log("File selected: " + file.name, true);
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                try {
+                    that._setProgress(30, "Parsing workbook...");
+
+                    var data = e.target.result;
+                    var workbook;
+
+                    if (file.name.toLowerCase().endsWith(".csv")) {
+                        workbook = XLSX.read(data, { type: "binary" });
+                    } else {
+                        workbook = XLSX.read(data, { type: "binary" });
                     }
+
+                    var targetSheet = "Sheet1";
+                    var actualSheet = workbook.SheetNames.indexOf("Sheet1") > -1 ? "Sheet1" : workbook.SheetNames[0];
+
+                    if (!actualSheet) {
+                        that._setStatus("Error");
+                        that._log("No sheet found in uploaded file", true);
+                        return;
+                    }
+
+                    that._setProgress(50, "Reading rows...");
+                    var sheet = workbook.Sheets[actualSheet];
+                    var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+
+                    if (!rows || rows.length <= 1) {
+                        that._setStatus("Error");
+                        that._log("There is no record to be uploaded", true);
+                        return;
+                    }
+
+                    var header = rows[0];
+                    var colMap = {
+                        ID: -1,
+                        DESCRIPTION: -1,
+                        H1: -1,
+                        costcenter: -1
+                    };
+
+                    for (var i = 0; i < header.length; i++) {
+                        var h = String(header[i] || "").trim();
+                        if (h === "ID") colMap.ID = i;
+                        else if (h === "DESCRIPTION") colMap.DESCRIPTION = i;
+                        else if (h === "H1") colMap.H1 = i;
+                        else if (h.toLowerCase() === "costcenter") colMap.costcenter = i;
+                    }
+
+                    if (colMap.ID === -1 || colMap.DESCRIPTION === -1 || colMap.H1 === -1 || colMap.costcenter === -1) {
+                        that._setStatus("Error");
+                        that._log("Invalid template. Required columns: ID, DESCRIPTION, H1, costcenter", true);
+                        return;
+                    }
+
+                    that._setProgress(75, "Validating rows...");
+
+                    var seenIds = {};
+                    var validRows = [];
+                    var errorRows = [];
+
+                    for (var r = 1; r < rows.length; r++) {
+                        var row = rows[r] || [];
+                        var rowNumber = r + 1;
+
+                        var rowObj = {
+                            ID: String(row[colMap.ID] || "").trim(),
+                            DESCRIPTION: String(row[colMap.DESCRIPTION] || "").trim(),
+                            H1: String(row[colMap.H1] || "").trim(),
+                            costcenter: String(row[colMap.costcenter] || "").trim()
+                        };
+
+                        var isBlank = !rowObj.ID && !rowObj.DESCRIPTION && !rowObj.H1 && !rowObj.costcenter;
+                        if (isBlank) continue;
+
+                        var errors = [];
+                        if (!rowObj.ID) errors.push("ID is mandatory");
+                        if (!rowObj.DESCRIPTION) errors.push("DESCRIPTION is mandatory");
+                        if (!rowObj.H1) errors.push("H1 is mandatory");
+                        if (!rowObj.costcenter) errors.push("costcenter is mandatory");
+                        if (rowObj.ID && seenIds[rowObj.ID]) errors.push("Duplicate ID found");
+
+                        if (rowObj.ID) seenIds[rowObj.ID] = true;
+
+                        if (errors.length > 0) {
+                            errorRows.push({
+                                RowNumber: rowNumber,
+                                ID: rowObj.ID,
+                                DESCRIPTION: rowObj.DESCRIPTION,
+                                H1: rowObj.H1,
+                                costcenter: rowObj.costcenter,
+                                ErrorMessage: errors.join(" | ")
+                            });
+                        } else {
+                            validRows.push(rowObj);
+                        }
+                    }
+
+                    if (validRows.length > 2000) {
+                        that._setStatus("Error");
+                        that._log("Maximum records are 2000", true);
+                        return;
+                    }
+
+                    that._validData = validRows;
+                    that._errorLog = errorRows;
+                    that._enableErrorDownload(errorRows.length > 0);
+
+                    _result = JSON.stringify(validRows);
+                    that._firePropertiesChanged();
+
+                    that.dispatchEvent(new CustomEvent("onStart", {
+                        detail: {
+                            settings: {},
+                            rowCount: validRows.length,
+                            invalidCount: errorRows.length,
+                            fileName: file.name,
+                            sheetName: actualSheet
+                        }
+                    }));
+
+                    that._setSummary(rows.length - 1, validRows.length, errorRows.length, actualSheet);
+                    that._setProgress(100, "Completed");
+                    that._setStatus("Completed");
+                    that._log("Valid rows: " + validRows.length);
+                    that._log("Invalid rows: " + errorRows.length);
+                } catch (err) {
+                    that._setStatus("Error");
+                    that._log("Processing failed: " + err.message, true);
                 }
-            }));
+            };
+
+            reader.readAsBinaryString(file);
+        }
+
+        _clearAll() {
+            _shadowRoot.getElementById("fileInput").value = "";
+            _result = "";
+            this._errorLog = [];
+            this._validData = [];
+            this._enableErrorDownload(false);
+            this._setStatus("Ready");
+            this._hideProgress();
+            this._setSummary(0, 0, 0, "-");
+            this._log("Cleared previous file and output", true);
+            this._firePropertiesChanged();
         }
 
         _enableErrorDownload(enable) {
-            var btn = _shadowRoot.getElementById("downloadErrorBtn");
-            if (btn) {
-                btn.disabled = !enable;
-            }
+            _shadowRoot.getElementById("downloadErrorBtn").disabled = !enable;
         }
 
         _downloadTemplate() {
-            try {
-                var csvContent = [
-                    "ID,DESCRIPTION,H1,costcenter",
-                    "100001,Sample Cost Center A,H1-100,CC1000",
-                    "100002,Sample Cost Center B,H1-200,CC2000"
-                ].join("\n");
+            var csvContent = [
+                "ID,DESCRIPTION,H1,costcenter",
+                "100001,Sample Cost Center A,H1-100,CC1000",
+                "100002,Sample Cost Center B,H1-200,CC2000"
+            ].join("\n");
 
-                this._downloadBlob(csvContent, "text/csv;charset=utf-8;", "Excel_Upload_Template.csv");
-                this._log("Template downloaded successfully");
-            } catch (e) {
-                console.log(e);
-                this._log("Template download failed");
-            }
+            this._downloadBlob(csvContent, "text/csv;charset=utf-8;", this._export_settings.templatefilename);
+            this._log("Template downloaded successfully");
         }
 
         _downloadErrorLog() {
@@ -533,7 +606,7 @@
                 ].join(","));
             }
 
-            this._downloadBlob(rows.join("\n"), "text/csv;charset=utf-8;", "Excel_Upload_Error_Log.csv");
+            this._downloadBlob(rows.join("\n"), "text/csv;charset=utf-8;", this._export_settings.errorlogfilename);
             this._log("Error log downloaded successfully");
         }
 
@@ -557,422 +630,38 @@
             URL.revokeObjectURL(url);
         }
 
-        _renderWidget(changedProperties) {
-            if (_ui5ViewPlaced) {
-                return;
-            }
-
-            var widgetName = this._export_settings.widgetName || changedProperties.widgetName || ("ExcelWidget_" + _widgetId.replace(/-/g, ""));
-            this._export_settings.widgetName = widgetName;
-
-            var host = _shadowRoot.getElementById("ui5_host");
-            if (!host) {
-                return;
-            }
-
-            var xml = `
-                <mvc:View height="100%" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" controllerName="myView.Template">
-                    <VBox width="100%" class="sapUiSmallMarginTop">
-                        <f:SimpleForm editable="true" layout="ResponsiveGridLayout">
-                            <f:content>
-                                <Label text="Upload Excel File" />
-                                <VBox width="100%">
-                                    <u:FileUploader
-                                        id="idfileUploader"
-                                        width="100%"
-                                        useMultipart="false"
-                                        sendXHR="true"
-                                        sameFilenameAllowed="false"
-                                        buttonText=""
-                                        fileType="xls,xlsx,xlsm"
-                                        placeholder="Choose an Excel file"
-                                        style="Emphasized" />
-                                    <Toolbar design="Transparent">
-                                        <ToolbarSpacer />
-                                        <Button text="Upload & Validate" type="Emphasized" press="onValidate" tooltip="Upload and validate Excel file" />
-                                        <Button text="Clear" type="Transparent" press="onClear" tooltip="Clear selected file and output" />
-                                    </Toolbar>
-                                </VBox>
-                            </f:content>
-                        </f:SimpleForm>
-                    </VBox>
-                </mvc:View>
-            `;
-
-            sap.ui.getCore().attachInit(function () {
-                sap.ui.define([
-                    "sap/ui/core/mvc/Controller",
-                    "sap/m/MessageToast",
-                    "sap/m/BusyDialog"
-                ], function (Controller, MessageToast, BusyDialog) {
-                    return Controller.extend("myView.Template", {
-                        onInit: function () {
-                            if (!this._busyDialog) {
-                                this._busyDialog = new BusyDialog({});
-                            }
-                        },
-
-                        onClear: function () {
-                            var fU = this.getView().byId("idfileUploader");
-                            fU.setValue("");
-                            _result = "";
-
-                            var rootNode = host.getRootNode().host;
-                            rootNode._errorLog = [];
-                            rootNode._validData = [];
-                            rootNode._enableErrorDownload(false);
-                            rootNode._setStatus("Ready");
-                            rootNode._hideProgress();
-                            rootNode._log("Cleared previous file and output", true);
-                            rootNode._setSummary(0, 0, 0, "-");
-                            rootNode._firePropertiesChanged();
-
-                            this._busyDialog.close();
-                        },
-
-                        onValidate: function () {
-                            var this_ = this;
-                            var rootNode = host.getRootNode().host;
-                            var fU = this.getView().byId("idfileUploader");
-                            var input = fU.getFocusDomRef();
-                            var file = input && input.files ? input.files[0] : null;
-
-                            if (!file) {
-                                MessageToast.show("Please select a file before clicking Upload");
-                                return;
-                            }
-
-                            if (!_xlsxLoaded || typeof XLSX === "undefined") {
-                                MessageToast.show("Excel library not loaded");
-                                rootNode._showError("Excel library not available");
-                                return;
-                            }
-
-                            rootNode._errorLog = [];
-                            rootNode._validData = [];
-                            rootNode._enableErrorDownload(false);
-
-                            this_._busyDialog.open();
-                            rootNode._setStatus("Processing");
-                            rootNode._setProgress(10, "Reading file...");
-                            rootNode._log("File selected: " + file.name, true);
-
-                            var reader = new FileReader();
-
-                            reader.onload = function (e) {
-                                try {
-                                    rootNode._setProgress(25, "Parsing workbook...");
-
-                                    var data = e.target.result;
-                                    var workbook = XLSX.read(data, { type: "binary" });
-
-                                    var targetSheet = "Sheet1";
-                                    var correctSheet = workbook.SheetNames.indexOf(targetSheet) > -1;
-
-                                    if (!correctSheet) {
-                                        fU.setValue("");
-                                        rootNode._showError("Please upload the correct file. Sheet1 not found.");
-                                        MessageToast.show("Please upload the correct file");
-                                        this_._busyDialog.close();
-                                        return;
-                                    }
-
-                                    rootNode._setProgress(45, "Reading rows from Sheet1...");
-
-                                    var sheet = workbook.Sheets[targetSheet];
-                                    var jsonRows = XLSX.utils.sheet_to_json(sheet, {
-                                        header: 1,
-                                        defval: ""
-                                    });
-
-                                    if (!jsonRows || jsonRows.length <= 1) {
-                                        fU.setValue("");
-                                        rootNode._showError("There is no record to be uploaded");
-                                        MessageToast.show("There is no record to be uploaded");
-                                        this_._busyDialog.close();
-                                        return;
-                                    }
-
-                                    var header = jsonRows[0];
-                                    var colMap = {
-                                        ID: -1,
-                                        DESCRIPTION: -1,
-                                        H1: -1,
-                                        costcenter: -1
-                                    };
-
-                                    for (var h = 0; h < header.length; h++) {
-                                        var headVal = String(header[h] || "").trim();
-                                        if (headVal === "ID") {
-                                            colMap.ID = h;
-                                        } else if (headVal === "DESCRIPTION") {
-                                            colMap.DESCRIPTION = h;
-                                        } else if (headVal === "H1") {
-                                            colMap.H1 = h;
-                                        } else if (headVal.toLowerCase() === "costcenter") {
-                                            colMap.costcenter = h;
-                                        }
-                                    }
-
-                                    if (colMap.ID === -1 || colMap.DESCRIPTION === -1 || colMap.H1 === -1 || colMap.costcenter === -1) {
-                                        fU.setValue("");
-                                        rootNode._showError("Invalid template. Required columns: ID, DESCRIPTION, H1, costcenter");
-                                        MessageToast.show("Please upload the correct file");
-                                        this_._busyDialog.close();
-                                        return;
-                                    }
-
-                                    rootNode._setProgress(65, "Validating rows...");
-
-                                    var seenIds = {};
-                                    var validRows = [];
-                                    var errorRows = [];
-
-                                    for (var i = 1; i < jsonRows.length; i++) {
-                                        var row = jsonRows[i] || [];
-                                        var rowNumber = i + 1;
-
-                                        var rowObj = {
-                                            ID: String(row[colMap.ID] || "").trim(),
-                                            DESCRIPTION: String(row[colMap.DESCRIPTION] || "").trim(),
-                                            H1: String(row[colMap.H1] || "").trim(),
-                                            costcenter: String(row[colMap.costcenter] || "").trim()
-                                        };
-
-                                        var isBlank = rowObj.ID === "" && rowObj.DESCRIPTION === "" && rowObj.H1 === "" && rowObj.costcenter === "";
-                                        if (isBlank) {
-                                            continue;
-                                        }
-
-                                        var rowErrors = [];
-
-                                        if (rowObj.ID === "") {
-                                            rowErrors.push("ID is mandatory");
-                                        }
-                                        if (rowObj.DESCRIPTION === "") {
-                                            rowErrors.push("DESCRIPTION is mandatory");
-                                        }
-                                        if (rowObj.H1 === "") {
-                                            rowErrors.push("H1 is mandatory");
-                                        }
-                                        if (rowObj.costcenter === "") {
-                                            rowErrors.push("costcenter is mandatory");
-                                        }
-                                        if (rowObj.ID !== "" && seenIds[rowObj.ID]) {
-                                            rowErrors.push("Duplicate ID found");
-                                        }
-
-                                        if (rowObj.ID !== "") {
-                                            seenIds[rowObj.ID] = true;
-                                        }
-
-                                        if (rowErrors.length > 0) {
-                                            errorRows.push({
-                                                RowNumber: rowNumber,
-                                                ID: rowObj.ID,
-                                                DESCRIPTION: rowObj.DESCRIPTION,
-                                                H1: rowObj.H1,
-                                                costcenter: rowObj.costcenter,
-                                                ErrorMessage: rowErrors.join(" | ")
-                                            });
-                                        } else {
-                                            validRows.push(rowObj);
-                                        }
-                                    }
-
-                                    if (validRows.length === 0) {
-                                        rootNode._errorLog = errorRows;
-                                        rootNode._enableErrorDownload(errorRows.length > 0);
-                                        fU.setValue("");
-                                        rootNode._setSummary(jsonRows.length - 1, 0, errorRows.length, targetSheet);
-                                        rootNode._showError("No valid rows found in the uploaded file");
-                                        MessageToast.show("No valid rows found");
-                                        this_._busyDialog.close();
-                                        return;
-                                    }
-
-                                    if (validRows.length >= 2001) {
-                                        fU.setValue("");
-                                        rootNode._showError("Maximum valid records are 2000");
-                                        MessageToast.show("Maximum records are 2000.");
-                                        this_._busyDialog.close();
-                                        return;
-                                    }
-
-                                    rootNode._setProgress(85, "Preparing output data...");
-
-                                    rootNode._validData = validRows;
-                                    rootNode._errorLog = errorRows;
-                                    rootNode._enableErrorDownload(errorRows.length > 0);
-
-                                    _result = JSON.stringify(validRows);
-                                    rootNode._firePropertiesChanged();
-
-                                    rootNode.dispatchEvent(new CustomEvent("onStart", {
-                                        detail: {
-                                            settings: {},
-                                            rowCount: validRows.length,
-                                            invalidCount: errorRows.length,
-                                            fileName: file.name,
-                                            sheetName: targetSheet
-                                        }
-                                    }));
-
-                                    rootNode._setSummary(jsonRows.length - 1, validRows.length, errorRows.length, targetSheet);
-                                    rootNode._log("Valid rows: " + validRows.length);
-                                    rootNode._log("Invalid rows: " + errorRows.length);
-                                    if (errorRows.length > 0) {
-                                        rootNode._log("Download Error Log button is enabled");
-                                    }
-                                    rootNode._log("JSON payload ready and sent to SAC script property 'unit'");
-                                    rootNode._setProgress(100, "Completed");
-                                    rootNode._setStatus("Completed");
-
-                                    fU.setValue("");
-                                    this_._busyDialog.close();
-                                    MessageToast.show("Upload completed successfully");
-                                } catch (err) {
-                                    console.log(err);
-                                    fU.setValue("");
-                                    rootNode._showError("Processing failed: " + err.message);
-                                    this_._busyDialog.close();
-                                    MessageToast.show("Processing failed");
-                                }
-                            };
-
-                            reader.onerror = function () {
-                                this_._busyDialog.close();
-                                rootNode._showError("Unable to read selected file");
-                                MessageToast.show("Unable to read selected file");
-                            };
-
-                            reader.readAsBinaryString(file);
-                        }
-                    });
-                });
-
-                var oView = sap.ui.xmlview({
-                    viewContent: xml
-                });
-
-                oView.placeAt(host);
-
-                if (host.getRootNode().host._designMode) {
-                    setTimeout(function () {
-                        try {
-                            oView.byId("idfileUploader").setEnabled(false);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }, 300);
-                }
-            });
-
-            _ui5ViewPlaced = true;
-        }
-
-        _attachBuilderMetadataListener() {
-            try {
-                if (window.commonApp) {
-                    var outlineContainer = commonApp.getShell().findElements(true, function (ele) {
-                        return ele.hasStyleClass && ele.hasStyleClass("sapAppBuildingOutline");
-                    })[0];
-
-                    if (outlineContainer && outlineContainer.getReactProps) {
-                        var parseReactState = (state) => {
-                            var components = {};
-                            var globalState = state.globalState;
-                            var instances = globalState.instances;
-                            var app = instances.app["[{\"app\":\"MAIN_APPLICATION\"}]"];
-                            var names = app.names;
-
-                            for (var key in names) {
-                                var name = names[key];
-                                var obj = JSON.parse(key).pop();
-                                var type = Object.keys(obj)[0];
-                                var id = obj[type];
-
-                                components[id] = {
-                                    type: type,
-                                    name: name
-                                };
-                            }
-
-                            var metadata = JSON.stringify({
-                                components: components,
-                                vars: app.globalVars
-                            });
-
-                            if (metadata !== this.metadata) {
-                                this.metadata = metadata;
-                                this.dispatchEvent(new CustomEvent("propertiesChanged", {
-                                    detail: {
-                                        properties: {
-                                            metadata: metadata
-                                        }
-                                    }
-                                }));
-                            }
-                        };
-
-                        var subscribeReactStore = (store) => {
-                            this._subscription = store.subscribe({
-                                effect: function (state) {
-                                    parseReactState(state);
-                                    return { result: 1 };
-                                }
-                            });
-                        };
-
-                        var props = outlineContainer.getReactProps();
-                        if (props) {
-                            subscribeReactStore(props.store);
-                        } else {
-                            var oldRenderReactComponent = outlineContainer.renderReactComponent;
-                            outlineContainer.renderReactComponent = function (e) {
-                                var p = outlineContainer.getReactProps();
-                                subscribeReactStore(p.store);
-                                oldRenderReactComponent.call(outlineContainer, e);
-                            };
-                        }
+        _firePropertiesChanged() {
+            this.unit = _result;
+            this.dispatchEvent(new CustomEvent("propertiesChanged", {
+                detail: {
+                    properties: {
+                        unit: this.unit
                     }
                 }
-            } catch (e) {
-                console.log(e);
-            }
+            }));
         }
     }
 
     customElements.define("com-fd-djaja-sap-sac-excelcom", Excel);
 
-    function createGuid() {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0;
-            var v = c === "x" ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-
     function loadScriptOnce(src, shadowRoot) {
         return new Promise(function (resolve, reject) {
+            if (typeof XLSX !== "undefined") {
+                resolve();
+                return;
+            }
+
             var existing = shadowRoot.querySelector('script[src="' + src + '"]');
             if (existing) {
-                resolve(existing);
+                existing.onload = function () { resolve(); };
+                existing.onerror = function () { reject(); };
                 return;
             }
 
             var script = document.createElement("script");
             script.src = src;
-
-            script.onload = function () {
-                console.log("Load: " + src);
-                resolve(script);
-            };
-
-            script.onerror = function () {
-                reject(new Error("Script load error for " + src));
-            };
-
+            script.onload = function () { resolve(); };
+            script.onerror = function () { reject(); };
             shadowRoot.appendChild(script);
         });
     }
