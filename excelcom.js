@@ -911,7 +911,7 @@
     // CHANGE THIS URL to your own hosted Excel template file URL
     // Must be publicly accessible (GitHub raw, SharePoint, etc.)
     // ─────────────────────────────────────────────────────────────
-    var TEMPLATE_URL = "https://sacplanning2025.github.io/Company_widget/Excel_Upload_Template.xlsx";
+    var TEMPLATE_URL = "https://sacplanning2025.github.io/Company_widget/Excel_Upload_Template.csv";
 
     class Excel extends HTMLElement {
         constructor() {
