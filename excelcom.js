@@ -1075,61 +1075,53 @@ var TEMPLATE_URL = "https://raw.githubusercontent.com/sacplanning2025/Company_wi
         // Tries to fetch your own hosted Excel file first.
         // Falls back to a generated CSV if the fetch fails.
         _downloadTemplate() {
-            var that      = this;
-            var url       = this._export_settings.templateurl;
-            var fileName  = this._export_settings.templatefilename;
+    var that = this;
+    var url = this._export_settings.templateurl;
+    var fileName = this._export_settings.templatefilename;
 
-            that._log("Downloading template...", false);
+    that._log("Downloading template...", false);
+    that._setStatus("Downloading");
 
-            fetch(url)
-                .then(function (response) {
-                    if (!response.ok) {
-                        throw new Error("HTTP " + response.status);
-                    }
-                    return response.blob();
-                })
-                .then(function (blob) {
-                    // Detect correct MIME from file extension
-                    var mime = "application/octet-stream";
-                    var lower = fileName.toLowerCase();
-                    if (lower.endsWith(".xlsx")) {
-                        mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    } else if (lower.endsWith(".xlsm")) {
-                        mime = "application/vnd.ms-excel.sheet.macroEnabled.12";
-                    } else if (lower.endsWith(".xls")) {
-                        mime = "application/vnd.ms-excel";
-                    } else if (lower.endsWith(".csv")) {
-                        mime = "text/csv;charset=utf-8;";
-                    }
+    fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status + " - Template file not found");
+            }
+            return response.blob();
+        })
+        .then(function (blob) {
+            var mime = "application/octet-stream";
+            var lower = fileName.toLowerCase();
 
-                    var file = new File([blob], fileName, { type: mime });
-                    var url2 = URL.createObjectURL(file);
-                    var a    = document.createElement("a");
-                    a.href   = url2;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url2);
-                    that._log("Template downloaded successfully");
-                })
-                .catch(function (err) {
-                    // ── fallback: generate CSV template ──────────
-                    that._log("Remote template unavailable (" + err.message + "). Generating CSV fallback...");
-                    var csvContent = [
-                        "ID,DESCRIPTION,H1,costcenter",
-                        "100001,Sample Cost Center A,H1-100,CC1000",
-                        "100002,Sample Cost Center B,H1-200,CC2000"
-                    ].join("\n");
+            if (lower.endsWith(".xlsx")) {
+                mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            } else if (lower.endsWith(".xlsm")) {
+                mime = "application/vnd.ms-excel.sheet.macroEnabled.12";
+            } else if (lower.endsWith(".xls")) {
+                mime = "application/vnd.ms-excel";
+            } else if (lower.endsWith(".csv")) {
+                mime = "text/csv;charset=utf-8;";
+            }
 
-                    that._downloadBlob(
-                        csvContent,
-                        "text/csv;charset=utf-8;",
-                        "Excel_Upload_Template.csv"
-                    );
-                    that._log("CSV fallback template downloaded");
-                });
-        }
+            var fileBlob = new Blob([blob], { type: mime });
+            var downloadUrl = URL.createObjectURL(fileBlob);
+            var a = document.createElement("a");
+            a.href = downloadUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(downloadUrl);
+
+            that._setStatus("Ready");
+            that._log("Template downloaded successfully");
+        })
+        .catch(function (err) {
+            that._setStatus("Error");
+            that._log("Template download failed: " + err.message, false);
+        });
+}
+
 
         // ── UPLOAD & VALIDATE ────────────────────────────────────
         _processUpload() {
