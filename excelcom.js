@@ -1,4 +1,3 @@
-/*
 (function () {
     "use strict";
 
@@ -236,6 +235,7 @@
 
     var _shadowRoot;
     var _result = "";
+    var TEMPLATE_URL = "https://raw.githubusercontent.com/sacplanning2025/Company_widget/main/New_Position_Creation_V2.1.xlsm";
 
     class Excel extends HTMLElement {
         constructor() {
@@ -250,7 +250,8 @@
                 unit: "",
                 footer: "",
                 errorlogfilename: "Excel_Upload_Error_Log.csv",
-                templatefilename: "Excel_Upload_Template.csv"
+                templatefilename: "New_Position_Creation_V2.1.xlsm",
+                templateurl: TEMPLATE_URL
             };
 
             this._errorLog = [];
@@ -280,12 +281,13 @@
             if ("footer" in changedProperties) this.footer = changedProperties.footer;
             if ("errorlogfilename" in changedProperties) this.errorlogfilename = changedProperties.errorlogfilename;
             if ("templatefilename" in changedProperties) this.templatefilename = changedProperties.templatefilename;
+            if ("templateurl" in changedProperties) this.templateurl = changedProperties.templateurl;
 
             this._applyHeaderSettings();
         }
 
         static get observedAttributes() {
-            return ["title", "subtitle", "icon", "unit", "footer", "errorlogfilename", "templatefilename"];
+            return ["title", "subtitle", "icon", "unit", "footer", "errorlogfilename", "templatefilename", "templateurl"];
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
@@ -294,51 +296,76 @@
             }
         }
 
-        get title() { return this._export_settings.title; }
-        set title(value) {
-            this._export_settings.title = value || "";
+        get title() {
+            return this._export_settings.title;
+        }
+        set title(v) {
+            this._export_settings.title = v || "";
             this._applyHeaderSettings();
         }
 
-        get subtitle() { return this._export_settings.subtitle; }
-        set subtitle(value) {
-            this._export_settings.subtitle = value || "";
+        get subtitle() {
+            return this._export_settings.subtitle;
+        }
+        set subtitle(v) {
+            this._export_settings.subtitle = v || "";
         }
 
-        get icon() { return this._export_settings.icon; }
-        set icon(value) { this._export_settings.icon = value || ""; }
+        get icon() {
+            return this._export_settings.icon;
+        }
+        set icon(v) {
+            this._export_settings.icon = v || "";
+        }
 
-        get unit() { return this._export_settings.unit; }
-        set unit(value) { this._export_settings.unit = _result || value || ""; }
+        get unit() {
+            return this._export_settings.unit;
+        }
+        set unit(v) {
+            this._export_settings.unit = _result || v || "";
+        }
 
-        get footer() { return this._export_settings.footer; }
-        set footer(value) {
-            this._export_settings.footer = value || "";
+        get footer() {
+            return this._export_settings.footer;
+        }
+        set footer(v) {
+            this._export_settings.footer = v || "";
             this._applyHeaderSettings();
         }
 
-        get errorlogfilename() { return this._export_settings.errorlogfilename; }
-        set errorlogfilename(value) { this._export_settings.errorlogfilename = value || "Excel_Upload_Error_Log.csv"; }
+        get errorlogfilename() {
+            return this._export_settings.errorlogfilename;
+        }
+        set errorlogfilename(v) {
+            this._export_settings.errorlogfilename = v || "Excel_Upload_Error_Log.csv";
+        }
 
-        get templatefilename() { return this._export_settings.templatefilename; }
-        set templatefilename(value) { this._export_settings.templatefilename = value || "Excel_Upload_Template.csv"; }
+        get templatefilename() {
+            return this._export_settings.templatefilename;
+        }
+        set templatefilename(v) {
+            this._export_settings.templatefilename = v || "New_Position_Creation_V2.1.xlsm";
+        }
+
+        get templateurl() {
+            return this._export_settings.templateurl;
+        }
+        set templateurl(v) {
+            this._export_settings.templateurl = v || TEMPLATE_URL;
+        }
 
         _bindEvents() {
             var that = this;
-
             setTimeout(function () {
                 _shadowRoot.getElementById("downloadTemplateBtn").addEventListener("click", function () {
                     that._downloadTemplate();
                 });
-
                 _shadowRoot.getElementById("downloadErrorBtn").addEventListener("click", function () {
                     that._downloadErrorLog();
                 });
-
                 _shadowRoot.getElementById("uploadBtn").addEventListener("click", function () {
                     that._processUpload();
                 });
-
                 _shadowRoot.getElementById("clearBtn").addEventListener("click", function () {
                     that._clearAll();
                 });
@@ -348,9 +375,12 @@
         _applyHeaderSettings() {
             var titleEl = _shadowRoot.getElementById("titleEl");
             var footerEl = _shadowRoot.getElementById("footerNote");
-
-            titleEl.textContent = this._export_settings.title || "Excel Upload";
-            footerEl.textContent = this._export_settings.footer || "Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter";
+            if (titleEl) {
+                titleEl.textContent = this._export_settings.title || "Excel Upload";
+            }
+            if (footerEl) {
+                footerEl.textContent = this._export_settings.footer || "Supported template: Sheet1 with columns ID, DESCRIPTION, H1, costcenter";
+            }
         }
 
         _setStatus(text) {
@@ -358,8 +388,7 @@
         }
 
         _setProgress(percent, text) {
-            var wrap = _shadowRoot.getElementById("progressWrap");
-            wrap.classList.add("show");
+            _shadowRoot.getElementById("progressWrap").classList.add("show");
             _shadowRoot.getElementById("progressFill").style.width = percent + "%";
             _shadowRoot.getElementById("progressText").textContent = text || "";
             _shadowRoot.getElementById("progressPercent").textContent = percent + "%";
@@ -370,8 +399,7 @@
         }
 
         _setSummary(rows, valid, invalid, sheet) {
-            var grid = _shadowRoot.getElementById("summaryGrid");
-            grid.classList.add("show");
+            _shadowRoot.getElementById("summaryGrid").classList.add("show");
             _shadowRoot.getElementById("sumRows").textContent = rows || 0;
             _shadowRoot.getElementById("sumValid").textContent = valid || 0;
             _shadowRoot.getElementById("sumInvalid").textContent = invalid || 0;
@@ -387,16 +415,55 @@
             box.textContent += (box.textContent ? "\n" : "") + message;
         }
 
+        _enableErrorDownload(enable) {
+            _shadowRoot.getElementById("downloadErrorBtn").disabled = !enable;
+        }
+
         _loadExcelLibrary() {
             var that = this;
-            loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js", _shadowRoot)
-                .then(function () {
-                    that._setStatus("Ready");
-                    that._log("Excel library loaded successfully", true);
+            loadScriptOnce(
+                "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",
+                _shadowRoot
+            ).then(function () {
+                that._setStatus("Ready");
+                that._log("Excel library loaded successfully", true);
+            }).catch(function () {
+                that._setStatus("Error");
+                that._log("Failed to load Excel library", true);
+            });
+        }
+
+        _downloadTemplate() {
+            var that = this;
+            var url = this._export_settings.templateurl;
+            var fileName = this._export_settings.templatefilename || "New_Position_Creation_V2.1.xlsm";
+
+            that._log("Downloading template...", false);
+            that._setStatus("Downloading");
+
+            fetch(url)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("HTTP " + response.status + " - Template file not found");
+                    }
+                    return response.blob();
                 })
-                .catch(function () {
+                .then(function (blob) {
+                    var downloadUrl = URL.createObjectURL(blob);
+                    var a = document.createElement("a");
+                    a.href = downloadUrl;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(downloadUrl);
+
+                    that._setStatus("Ready");
+                    that._log("Template downloaded successfully: " + fileName);
+                })
+                .catch(function (err) {
                     that._setStatus("Error");
-                    that._log("Failed to load Excel library", true);
+                    that._log("Template download failed: " + err.message, false);
                 });
         }
 
@@ -431,15 +498,8 @@
                     that._setProgress(30, "Parsing workbook...");
 
                     var data = e.target.result;
-                    var workbook;
+                    var workbook = XLSX.read(data, { type: "binary" });
 
-                    if (file.name.toLowerCase().endsWith(".csv")) {
-                        workbook = XLSX.read(data, { type: "binary" });
-                    } else {
-                        workbook = XLSX.read(data, { type: "binary" });
-                    }
-
-                    var targetSheet = "Sheet1";
                     var actualSheet = workbook.SheetNames.indexOf("Sheet1") > -1 ? "Sheet1" : workbook.SheetNames[0];
 
                     if (!actualSheet) {
@@ -468,10 +528,15 @@
 
                     for (var i = 0; i < header.length; i++) {
                         var h = String(header[i] || "").trim();
-                        if (h === "ID") colMap.ID = i;
-                        else if (h === "DESCRIPTION") colMap.DESCRIPTION = i;
-                        else if (h === "H1") colMap.H1 = i;
-                        else if (h.toLowerCase() === "costcenter") colMap.costcenter = i;
+                        if (h === "ID") {
+                            colMap.ID = i;
+                        } else if (h === "DESCRIPTION") {
+                            colMap.DESCRIPTION = i;
+                        } else if (h === "H1") {
+                            colMap.H1 = i;
+                        } else if (h.toLowerCase() === "costcenter") {
+                            colMap.costcenter = i;
+                        }
                     }
 
                     if (colMap.ID === -1 || colMap.DESCRIPTION === -1 || colMap.H1 === -1 || colMap.costcenter === -1) {
@@ -480,34 +545,56 @@
                         return;
                     }
 
-                    that._setProgress(75, "Validating rows...");
+                    that._setProgress(65, "Scanning for duplicates...");
 
-                    var seenIds = {};
+                    var idCount = {};
+                    for (var r = 1; r < rows.length; r++) {
+                        var row = rows[r] || [];
+                        var id = String(row[colMap.ID] || "").trim();
+                        if (!id) {
+                            continue;
+                        }
+                        idCount[id] = (idCount[id] || 0) + 1;
+                    }
+
+                    that._setProgress(80, "Validating rows...");
+
                     var validRows = [];
                     var errorRows = [];
 
-                    for (var r = 1; r < rows.length; r++) {
-                        var row = rows[r] || [];
-                        var rowNumber = r + 1;
+                    for (var r2 = 1; r2 < rows.length; r2++) {
+                        var row2 = rows[r2] || [];
+                        var rowNumber = r2 + 1;
 
                         var rowObj = {
-                            ID: String(row[colMap.ID] || "").trim(),
-                            DESCRIPTION: String(row[colMap.DESCRIPTION] || "").trim(),
-                            H1: String(row[colMap.H1] || "").trim(),
-                            costcenter: String(row[colMap.costcenter] || "").trim()
+                            ID: String(row2[colMap.ID] || "").trim(),
+                            DESCRIPTION: String(row2[colMap.DESCRIPTION] || "").trim(),
+                            H1: String(row2[colMap.H1] || "").trim(),
+                            costcenter: String(row2[colMap.costcenter] || "").trim()
                         };
 
-                        var isBlank = !rowObj.ID && !rowObj.DESCRIPTION && !rowObj.H1 && !rowObj.costcenter;
-                        if (isBlank) continue;
+                        if (!rowObj.ID && !rowObj.DESCRIPTION && !rowObj.H1 && !rowObj.costcenter) {
+                            continue;
+                        }
 
                         var errors = [];
-                        if (!rowObj.ID) errors.push("ID is mandatory");
-                        if (!rowObj.DESCRIPTION) errors.push("DESCRIPTION is mandatory");
-                        if (!rowObj.H1) errors.push("H1 is mandatory");
-                        if (!rowObj.costcenter) errors.push("costcenter is mandatory");
-                        if (rowObj.ID && seenIds[rowObj.ID]) errors.push("Duplicate ID found");
 
-                        if (rowObj.ID) seenIds[rowObj.ID] = true;
+                        if (!rowObj.ID) {
+                            errors.push("ID is mandatory");
+                        }
+                        if (!rowObj.DESCRIPTION) {
+                            errors.push("DESCRIPTION is mandatory");
+                        }
+                        if (!rowObj.H1) {
+                            errors.push("H1 is mandatory");
+                        }
+                        if (!rowObj.costcenter) {
+                            errors.push("costcenter is mandatory");
+                        }
+
+                        if (rowObj.ID && idCount[rowObj.ID] > 1) {
+                            errors.push("Duplicate ID '" + rowObj.ID + "' - all " + idCount[rowObj.ID] + " occurrences rejected");
+                        }
 
                         if (errors.length > 0) {
                             errorRows.push({
@@ -551,6 +638,15 @@
                     that._setStatus("Completed");
                     that._log("Valid rows: " + validRows.length);
                     that._log("Invalid rows: " + errorRows.length);
+
+                    var dupIds = Object.keys(idCount).filter(function (id) {
+                        return idCount[id] > 1;
+                    });
+
+                    if (dupIds.length > 0) {
+                        that._log("Duplicate IDs rejected (all occurrences): " + dupIds.join(", "));
+                    }
+
                 } catch (err) {
                     that._setStatus("Error");
                     that._log("Processing failed: " + err.message, true);
@@ -571,21 +667,6 @@
             this._setSummary(0, 0, 0, "-");
             this._log("Cleared previous file and output", true);
             this._firePropertiesChanged();
-        }
-
-        _enableErrorDownload(enable) {
-            _shadowRoot.getElementById("downloadErrorBtn").disabled = !enable;
-        }
-
-        _downloadTemplate() {
-            var csvContent = [
-                "ID,DESCRIPTION,H1,costcenter",
-                "100001,Sample Cost Center A,H1-100,CC1000",
-                "100002,Sample Cost Center B,H1-200,CC2000"
-            ].join("\n");
-
-            this._downloadBlob(csvContent, "text/csv;charset=utf-8;", this._export_settings.templatefilename);
-            this._log("Template downloaded successfully");
         }
 
         _downloadErrorLog() {
@@ -654,22 +735,22 @@
 
             var existing = shadowRoot.querySelector('script[src="' + src + '"]');
             if (existing) {
-                existing.onload = function () { resolve(); };
-                existing.onerror = function () { reject(); };
+                existing.addEventListener("load", resolve);
+                existing.addEventListener("error", reject);
                 return;
             }
 
             var script = document.createElement("script");
             script.src = src;
-            script.onload = function () { resolve(); };
-            script.onerror = function () { reject(); };
+            script.onload = resolve;
+            script.onerror = reject;
             shadowRoot.appendChild(script);
         });
     }
 })();
-*/
 
-(function () {
+
+/*(function () {
     "use strict";
 
     var tmpl = document.createElement("template");
@@ -1387,4 +1468,4 @@ var TEMPLATE_URL = "https://raw.githubusercontent.com/sacplanning2025/Company_wi
             shadowRoot.appendChild(script);
         });
     }
-})();
+})();  */
