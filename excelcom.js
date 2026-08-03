@@ -1,4 +1,4 @@
-/*(function () {
+(function () {
     "use strict";
 
     var tmpl = document.createElement("template");
@@ -227,7 +227,7 @@
                 height:100%;
                 background:linear-gradient(90deg, var(--cw-primary), #4db1ff);
                 transition:width 0.25s ease;
-            }*/    ///fix
+            }
 
             .summary-grid{
                 display:none;
