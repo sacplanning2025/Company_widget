@@ -1,4 +1,4 @@
-(function () {
+/*(function () {
     "use strict";
 
     var tmpl = document.createElement("template");
@@ -36,7 +36,7 @@
             .excel-widget{
                 width:100%;
                 height:100%;
-            }
+            } 
             .upload-card{
                 border:1px solid var(--cw-border);
                 border-radius:14px;
@@ -196,7 +196,7 @@
             .search-input:focus{
                 border-color:var(--cw-primary);
                 box-shadow:0 0 0 2px rgba(10,110,209,0.12);
-            }
+            } */ //change
 
             .progress-wrap{
                 display:none;
