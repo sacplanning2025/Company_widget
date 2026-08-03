@@ -7,6 +7,7 @@
             :host{
                 display:block;
                 width:100%;
+                height:100%;
                 font-family:"72", Arial, Helvetica, sans-serif;
                 color:#1f2d3d;
                 --cw-primary:#0a6ed1;
@@ -34,29 +35,34 @@
             }
             .excel-widget{
                 width:100%;
+                height:100%;
             }
             .upload-card{
                 border:1px solid var(--cw-border);
                 border-radius:14px;
                 background:linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
                 box-shadow:0 8px 24px rgba(0,0,0,0.08);
-                padding:16px;
+                padding:14px;
+                height:100%;
+                display:flex;
+                flex-direction:column;
+                overflow:hidden;
             }
             .upload-header{
                 display:flex;
                 align-items:flex-start;
                 justify-content:space-between;
-                margin-bottom:14px;
+                margin-bottom:10px;
                 gap:12px;
                 flex-wrap:wrap;
             }
             .title-wrap{
                 display:flex;
                 flex-direction:column;
-                gap:4px;
+                gap:3px;
             }
             .upload-title{
-                font-size:18px;
+                font-size:17px;
                 font-weight:700;
                 color:var(--cw-primary);
                 line-height:1.2;
@@ -81,23 +87,34 @@
             .status-error{ background:var(--cw-error-bg); color:var(--cw-error-tx); border-color:var(--cw-error-bd); }
             .status-warning{ background:var(--cw-warn-bg); color:var(--cw-warn-tx); border-color:var(--cw-warn-bd); }
 
-            .toolbar-actions{
+            .toolbar-row{
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:10px;
+                flex-wrap:wrap;
+                margin-bottom:10px;
+            }
+            .toolbar-left,
+            .toolbar-right{
                 display:flex;
                 gap:8px;
                 flex-wrap:wrap;
-                margin-bottom:14px;
+                align-items:center;
             }
+
             .toolbar-btn{
                 appearance:none;
                 border:1px solid #c7ced4;
                 background:#ffffff;
                 color:var(--cw-text);
                 border-radius:9px;
-                padding:8px 12px;
+                padding:8px 14px;
                 font-size:12px;
                 font-weight:700;
                 cursor:pointer;
                 transition:all 0.2s ease;
+                min-height:34px;
             }
             .toolbar-btn:hover{
                 border-color:var(--cw-primary);
@@ -122,9 +139,10 @@
             .upload-area{
                 border:1px dashed #b8c4d1;
                 border-radius:12px;
-                padding:16px;
+                padding:12px;
                 background:var(--cw-soft2);
-                margin-bottom:12px;
+                margin-bottom:10px;
+                flex:0 0 auto;
             }
             .upload-row{
                 display:flex;
@@ -133,13 +151,21 @@
                 flex-wrap:wrap;
             }
             .file-input{
-                font-size:12px;
-                padding:8px;
+                font-size:13px;
+                padding:10px 12px;
                 border:1px solid var(--cw-border);
-                border-radius:8px;
+                border-radius:10px;
                 background:#fff;
-                min-width:280px;
+                min-width:420px;
+                height:42px;
                 max-width:100%;
+            }
+            .action-btn{
+                min-width:88px;
+                height:42px;
+                padding:0 16px;
+                font-size:13px;
+                border-radius:10px;
             }
             .mini-text{
                 font-size:11px;
@@ -149,22 +175,23 @@
             }
 
             .search-row{
-                margin-top:12px;
+                margin-top:10px;
                 display:flex;
                 gap:10px;
                 flex-wrap:wrap;
                 align-items:center;
             }
             .search-input{
-                min-width:220px;
+                min-width:260px;
                 max-width:100%;
-                padding:8px 10px;
+                padding:10px 12px;
                 border:1px solid var(--cw-border);
-                border-radius:8px;
-                font-size:12px;
+                border-radius:10px;
+                font-size:13px;
                 outline:none;
                 background:#fff;
                 flex:1;
+                height:40px;
             }
             .search-input:focus{
                 border-color:var(--cw-primary);
@@ -173,7 +200,8 @@
 
             .progress-wrap{
                 display:none;
-                margin-top:12px;
+                margin-top:6px;
+                flex:0 0 auto;
             }
             .progress-wrap.show{
                 display:block;
@@ -188,7 +216,7 @@
             }
             .progress-bar{
                 width:100%;
-                height:12px;
+                height:11px;
                 background:#edf2f7;
                 border-radius:10px;
                 overflow:hidden;
@@ -204,8 +232,9 @@
             .summary-grid{
                 display:none;
                 grid-template-columns:repeat(6, minmax(0, 1fr));
-                gap:10px;
-                margin-top:14px;
+                gap:8px;
+                margin-top:10px;
+                flex:0 0 auto;
             }
             .summary-grid.show{
                 display:grid;
@@ -213,8 +242,9 @@
             .summary-item{
                 border:1px solid #e5e7eb;
                 border-radius:10px;
-                padding:10px;
+                padding:8px 10px;
                 background:#fafbfc;
+                min-height:58px;
             }
             .summary-item .k{
                 font-size:11px;
@@ -222,19 +252,20 @@
                 margin-bottom:4px;
             }
             .summary-item .v{
-                font-size:16px;
+                font-size:15px;
                 font-weight:700;
                 color:var(--cw-text);
             }
 
             .msg{
                 display:none;
-                margin-top:12px;
-                padding:10px 12px;
+                margin-top:10px;
+                padding:9px 12px;
                 border-radius:10px;
                 font-size:12px;
                 line-height:1.45;
                 white-space:pre-wrap;
+                flex:0 0 auto;
             }
             .msg.show{ display:block; }
             .msg.error{ background:var(--cw-error-bg); border:1px solid var(--cw-error-bd); color:var(--cw-error-tx); }
@@ -244,14 +275,17 @@
 
             .preview-wrap{
                 display:none;
-                margin-top:14px;
+                margin-top:10px;
                 border:1px solid #e5e7eb;
                 border-radius:12px;
                 overflow:hidden;
                 background:#ffffff;
+                flex:1 1 auto;
+                min-height:260px;
             }
             .preview-wrap.show{
-                display:block;
+                display:flex;
+                flex-direction:column;
             }
             .section-head{
                 display:flex;
@@ -262,6 +296,7 @@
                 border-bottom:1px solid #e5e7eb;
                 gap:8px;
                 flex-wrap:wrap;
+                flex:0 0 auto;
             }
             .section-title{
                 font-size:13px;
@@ -274,7 +309,8 @@
             }
             .preview-grid{
                 overflow:auto;
-                max-height:380px;
+                flex:1 1 auto;
+                min-height:0;
             }
             table{
                 width:100%;
@@ -317,32 +353,41 @@
 
             .log-box{
                 display:none;
-                margin-top:12px;
+                margin-top:10px;
                 border:1px solid #e5e7eb;
                 border-radius:10px;
                 background:#fafbfc;
-                padding:12px;
-                max-height:180px;
+                padding:10px 12px;
+                max-height:140px;
                 overflow:auto;
                 font-size:12px;
                 line-height:1.45;
                 color:#354a5f;
                 white-space:pre-wrap;
+                flex:0 0 auto;
             }
             .log-box.show{
                 display:block;
             }
 
             .footer-note{
-                margin-top:12px;
+                margin-top:8px;
                 font-size:11px;
                 color:var(--cw-sub);
                 white-space:pre-wrap;
+                flex:0 0 auto;
             }
 
             @media (max-width: 980px){
                 .summary-grid{
                     grid-template-columns:repeat(2, minmax(0, 1fr));
+                }
+                .file-input{
+                    min-width:260px;
+                    width:100%;
+                }
+                .toolbar-row{
+                    align-items:flex-start;
                 }
             }
         </style>
@@ -357,20 +402,23 @@
                     <div class="status-badge status-ready" id="statusBadge">Ready</div>
                 </div>
 
-                <div class="toolbar-actions">
-                    <button type="button" class="toolbar-btn primary" id="downloadTemplateBtn">Download Template</button>
-                    <button type="button" class="toolbar-btn" id="downloadErrorBtn" disabled>Download Error Log</button>
-                    <button type="button" class="toolbar-btn" id="togglePreviewBtn">Toggle Preview</button>
+                <div class="toolbar-row">
+                    <div class="toolbar-left">
+                        <button type="button" class="toolbar-btn primary" id="downloadTemplateBtn">Download Template</button>
+                    </div>
+                    <div class="toolbar-right">
+                        <button type="button" class="toolbar-btn" id="downloadErrorBtn" disabled>Download Error Log</button>
+                        <button type="button" class="toolbar-btn" id="togglePreviewBtn">Toggle Preview</button>
+                    </div>
                 </div>
 
                 <div class="upload-area" id="dropZone">
                     <div class="upload-row">
                         <input type="file" id="fileInput" class="file-input" />
-                        <button type="button" class="toolbar-btn primary" id="uploadBtn">Upload</button>
-                        <button type="button" class="toolbar-btn" id="clearBtn">Clear</button>
+                        <button type="button" class="toolbar-btn primary action-btn" id="uploadBtn">Upload</button>
+                        <button type="button" class="toolbar-btn action-btn" id="clearBtn">Clear</button>
                     </div>
 
-                    <div class="mini-text" id="acceptText">Accepted: .xls, .xlsx, .xlsm, .csv</div>
                     <div class="mini-text" id="templateInfo">Required columns will be validated automatically.</div>
 
                     <div class="search-row">
@@ -402,7 +450,7 @@
                 <div class="preview-wrap" id="previewWrap">
                     <div class="section-head">
                         <div class="section-title">Preview</div>
-                        <div class="section-meta" id="previewMeta">0 row(s)</div>
+                        <div class="section-meta" id="previewMeta">0 row(s) shown</div>
                     </div>
                     <div class="preview-grid">
                         <table>
@@ -439,7 +487,7 @@
                 requiredcolumns: "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED",
                 keycolumn: "ID",
                 maxrows: 2000,
-                previewrows: 100,
+                previewrows: 1000,
                 allowcsv: true,
                 autovalidate: true,
                 showpreview: true,
@@ -585,12 +633,12 @@
         get previewrows() { return this._export_settings.previewrows; }
         set previewrows(v) {
             var n = parseInt(v, 10);
-            this._export_settings.previewrows = isNaN(n) || n <= 0 ? 100 : n;
+            this._export_settings.previewrows = isNaN(n) || n <= 0 ? 1000 : n;
             this._renderPreview();
         }
 
         get allowcsv() { return this._export_settings.allowcsv; }
-        set allowcsv(v) { this._export_settings.allowcsv = this._toBoolean(v, true); this._applyAcceptedTypes(); }
+        set allowcsv(v) { this._export_settings.allowcsv = this._toBoolean(v, true); }
 
         get autovalidate() { return this._export_settings.autovalidate; }
         set autovalidate(v) { this._export_settings.autovalidate = this._toBoolean(v, true); }
@@ -682,10 +730,8 @@
 
         _applyAcceptedTypes() {
             var input = this._shadowRoot.getElementById("fileInput");
-            var acceptText = this._shadowRoot.getElementById("acceptText");
             var accept = this._export_settings.allowcsv ? ".xls,.xlsx,.xlsm,.csv" : ".xls,.xlsx,.xlsm";
             if (input) input.setAttribute("accept", accept);
-            if (acceptText) acceptText.textContent = "Accepted: " + accept;
         }
 
         _applyVisibility() {
@@ -1184,7 +1230,7 @@
             body.innerHTML = "";
 
             if (!this._previewRows || this._previewRows.length === 0) {
-                meta.textContent = "0 row(s)";
+                meta.textContent = "0 row(s) shown";
                 body.innerHTML = '<tr><td colspan="50">No preview available</td></tr>';
                 return;
             }
@@ -1412,6 +1458,7 @@
         });
     }
 })();
+
 
 /*
 (function () {
