@@ -821,38 +821,63 @@
         }
 
         _downloadTemplate() {
-            var that = this;
-            var url = this._export_settings.templateurl;
-            var fileName = this._export_settings.templatefilename || "Template.xlsm";
+    var that = this;
+    var url = this._export_settings.templateurl;
+    var fileName = this._export_settings.templatefilename || "Template.xlsm";
+    var isSharePoint = /sharepoint\.com|sharepoint-df\.com/i.test(url);
 
-            that._log("Downloading template...", false);
-            that._setStatus("Downloading", "processing");
+    that._log("Downloading template...", false);
+    that._setStatus("Downloading", "processing");
 
-            fetch(url)
-                .then(function (response) {
-                    if (!response.ok) throw new Error("HTTP " + response.status + " - Template file not found");
-                    return response.blob();
-                })
-                .then(function (blob) {
-                    var downloadUrl = URL.createObjectURL(blob);
-                    var a = document.createElement("a");
-                    a.href = downloadUrl;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(downloadUrl);
+    if (isSharePoint) {
+        try {
+            var aSp = document.createElement("a");
+            aSp.href = url;
+            aSp.target = "_blank";
+            aSp.rel = "noopener noreferrer";
+            document.body.appendChild(aSp);
+            aSp.click();
+            document.body.removeChild(aSp);
 
-                    that._setStatus("Ready", "ready");
-                    that._showMessage("success", "Template downloaded successfully: " + fileName);
-                    that._log("Template downloaded successfully: " + fileName);
-                })
-                .catch(function (err) {
-                    that._setStatus("Error", "error");
-                    that._showMessage("error", "Template download failed: " + err.message);
-                    that._log("Template download failed: " + err.message, false);
-                });
+            that._setStatus("Ready", "ready");
+            that._showMessage("info", "SharePoint link opened. If file does not download, check SharePoint access.");
+            that._log("Opened SharePoint template link: " + url);
+        } catch (errSp) {
+            that._setStatus("Error", "error");
+            that._showMessage("error", "Template download failed: " + errSp.message);
+            that._log("Template download failed: " + errSp.message, false);
         }
+        return;
+    }
+
+    fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status + " - Template file not found");
+            }
+            return response.blob();
+        })
+        .then(function (blob) {
+            var downloadUrl = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = downloadUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(downloadUrl);
+
+            that._setStatus("Ready", "ready");
+            that._showMessage("success", "Template downloaded successfully: " + fileName);
+            that._log("Template downloaded successfully: " + fileName);
+        })
+        .catch(function (err) {
+            that._setStatus("Error", "error");
+            that._showMessage("error", "Template download failed: " + err.message);
+            that._log("Template download failed: " + err.message, false);
+        });
+}
+
 
         _processUpload() {
             var that = this;
