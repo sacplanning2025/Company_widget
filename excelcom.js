@@ -1,4 +1,4 @@
-(function () {
+/*(function () {
     "use strict";
 
     var tmpl = document.createElement("template");
@@ -196,7 +196,7 @@
             .search-input:focus{
                 border-color:var(--cw-primary);
                 box-shadow:0 0 0 2px rgba(10,110,209,0.12);
-            } 
+            } */
 
             .progress-wrap{
                 display:none;
