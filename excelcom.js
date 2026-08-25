@@ -824,12 +824,14 @@
     var that = this;
     var url = this._export_settings.templateurl;
     var fileName = this._export_settings.templatefilename || "Template.xlsm";
+
     var isSharePoint = /sharepoint\.com|sharepoint-df\.com/i.test(url);
+    var isSacFileLink = /\/sap\/fpa\/ui\/app\.html#\/files/i.test(url);
 
     that._log("Downloading template...", false);
     that._setStatus("Downloading", "processing");
 
-    if (isSharePoint) {
+    if (isSharePoint || isSacFileLink) {
         try {
             var aSp = document.createElement("a");
             aSp.href = url;
@@ -840,12 +842,12 @@
             document.body.removeChild(aSp);
 
             that._setStatus("Ready", "ready");
-            that._showMessage("info", "SharePoint link opened. If file does not download, check SharePoint access.");
-            that._log("Opened SharePoint template link: " + url);
+            that._showMessage("info", "Template link opened. If file does not download, check access/permissions.");
+            that._log("Opened template link: " + url);
         } catch (errSp) {
             that._setStatus("Error", "error");
-            that._showMessage("error", "Template download failed: " + errSp.message);
-            that._log("Template download failed: " + errSp.message, false);
+            that._showMessage("error", "Template open failed: " + errSp.message);
+            that._log("Template open failed: " + errSp.message, false);
         }
         return;
     }
@@ -877,6 +879,7 @@
             that._log("Template download failed: " + err.message, false);
         });
 }
+
 
 
         _processUpload() {
