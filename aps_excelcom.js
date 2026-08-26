@@ -244,6 +244,32 @@
 (function () {
     "use strict";
 
+    var DEFAULTS = {
+        title: "Excel Upload",
+        subtitle: "Upload and validate Excel file",
+        icon: "",
+        unit: "",
+        footer: "Supported template: Sheet1 with required business columns",
+        templatefilename: "New_Position_Creation_V2.1.xlsm",
+        templateurl: "https://raw.githubusercontent.com/sacplanning2025/Company_widget/main/New_Position_Creation_V2.1.xlsm",
+        errorlogfilename: "Excel_Upload_Error_Log.csv",
+        requiredcolumns: "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED",
+        keycolumn: "ID",
+        maxrows: "2000",
+        previewrows: "300",
+        allowcsv: "true",
+        autovalidate: "true",
+        showpreview: "true",
+        showlogs: "true",
+        stricttemplate: "false",
+        validationresult: "true",
+        validationerrors: "[]",
+        lastevent: "",
+        rowcount: "",
+        validcount: "",
+        invalidcount: ""
+    };
+
     var tmpl = document.createElement("template");
     tmpl.innerHTML = `
         <style>
@@ -274,16 +300,16 @@
                 border:1px solid var(--aps-border);
                 border-radius:var(--aps-radius);
                 background:var(--aps-bg);
-                padding:16px;
+                padding:14px;
                 box-shadow:var(--aps-shadow);
             }
 
             .header{
-                margin-bottom:14px;
+                margin-bottom:12px;
             }
 
             .title{
-                font-size:16px;
+                font-size:15px;
                 font-weight:700;
                 color:var(--aps-primary);
                 margin-bottom:4px;
@@ -291,7 +317,7 @@
             }
 
             .subtitle{
-                font-size:12px;
+                font-size:11px;
                 color:var(--aps-sub);
                 line-height:1.4;
             }
@@ -299,14 +325,14 @@
             .layout{
                 display:grid;
                 grid-template-columns:1fr;
-                gap:14px;
+                gap:12px;
             }
 
             fieldset{
                 margin:0;
                 border:1px solid var(--aps-border);
                 border-radius:10px;
-                padding:12px;
+                padding:10px;
                 background:var(--aps-bg-soft);
             }
 
@@ -320,23 +346,39 @@
             table{
                 width:100%;
                 border-collapse:collapse;
+                table-layout:fixed;
+            }
+
+            tr{
+                vertical-align:top;
             }
 
             td{
-                padding:7px 4px;
-                vertical-align:middle;
+                padding:6px 4px;
+                vertical-align:top;
             }
 
             .label{
-                width:220px;
+                width:80px;
+                min-width:80px;
                 font-size:12px;
                 font-weight:600;
                 color:var(--aps-label);
+                padding-top:11px;
+            }
+
+            .field{
+                width:auto;
+            }
+
+            .field-wrap{
+                width:100%;
             }
 
             input, select, textarea{
                 font-family:"72", Arial, Helvetica, sans-serif;
                 width:100%;
+                min-width:0;
                 padding:8px 10px;
                 box-sizing:border-box;
                 border:1px solid #c7ced4;
@@ -358,6 +400,20 @@
                 color:#5f6b7a;
             }
 
+            textarea{
+                resize:vertical;
+                min-height:86px;
+                line-height:1.4;
+            }
+
+            .wide-input{
+                min-width:320px;
+            }
+
+            .super-wide-input{
+                min-width:380px;
+            }
+
             .hint{
                 margin-top:4px;
                 font-size:11px;
@@ -365,25 +421,13 @@
                 line-height:1.35;
             }
 
-            .inline-grid{
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap:10px 14px;
-            }
-
-            .toggle-grid{
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap:10px 14px;
-            }
-
             .help{
-                margin-top:14px;
-                padding:12px;
+                margin-top:12px;
+                padding:10px 12px;
                 border-radius:8px;
                 background:var(--aps-bg-info);
                 border:1px solid var(--aps-info-border);
-                font-size:12px;
+                font-size:11px;
                 color:var(--aps-label);
                 line-height:1.5;
             }
@@ -401,8 +445,8 @@
                 align-items:center;
                 gap:10px;
                 flex-wrap:wrap;
-                margin-top:14px;
-                padding-top:12px;
+                margin-top:12px;
+                padding-top:10px;
                 border-top:1px solid var(--aps-border-soft);
             }
 
@@ -415,12 +459,12 @@
             .chip{
                 display:inline-flex;
                 align-items:center;
-                min-height:28px;
-                padding:4px 10px;
+                min-height:24px;
+                padding:4px 8px;
                 border:1px solid var(--aps-border);
                 border-radius:999px;
                 background:#fff;
-                font-size:11px;
+                font-size:10px;
                 font-weight:600;
                 color:#415466;
             }
@@ -465,13 +509,14 @@
             }
 
             @media (max-width: 900px){
-                .inline-grid,
-                .toggle-grid{
-                    grid-template-columns:1fr;
+                .label{
+                    width:80px;
+                    min-width:80px;
                 }
 
-                .label{
-                    width:160px;
+                .wide-input,
+                .super-wide-input{
+                    min-width:0;
                 }
             }
         </style>
@@ -489,30 +534,38 @@
                         <table>
                             <tr>
                                 <td class="label"><label for="title">Title</label></td>
-                                <td>
-                                    <input id="title" name="title" type="text" placeholder="Excel Upload">
-                                    <div class="hint">Widget header title shown in runtime.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="title" name="title" class="super-wide-input" type="text" placeholder="Excel Upload">
+                                        <div class="hint">Widget header title shown in runtime.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="subtitle">Subtitle</label></td>
-                                <td>
-                                    <input id="subtitle" name="subtitle" type="text" placeholder="Upload and validate Excel file">
-                                    <div class="hint">Short helper text below the main title.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="subtitle" name="subtitle" class="super-wide-input" type="text" placeholder="Upload and validate Excel file">
+                                        <div class="hint">Short helper text below the main title.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="icon">Icon</label></td>
-                                <td>
-                                    <input id="icon" name="icon" type="text" placeholder="Optional icon">
-                                    <div class="hint">Optional future-use icon name or semantic marker.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="icon" name="icon" class="wide-input" type="text" placeholder="Optional icon">
+                                        <div class="hint">Optional future-use icon name or semantic marker.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="footer">Footer</label></td>
-                                <td>
-                                    <input id="footer" name="footer" type="text" placeholder="Footer note">
-                                    <div class="hint">Shown at the bottom of the runtime widget.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="footer" name="footer" class="super-wide-input" type="text" placeholder="Footer note">
+                                        <div class="hint">Shown at the bottom of the runtime widget.</div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -522,45 +575,57 @@
                         <legend>Template & Output</legend>
                         <table>
                             <tr>
-                                <td class="label"><label for="unit">Output Property</label></td>
-                                <td>
-                                    <input id="unit" name="unit" type="text" placeholder="Payload output property">
-                                    <div class="hint">Usually leave as configured by widget runtime integration.</div>
+                                <td class="label"><label for="unit">Output</label></td>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="unit" name="unit" class="super-wide-input" type="text" placeholder="Payload output property">
+                                        <div class="hint">Usually leave as configured by widget runtime integration.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="label"><label for="templatefilename">Template Filename</label></td>
-                                <td>
-                                    <input id="templatefilename" name="templatefilename" type="text" placeholder="New_Position_Creation_V2.1.xlsm">
-                                    <div class="hint">Downloaded filename for the template button.</div>
+                                <td class="label"><label for="templatefilename">Template File</label></td>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="templatefilename" name="templatefilename" class="super-wide-input" type="text" placeholder="New_Position_Creation_V2.1.xlsm">
+                                        <div class="hint">Downloaded filename for the template button.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="templateurl">Template URL</label></td>
-                                <td>
-                                    <input id="templateurl" name="templateurl" type="text" placeholder="https://...">
-                                    <div class="hint">Public URL, SharePoint link, or SAC file link.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="templateurl" name="templateurl" class="super-wide-input" type="text" placeholder="https://...">
+                                        <div class="hint">Public URL, SharePoint link, or SAC file link.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="label"><label for="errorlogfilename">Error Log Filename</label></td>
-                                <td>
-                                    <input id="errorlogfilename" name="errorlogfilename" type="text" placeholder="Excel_Upload_Error_Log.csv">
-                                    <div class="hint">Name of the downloadable validation error file.</div>
+                                <td class="label"><label for="errorlogfilename">Error Log File</label></td>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="errorlogfilename" name="errorlogfilename" class="super-wide-input" type="text" placeholder="Excel_Upload_Error_Log.csv">
+                                        <div class="hint">Name of the downloadable validation error file.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="requiredcolumns">Required Columns</label></td>
-                                <td>
-                                    <input id="requiredcolumns" name="requiredcolumns" type="text" placeholder="ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED">
-                                    <div class="hint">Comma-separated business columns expected in upload.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="requiredcolumns" name="requiredcolumns" class="super-wide-input" type="text" placeholder="ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED">
+                                        <div class="hint">Comma-separated business columns expected in upload.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="keycolumn">Key Column</label></td>
-                                <td>
-                                    <input id="keycolumn" name="keycolumn" type="text" placeholder="ID">
-                                    <div class="hint">Used for duplicate detection inside the uploaded file.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="keycolumn" name="keycolumn" class="wide-input" type="text" placeholder="ID">
+                                        <div class="hint">Used for duplicate detection inside the uploaded file.</div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -571,62 +636,76 @@
                         <table>
                             <tr>
                                 <td class="label"><label for="maxrows">Max Rows</label></td>
-                                <td>
-                                    <input id="maxrows" name="maxrows" type="number" min="1" step="1" placeholder="2000">
-                                    <div class="hint">Maximum allowed upload rows.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="maxrows" name="maxrows" class="wide-input" type="number" min="1" step="1" placeholder="2000">
+                                        <div class="hint">Maximum allowed upload rows.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="previewrows">Preview Rows</label></td>
-                                <td>
-                                    <input id="previewrows" name="previewrows" type="number" min="1" step="1" placeholder="300">
-                                    <div class="hint">Maximum rows rendered in the runtime preview table.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="previewrows" name="previewrows" class="wide-input" type="number" min="1" step="1" placeholder="300">
+                                        <div class="hint">Maximum rows rendered in the runtime preview table.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="allowcsv">Allow CSV</label></td>
-                                <td>
-                                    <select id="allowcsv" name="allowcsv">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <select id="allowcsv" name="allowcsv" class="wide-input">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="autovalidate">Auto Validate</label></td>
-                                <td>
-                                    <select id="autovalidate" name="autovalidate">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <select id="autovalidate" name="autovalidate" class="wide-input">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="showpreview">Show Preview</label></td>
-                                <td>
-                                    <select id="showpreview" name="showpreview">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <select id="showpreview" name="showpreview" class="wide-input">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="showlogs">Show Logs</label></td>
-                                <td>
-                                    <select id="showlogs" name="showlogs">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <select id="showlogs" name="showlogs" class="wide-input">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="stricttemplate">Strict Template</label></td>
-                                <td>
-                                    <select id="stricttemplate" name="stricttemplate">
-                                        <option value="false">false</option>
-                                        <option value="true">true</option>
-                                    </select>
-                                    <div class="hint">If true, runtime can enforce stricter template behavior.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <select id="stricttemplate" name="stricttemplate" class="wide-input">
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
+                                        <div class="hint">If true, runtime can enforce stricter template behavior.</div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -637,35 +716,53 @@
                         <table>
                             <tr>
                                 <td class="label"><label for="validationresult">Validation Result</label></td>
-                                <td>
-                                    <input id="validationresult" name="validationresult" type="text" placeholder="true / false">
-                                    <div class="hint">Can be updated by SAC script to control final status.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="validationresult" name="validationresult" class="wide-input" type="text" placeholder="true / false">
+                                        <div class="hint">Can be updated by SAC script to control final status.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="validationerrors">Validation Errors</label></td>
-                                <td>
-                                    <textarea id="validationerrors" name="validationerrors" rows="4" placeholder='[{"rowIndex":0,"field":"ID","message":"Blank cell not allowed"}]'></textarea>
-                                    <div class="hint">JSON array used by runtime preview highlighting.</div>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <textarea id="validationerrors" name="validationerrors" class="super-wide-input" rows="4" placeholder='[{"rowIndex":0,"field":"ID","message":"Blank cell not allowed"}]'></textarea>
+                                        <div class="hint">JSON array used by runtime preview highlighting.</div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="lastevent">Last Event</label></td>
-                                <td>
-                                    <input id="lastevent" name="lastevent" type="text" placeholder="uploadCompleted / clear">
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="lastevent" name="lastevent" class="wide-input" type="text" placeholder="uploadCompleted / clear">
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="rowcount">Row Count</label></td>
-                                <td><input id="rowcount" name="rowcount" type="text" readonly></td>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="rowcount" name="rowcount" class="wide-input" type="text" readonly>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="validcount">Valid Count</label></td>
-                                <td><input id="validcount" name="validcount" type="text" readonly></td>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="validcount" name="validcount" class="wide-input" type="text" readonly>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="label"><label for="invalidcount">Invalid Count</label></td>
-                                <td><input id="invalidcount" name="invalidcount" type="text" readonly></td>
+                                <td class="field">
+                                    <div class="field-wrap">
+                                        <input id="invalidcount" name="invalidcount" class="wide-input" type="text" readonly>
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </fieldset>
@@ -712,6 +809,10 @@
             this._shadowRoot.getElementById("resetBtn").addEventListener("click", this._reset.bind(this));
         }
 
+        connectedCallback() {
+            this._applyDefaultsIfEmpty();
+        }
+
         _submit(e) {
             if (e) {
                 e.preventDefault();
@@ -738,38 +839,30 @@
         }
 
         _reset() {
-            var defaults = {
-                title: "Excel Upload",
-                subtitle: "Upload and validate Excel file",
-                icon: "",
-                unit: "",
-                footer: "Supported template: Sheet1 with required business columns",
-                templatefilename: "New_Position_Creation_V2.1.xlsm",
-                templateurl: "https://raw.githubusercontent.com/sacplanning2025/Company_widget/main/New_Position_Creation_V2.1.xlsm",
-                errorlogfilename: "Excel_Upload_Error_Log.csv",
-                requiredcolumns: "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED",
-                keycolumn: "ID",
-                maxrows: "2000",
-                previewrows: "300",
-                allowcsv: "true",
-                autovalidate: "true",
-                showpreview: "true",
-                showlogs: "true",
-                stricttemplate: "false",
-                validationresult: "true",
-                validationerrors: "[]",
-                lastevent: "",
-                rowcount: "",
-                validcount: "",
-                invalidcount: ""
-            };
-
-            var keys = Object.keys(defaults);
+            var keys = Object.keys(DEFAULTS);
             for (var i = 0; i < keys.length; i++) {
-                this[keys[i]] = defaults[keys[i]];
+                this[keys[i]] = DEFAULTS[keys[i]];
             }
+            this._firePropertiesChanged(this._collectProperties());
+        }
 
-            this._firePropertiesChanged(defaults);
+        _applyDefaultsIfEmpty() {
+            var keys = Object.keys(DEFAULTS);
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                if (this[key] === "") {
+                    this[key] = DEFAULTS[key];
+                }
+            }
+        }
+
+        _collectProperties() {
+            var properties = {};
+            for (var i = 0; i < ExcelAps.observedAttributes.length; i++) {
+                var name = ExcelAps.observedAttributes[i];
+                properties[name] = this[name];
+            }
+            return properties;
         }
 
         _firePropertiesChanged(properties) {
