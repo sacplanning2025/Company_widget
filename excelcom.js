@@ -1204,21 +1204,51 @@
             return requiredColumns[0];
         }
 
-       _applySacValidation() {
+      _applySacValidation() {
         var parsed = this._safeParseArray(this._export_settings.validationerrors);
     
         this._validationErrorsParsed = parsed;
         this._buildValidationMap();
         this._renderPreview();
     
+        var invalidRowMap = {};
+        var i = 0;
+    
+        for (i = 0; i < this._validationErrorsParsed.length; i++) {
+            var err = this._validationErrorsParsed[i];
+            if (err.rowIndex !== undefined && err.rowIndex !== null) {
+                invalidRowMap[String(err.rowIndex)] = true;
+            }
+        }
+    
+        var invalidRowsFinal = 0;
+        for (var k in invalidRowMap) {
+            if (Object.prototype.hasOwnProperty.call(invalidRowMap, k)) {
+                invalidRowsFinal = invalidRowsFinal + 1;
+            }
+        }
+    
+        var totalRowsFinal = this._previewRows.length;
+        var validRowsFinal = totalRowsFinal - invalidRowsFinal;
+    
+        if (validRowsFinal < 0) {
+            validRowsFinal = 0;
+        }
+    
+        this._setSummary(
+            totalRowsFinal,
+            validRowsFinal,
+            invalidRowsFinal,
+            this._sheetName,
+            this._previewColumns.length,
+            this._export_settings.validationresult === "false" ? "Invalid" : "Valid"
+        );
+    
         if (this._export_settings.validationresult === "false") {
             this._showMessage("error", this._buildValidationSummaryText());
             this._setStatus("Validation Error", "error");
         } else {
-            if (this._errorLog.length > 0) {
-                this._showMessage("warn", "Upload parsed with validation issues. Review highlighted rows/cells.");
-                this._setStatus("Completed with Errors", "warning");
-            } else if (this._previewRows.length > 0) {
+            if (this._previewRows.length > 0) {
                 this._showMessage("success", "Upload completed successfully.");
                 this._setStatus("Completed", "completed");
             } else {
@@ -1227,6 +1257,7 @@
             }
         }
     }
+    
 
 
         _buildValidationSummaryText() {
