@@ -807,17 +807,16 @@
 
         _loadExcelLibrary() {
             var that = this;
-            loadScriptOnce(
-                "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",
-                this._shadowRoot
-            ).then(function () {
-                that._setStatus("Ready", "ready");
-                that._log("Excel library loaded successfully", true);
-            }).catch(function () {
-                that._setStatus("Error", "error");
-                that._showMessage("error", "Failed to load Excel library");
-                that._log("Failed to load Excel library", true);
-            });
+            loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js", this._shadowRoot)
+                .then(function () {
+                    that._setStatus("Ready", "ready");
+                    that._log("Excel library loaded successfully", true);
+                })
+                .catch(function () {
+                    that._setStatus("Error", "error");
+                    that._showMessage("error", "Failed to load Excel library");
+                    that._log("Failed to load Excel library", true);
+                });
         }
 
         _downloadTemplate() {
@@ -825,32 +824,8 @@
             var url = this._export_settings.templateurl;
             var fileName = this._export_settings.templatefilename || "Template.xlsm";
 
-            var isSharePoint = /sharepoint\\.com|sharepoint-df\\.com/i.test(url);
-            var isSacFileLink = /\\/sap\\/fpa\\/ui\\/app\\.html#\\/files/i.test(url);
-
             that._log("Downloading template...", false);
             that._setStatus("Downloading", "processing");
-
-            if (isSharePoint || isSacFileLink) {
-                try {
-                    var aSp = document.createElement("a");
-                    aSp.href = url;
-                    aSp.target = "_blank";
-                    aSp.rel = "noopener noreferrer";
-                    document.body.appendChild(aSp);
-                    aSp.click();
-                    document.body.removeChild(aSp);
-
-                    that._setStatus("Ready", "ready");
-                    that._showMessage("info", "Template link opened. If file does not download, check access/permissions.");
-                    that._log("Opened template link: " + url);
-                } catch (errSp) {
-                    that._setStatus("Error", "error");
-                    that._showMessage("error", "Template open failed: " + errSp.message);
-                    that._log("Template open failed: " + errSp.message, false);
-                }
-                return;
-            }
 
             fetch(url)
                 .then(function (response) {
@@ -996,7 +971,7 @@
                         var rowObjForSac = {};
                         for (pc = 0; pc < that._previewColumns.length; pc++) {
                             var colNameForSac = that._previewColumns[pc];
-                            rowObjForSac[colNameForSac] = that._previewRows[pr][colNameForSac] !== undefined ? String(that._previewRows[pr][colNameForSac]) : "";
+                            rowObjForSac[colNameForSac] = that._previewRows[pr][colNameForSac] !== undefined ? "" + that._previewRows[pr][colNameForSac] : "";
                         }
                         allRowsForSac.push(rowObjForSac);
                     }
@@ -1046,14 +1021,6 @@
                     that._log("Valid rows (widget checks): " + that._validData.length);
                     that._log("Invalid rows (widget checks): " + that._errorLog.length);
                     that._log("Detected headers: " + that._uploadedHeaders.join(", "));
-
-                    var dupIds = Object.keys(idCount).filter(function (id2) {
-                        return idCount[id2] > 1;
-                    });
-
-                    if (dupIds.length > 0) {
-                        that._log("Duplicate key values rejected: " + dupIds.join(", "));
-                    }
 
                 } catch (err) {
                     that._setStatus("Error", "error");
@@ -1210,25 +1177,10 @@
             this._buildValidationMap();
             this._renderPreview();
 
-            var invalidRowIndexMap = {};
-            var vr = 0;
-
-            for (vr = 0; vr < this._validationErrorsParsed.length; vr++) {
-                var rr = this._validationErrorsParsed[vr].rowIndex;
-                if (rr !== undefined && rr !== null) {
-                    invalidRowIndexMap[String(rr)] = true;
-                }
-            }
-
-            var invalidRowsFinal = 0;
-            for (var kk in invalidRowIndexMap) {
-                if (Object.prototype.hasOwnProperty.call(invalidRowIndexMap, kk)) {
-                    invalidRowsFinal = invalidRowsFinal + 1;
-                }
-            }
-
+            var invalidRowsFinal = this._countUniqueInvalidRows();
             var totalRowsFinal = this._previewRows.length;
             var validRowsFinal = totalRowsFinal - invalidRowsFinal;
+
             if (validRowsFinal < 0) {
                 validRowsFinal = 0;
             }
@@ -1257,6 +1209,25 @@
                     this._setStatus("Ready", "ready");
                 }
             }
+        }
+
+        _countUniqueInvalidRows() {
+            var seen = [];
+            var count = 0;
+            var i = 0;
+
+            for (i = 0; i < this._validationErrorsParsed.length; i++) {
+                var err = this._validationErrorsParsed[i];
+                if (err && err.rowIndex !== undefined && err.rowIndex !== null) {
+                    var key = String(err.rowIndex);
+                    if (seen.indexOf(key) === -1) {
+                        seen.push(key);
+                        count = count + 1;
+                    }
+                }
+            }
+
+            return count;
         }
 
         _buildValidationSummaryText() {
@@ -1484,7 +1455,7 @@
         _escapeCsv(value) {
             var str = value == null ? "" : String(value);
             if (str.indexOf(",") > -1 || str.indexOf('"') > -1 || str.indexOf("\n") > -1) {
-                str = '"' + str.replace(/"/g, '""') + '"';
+                str = '"' + str.split('"').join('""') + '"';
             }
             return str;
         }
