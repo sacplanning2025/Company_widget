@@ -296,11 +296,26 @@
                 box-sizing:border-box;
             }
 
+            :host,
+            .panel,
+            .layout,
+            fieldset,
+            table,
+            tr,
+            td,
+            .field,
+            .field-wrap{
+                min-width:0;
+            }
+
             .panel{
+                width:100%;
+                max-width:100%;
+                overflow:hidden;
                 border:1px solid var(--aps-border);
                 border-radius:var(--aps-radius);
                 background:var(--aps-bg);
-                padding:14px;
+                padding:12px;
                 box-shadow:var(--aps-shadow);
             }
 
@@ -326,14 +341,18 @@
                 display:grid;
                 grid-template-columns:1fr;
                 gap:12px;
+                width:100%;
             }
 
             fieldset{
                 margin:0;
+                width:100%;
+                max-width:100%;
                 border:1px solid var(--aps-border);
                 border-radius:10px;
                 padding:10px;
                 background:var(--aps-bg-soft);
+                overflow:hidden;
             }
 
             legend{
@@ -345,6 +364,7 @@
 
             table{
                 width:100%;
+                max-width:100%;
                 border-collapse:collapse;
                 table-layout:fixed;
             }
@@ -359,12 +379,14 @@
             }
 
             .label{
-                width:80px;
-                min-width:80px;
+                width:88px;
+                min-width:88px;
+                max-width:88px;
                 font-size:12px;
                 font-weight:600;
                 color:var(--aps-label);
                 padding-top:11px;
+                word-break:break-word;
             }
 
             .field{
@@ -373,14 +395,17 @@
 
             .field-wrap{
                 width:100%;
+                max-width:100%;
+                overflow:hidden;
             }
 
             input, select, textarea{
+                display:block;
                 font-family:"72", Arial, Helvetica, sans-serif;
                 width:100%;
+                max-width:100%;
                 min-width:0;
                 padding:8px 10px;
-                box-sizing:border-box;
                 border:1px solid #c7ced4;
                 border-radius:6px;
                 background:#ffffff;
@@ -406,12 +431,11 @@
                 line-height:1.4;
             }
 
-            .wide-input{
-                min-width:320px;
-            }
-
+            .wide-input,
             .super-wide-input{
-                min-width:380px;
+                width:100%;
+                max-width:100%;
+                min-width:0;
             }
 
             .hint{
@@ -419,6 +443,7 @@
                 font-size:11px;
                 color:var(--aps-sub);
                 line-height:1.35;
+                word-break:break-word;
             }
 
             .help{
@@ -430,6 +455,7 @@
                 font-size:11px;
                 color:var(--aps-label);
                 line-height:1.5;
+                word-break:break-word;
             }
 
             .section-note{
@@ -437,6 +463,7 @@
                 color:var(--aps-sub);
                 margin-top:8px;
                 line-height:1.4;
+                word-break:break-word;
             }
 
             .toolbar{
@@ -510,13 +537,15 @@
 
             @media (max-width: 900px){
                 .label{
-                    width:80px;
-                    min-width:80px;
+                    width:78px;
+                    min-width:78px;
+                    max-width:78px;
                 }
 
                 .wide-input,
                 .super-wide-input{
                     min-width:0;
+                    max-width:100%;
                 }
             }
         </style>
