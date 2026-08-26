@@ -251,14 +251,31 @@
                 display:block;
                 font-family:"72", Arial, Helvetica, sans-serif;
                 color:#1f2d3d;
+                --aps-primary:#0a6ed1;
+                --aps-primary-soft:#f4f9ff;
+                --aps-border:#d9d9d9;
+                --aps-border-soft:#e8edf2;
+                --aps-bg:#ffffff;
+                --aps-bg-soft:#fafbfc;
+                --aps-bg-info:#f5faff;
+                --aps-info-border:#d0e7ff;
+                --aps-text:#1f2d3d;
+                --aps-sub:#6a6d70;
+                --aps-label:#354a5f;
+                --aps-shadow:0 6px 18px rgba(0,0,0,0.06);
+                --aps-radius:12px;
+            }
+
+            *{
+                box-sizing:border-box;
             }
 
             .panel{
-                border:1px solid #d9d9d9;
-                border-radius:12px;
-                background:#ffffff;
+                border:1px solid var(--aps-border);
+                border-radius:var(--aps-radius);
+                background:var(--aps-bg);
                 padding:16px;
-                box-shadow:0 4px 14px rgba(0,0,0,0.06);
+                box-shadow:var(--aps-shadow);
             }
 
             .header{
@@ -268,28 +285,36 @@
             .title{
                 font-size:16px;
                 font-weight:700;
-                color:#0a6ed1;
+                color:var(--aps-primary);
                 margin-bottom:4px;
+                line-height:1.2;
             }
 
             .subtitle{
                 font-size:12px;
-                color:#6a6d70;
+                color:var(--aps-sub);
+                line-height:1.4;
+            }
+
+            .layout{
+                display:grid;
+                grid-template-columns:1fr;
+                gap:14px;
             }
 
             fieldset{
-                margin:0 0 14px 0;
-                border:1px solid #d9d9d9;
+                margin:0;
+                border:1px solid var(--aps-border);
                 border-radius:10px;
                 padding:12px;
-                background:#fafbfc;
+                background:var(--aps-bg-soft);
             }
 
             legend{
                 padding:0 6px;
                 font-size:12px;
                 font-weight:700;
-                color:#354a5f;
+                color:var(--aps-label);
             }
 
             table{
@@ -303,13 +328,13 @@
             }
 
             .label{
-                width:180px;
+                width:220px;
                 font-size:12px;
                 font-weight:600;
-                color:#354a5f;
+                color:var(--aps-label);
             }
 
-            input, select{
+            input, select, textarea{
                 font-family:"72", Arial, Helvetica, sans-serif;
                 width:100%;
                 padding:8px 10px;
@@ -318,30 +343,136 @@
                 border-radius:6px;
                 background:#ffffff;
                 font-size:13px;
-                color:#1f2d3d;
+                color:var(--aps-text);
                 outline:none;
+                transition:border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
             }
 
-            input:focus, select:focus{
-                border-color:#0a6ed1;
+            input:focus, select:focus, textarea:focus{
+                border-color:var(--aps-primary);
                 box-shadow:0 0 0 2px rgba(10,110,209,0.12);
             }
 
+            input[readonly]{
+                background:#f8f9fa;
+                color:#5f6b7a;
+            }
+
+            .hint{
+                margin-top:4px;
+                font-size:11px;
+                color:var(--aps-sub);
+                line-height:1.35;
+            }
+
+            .inline-grid{
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:10px 14px;
+            }
+
+            .toggle-grid{
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:10px 14px;
+            }
+
             .help{
-                margin-top:12px;
+                margin-top:14px;
                 padding:12px;
                 border-radius:8px;
-                background:#f5faff;
-                border:1px solid #d0e7ff;
+                background:var(--aps-bg-info);
+                border:1px solid var(--aps-info-border);
                 font-size:12px;
-                color:#354a5f;
+                color:var(--aps-label);
                 line-height:1.5;
             }
 
             .section-note{
                 font-size:11px;
-                color:#6a6d70;
+                color:var(--aps-sub);
                 margin-top:8px;
+                line-height:1.4;
+            }
+
+            .toolbar{
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:10px;
+                flex-wrap:wrap;
+                margin-top:14px;
+                padding-top:12px;
+                border-top:1px solid var(--aps-border-soft);
+            }
+
+            .chip-row{
+                display:flex;
+                gap:8px;
+                flex-wrap:wrap;
+            }
+
+            .chip{
+                display:inline-flex;
+                align-items:center;
+                min-height:28px;
+                padding:4px 10px;
+                border:1px solid var(--aps-border);
+                border-radius:999px;
+                background:#fff;
+                font-size:11px;
+                font-weight:600;
+                color:#415466;
+            }
+
+            .btn{
+                appearance:none;
+                border:1px solid #c7ced4;
+                background:#fff;
+                color:var(--aps-text);
+                border-radius:8px;
+                padding:8px 12px;
+                font-size:12px;
+                font-weight:700;
+                cursor:pointer;
+                transition:all 0.2s ease;
+            }
+
+            .btn:hover{
+                border-color:var(--aps-primary);
+                color:var(--aps-primary);
+                background:var(--aps-primary-soft);
+            }
+
+            .btn.primary{
+                background:var(--aps-primary);
+                color:#fff;
+                border-color:var(--aps-primary);
+            }
+
+            .btn.primary:hover{
+                background:#085caf;
+                border-color:#085caf;
+                color:#fff;
+            }
+
+            .btn.secondary{
+                background:#fff;
+            }
+
+            .hidden-submit{
+                display:none;
+            }
+
+            @media (max-width: 900px){
+                .inline-grid,
+                .toggle-grid{
+                    grid-template-columns:1fr;
+                }
+
+                .label{
+                    width:160px;
+                }
             }
         </style>
 
@@ -352,113 +483,216 @@
             </div>
 
             <form id="form" autocomplete="off">
-                <fieldset>
-                    <legend>General</legend>
-                    <table>
-                        <tr>
-                            <td class="label"><label for="title">Title</label></td>
-                            <td><input id="title" name="title" type="text" placeholder="Excel Upload"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="subtitle">Subtitle</label></td>
-                            <td><input id="subtitle" name="subtitle" type="text" placeholder="Upload and validate Excel file"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="icon">Icon</label></td>
-                            <td><input id="icon" name="icon" type="text" placeholder="Optional icon"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="footer">Footer</label></td>
-                            <td><input id="footer" name="footer" type="text" placeholder="Footer note"></td>
-                        </tr>
-                    </table>
-                </fieldset>
+                <div class="layout">
+                    <fieldset>
+                        <legend>General</legend>
+                        <table>
+                            <tr>
+                                <td class="label"><label for="title">Title</label></td>
+                                <td>
+                                    <input id="title" name="title" type="text" placeholder="Excel Upload">
+                                    <div class="hint">Widget header title shown in runtime.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="subtitle">Subtitle</label></td>
+                                <td>
+                                    <input id="subtitle" name="subtitle" type="text" placeholder="Upload and validate Excel file">
+                                    <div class="hint">Short helper text below the main title.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="icon">Icon</label></td>
+                                <td>
+                                    <input id="icon" name="icon" type="text" placeholder="Optional icon">
+                                    <div class="hint">Optional future-use icon name or semantic marker.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="footer">Footer</label></td>
+                                <td>
+                                    <input id="footer" name="footer" type="text" placeholder="Footer note">
+                                    <div class="hint">Shown at the bottom of the runtime widget.</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
 
-                <fieldset>
-                    <legend>Template & Output</legend>
-                    <table>
-                        <tr>
-                            <td class="label"><label for="unit">Output Property</label></td>
-                            <td><input id="unit" name="unit" type="text" placeholder="Payload output property"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="templatefilename">Template Filename</label></td>
-                            <td><input id="templatefilename" name="templatefilename" type="text" placeholder="New_Position_Creation_V2.1.xlsm"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="templateurl">Template URL</label></td>
-                            <td><input id="templateurl" name="templateurl" type="text" placeholder="https://..."></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="errorlogfilename">Error Log Filename</label></td>
-                            <td><input id="errorlogfilename" name="errorlogfilename" type="text" placeholder="Excel_Upload_Error_Log.csv"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="requiredcolumns">Required Columns</label></td>
-                            <td><input id="requiredcolumns" name="requiredcolumns" type="text" placeholder="ID,DESCRIPTION,H1,costcenter"></td>
-                        </tr>
-                    </table>
-                </fieldset>
+                    <fieldset>
+                        <legend>Template & Output</legend>
+                        <table>
+                            <tr>
+                                <td class="label"><label for="unit">Output Property</label></td>
+                                <td>
+                                    <input id="unit" name="unit" type="text" placeholder="Payload output property">
+                                    <div class="hint">Usually leave as configured by widget runtime integration.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="templatefilename">Template Filename</label></td>
+                                <td>
+                                    <input id="templatefilename" name="templatefilename" type="text" placeholder="New_Position_Creation_V2.1.xlsm">
+                                    <div class="hint">Downloaded filename for the template button.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="templateurl">Template URL</label></td>
+                                <td>
+                                    <input id="templateurl" name="templateurl" type="text" placeholder="https://...">
+                                    <div class="hint">Public URL, SharePoint link, or SAC file link.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="errorlogfilename">Error Log Filename</label></td>
+                                <td>
+                                    <input id="errorlogfilename" name="errorlogfilename" type="text" placeholder="Excel_Upload_Error_Log.csv">
+                                    <div class="hint">Name of the downloadable validation error file.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="requiredcolumns">Required Columns</label></td>
+                                <td>
+                                    <input id="requiredcolumns" name="requiredcolumns" type="text" placeholder="ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED">
+                                    <div class="hint">Comma-separated business columns expected in upload.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="keycolumn">Key Column</label></td>
+                                <td>
+                                    <input id="keycolumn" name="keycolumn" type="text" placeholder="ID">
+                                    <div class="hint">Used for duplicate detection inside the uploaded file.</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
 
-                <fieldset>
-                    <legend>Validation & Preview</legend>
-                    <table>
-                        <tr>
-                            <td class="label"><label for="maxrows">Max Rows</label></td>
-                            <td><input id="maxrows" name="maxrows" type="number" min="1" step="1" placeholder="2000"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="previewrows">Preview Rows</label></td>
-                            <td><input id="previewrows" name="previewrows" type="number" min="1" step="1" placeholder="50"></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="allowcsv">Allow CSV</label></td>
-                            <td>
-                                <select id="allowcsv" name="allowcsv">
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="autovalidate">Auto Validate</label></td>
-                            <td>
-                                <select id="autovalidate" name="autovalidate">
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="showpreview">Show Preview</label></td>
-                            <td>
-                                <select id="showpreview" name="showpreview">
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="showlogs">Show Logs</label></td>
-                            <td>
-                                <select id="showlogs" name="showlogs">
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
+                    <fieldset>
+                        <legend>Validation & Preview</legend>
+                        <table>
+                            <tr>
+                                <td class="label"><label for="maxrows">Max Rows</label></td>
+                                <td>
+                                    <input id="maxrows" name="maxrows" type="number" min="1" step="1" placeholder="2000">
+                                    <div class="hint">Maximum allowed upload rows.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="previewrows">Preview Rows</label></td>
+                                <td>
+                                    <input id="previewrows" name="previewrows" type="number" min="1" step="1" placeholder="300">
+                                    <div class="hint">Maximum rows rendered in the runtime preview table.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="allowcsv">Allow CSV</label></td>
+                                <td>
+                                    <select id="allowcsv" name="allowcsv">
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="autovalidate">Auto Validate</label></td>
+                                <td>
+                                    <select id="autovalidate" name="autovalidate">
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="showpreview">Show Preview</label></td>
+                                <td>
+                                    <select id="showpreview" name="showpreview">
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="showlogs">Show Logs</label></td>
+                                <td>
+                                    <select id="showlogs" name="showlogs">
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="stricttemplate">Strict Template</label></td>
+                                <td>
+                                    <select id="stricttemplate" name="stricttemplate">
+                                        <option value="false">false</option>
+                                        <option value="true">true</option>
+                                    </select>
+                                    <div class="hint">If true, runtime can enforce stricter template behavior.</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
 
-                <button type="submit" hidden>Submit</button>
+                    <fieldset>
+                        <legend>Runtime State (Read / Bind)</legend>
+                        <table>
+                            <tr>
+                                <td class="label"><label for="validationresult">Validation Result</label></td>
+                                <td>
+                                    <input id="validationresult" name="validationresult" type="text" placeholder="true / false">
+                                    <div class="hint">Can be updated by SAC script to control final status.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="validationerrors">Validation Errors</label></td>
+                                <td>
+                                    <textarea id="validationerrors" name="validationerrors" rows="4" placeholder='[{"rowIndex":0,"field":"ID","message":"Blank cell not allowed"}]'></textarea>
+                                    <div class="hint">JSON array used by runtime preview highlighting.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="lastevent">Last Event</label></td>
+                                <td>
+                                    <input id="lastevent" name="lastevent" type="text" placeholder="uploadCompleted / clear">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="rowcount">Row Count</label></td>
+                                <td><input id="rowcount" name="rowcount" type="text" readonly></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="validcount">Valid Count</label></td>
+                                <td><input id="validcount" name="validcount" type="text" readonly></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="invalidcount">Invalid Count</label></td>
+                                <td><input id="invalidcount" name="invalidcount" type="text" readonly></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="hidden-submit">Submit</button>
             </form>
 
             <div class="help">
                 SAC validation format example:<br>
-                [{"rowIndex":0,"field":"ID","message":"Blank cell not allowed"},{"rowIndex":2,"field":"costcenter","message":"Invalid cost center"}]
+                [{"rowIndex":0,"field":"ID","message":"Blank cell not allowed"},{"rowIndex":2,"field":"COSTCENTER","message":"Invalid cost center"}]
             </div>
+
             <div class="section-note">
-                Tip: validationresult + validationerrors can be set from SAC script so the widget visually highlights errors.
+                Tip: validationresult and validationerrors can be updated from SAC script so the runtime widget highlights row and cell errors correctly.
+            </div>
+
+            <div class="toolbar">
+                <div class="chip-row">
+                    <div class="chip">Supports XLS / XLSX / XLSM</div>
+                    <div class="chip">CSV optional</div>
+                    <div class="chip">Preview driven validation</div>
+                </div>
+                <div>
+                    <button type="button" class="btn secondary" id="resetBtn">Reset Fields</button>
+                    <button type="button" class="btn primary" id="applyBtn">Apply Changes</button>
+                </div>
             </div>
         </div>
     `;
@@ -473,15 +707,22 @@
             form.addEventListener("submit", this._submit.bind(this));
             form.addEventListener("change", this._change.bind(this));
             form.addEventListener("input", this._change.bind(this));
+
+            this._shadowRoot.getElementById("applyBtn").addEventListener("click", this._submit.bind(this));
+            this._shadowRoot.getElementById("resetBtn").addEventListener("click", this._reset.bind(this));
         }
 
         _submit(e) {
-            e.preventDefault();
+            if (e) {
+                e.preventDefault();
+            }
+
             var properties = {};
             for (var i = 0; i < ExcelAps.observedAttributes.length; i++) {
                 var name = ExcelAps.observedAttributes[i];
                 properties[name] = this[name];
             }
+
             this._firePropertiesChanged(properties);
             return false;
         }
@@ -494,6 +735,41 @@
             var properties = {};
             properties[name] = this[name];
             this._firePropertiesChanged(properties);
+        }
+
+        _reset() {
+            var defaults = {
+                title: "Excel Upload",
+                subtitle: "Upload and validate Excel file",
+                icon: "",
+                unit: "",
+                footer: "Supported template: Sheet1 with required business columns",
+                templatefilename: "New_Position_Creation_V2.1.xlsm",
+                templateurl: "https://raw.githubusercontent.com/sacplanning2025/Company_widget/main/New_Position_Creation_V2.1.xlsm",
+                errorlogfilename: "Excel_Upload_Error_Log.csv",
+                requiredcolumns: "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED",
+                keycolumn: "ID",
+                maxrows: "2000",
+                previewrows: "300",
+                allowcsv: "true",
+                autovalidate: "true",
+                showpreview: "true",
+                showlogs: "true",
+                stricttemplate: "false",
+                validationresult: "true",
+                validationerrors: "[]",
+                lastevent: "",
+                rowcount: "",
+                validcount: "",
+                invalidcount: ""
+            };
+
+            var keys = Object.keys(defaults);
+            for (var i = 0; i < keys.length; i++) {
+                this[keys[i]] = defaults[keys[i]];
+            }
+
+            this._firePropertiesChanged(defaults);
         }
 
         _firePropertiesChanged(properties) {
@@ -543,6 +819,9 @@
         get requiredcolumns() { return this._getValue("requiredcolumns"); }
         set requiredcolumns(v) { this._setValue("requiredcolumns", v); }
 
+        get keycolumn() { return this._getValue("keycolumn"); }
+        set keycolumn(v) { this._setValue("keycolumn", v); }
+
         get maxrows() { return this._getValue("maxrows"); }
         set maxrows(v) { this._setValue("maxrows", v); }
 
@@ -561,6 +840,27 @@
         get showlogs() { return this._getValue("showlogs"); }
         set showlogs(v) { this._setValue("showlogs", v); }
 
+        get stricttemplate() { return this._getValue("stricttemplate"); }
+        set stricttemplate(v) { this._setValue("stricttemplate", v); }
+
+        get validationresult() { return this._getValue("validationresult"); }
+        set validationresult(v) { this._setValue("validationresult", v); }
+
+        get validationerrors() { return this._getValue("validationerrors"); }
+        set validationerrors(v) { this._setValue("validationerrors", v); }
+
+        get lastevent() { return this._getValue("lastevent"); }
+        set lastevent(v) { this._setValue("lastevent", v); }
+
+        get rowcount() { return this._getValue("rowcount"); }
+        set rowcount(v) { this._setValue("rowcount", v); }
+
+        get validcount() { return this._getValue("validcount"); }
+        set validcount(v) { this._setValue("validcount", v); }
+
+        get invalidcount() { return this._getValue("invalidcount"); }
+        set invalidcount(v) { this._setValue("invalidcount", v); }
+
         static get observedAttributes() {
             return [
                 "title",
@@ -572,12 +872,20 @@
                 "templateurl",
                 "errorlogfilename",
                 "requiredcolumns",
+                "keycolumn",
                 "maxrows",
                 "previewrows",
                 "allowcsv",
                 "autovalidate",
                 "showpreview",
-                "showlogs"
+                "showlogs",
+                "stricttemplate",
+                "validationresult",
+                "validationerrors",
+                "lastevent",
+                "rowcount",
+                "validcount",
+                "invalidcount"
             ];
         }
 
@@ -590,4 +898,3 @@
 
     customElements.define("com-fd-djaja-sap-sac-excelcom-aps", ExcelAps);
 })();
-
