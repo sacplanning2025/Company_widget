@@ -206,14 +206,15 @@
                 border-bottom:none;
             }
 
-            .upload-left{
-                display:flex;
-                align-items:center;
-                gap:10px;
-                flex-wrap:wrap;
-                flex:1 1 auto;
-                min-width:420px;
-            }
+           .upload-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex-wrap:nowrap;
+            flex:0 1 auto;
+            min-width:auto;
+        }
+
 
             .upload-right{
                 display:flex;
@@ -224,25 +225,30 @@
             }
 
             .file-input{
-                font-size:13px;
-                padding:10px 12px;
-                border:1px solid var(--cw-border);
-                border-radius:10px;
-                background:#fff;
-                min-width:320px;
-                height:42px;
-                max-width:100%;
-                flex:1 1 320px;
-                color:var(--cw-text);
-            }
+            font-size:13px;
+            padding:10px 12px;
+            border:1px solid var(--cw-border);
+            border-radius:10px;
+            background:#fff;
+            width:300px;
+            min-width:300px;
+            max-width:300px;
+            height:42px;
+            flex:0 0 300px;
+            color:var(--cw-text);
+        }
 
-            .action-btn{
-                min-width:88px;
-                height:42px;
-                padding:0 16px;
-                font-size:13px;
-                border-radius:10px;
-            }
+
+           .action-btn{
+            min-width:92px;
+            width:92px;
+            height:42px;
+            padding:0 14px;
+            font-size:13px;
+            border-radius:10px;
+            flex:0 0 92px;
+        }
+
 
             .search-input{
                 width:100%;
