@@ -619,7 +619,7 @@
         set templateurl(v) { this._export_settings.templateurl = v || TEMPLATE_URL; }
 
         get requiredcolumns() { return this._export_settings.requiredcolumns; }
-        set requiredcolumns(v) { this._export_settings.requiredcolumns = v || "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED"; this._applyHeaderSettings(); }
+        set requiredcolumns(v) { this._export_settings.requiredcolumns = v || "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED"; }
 
         get keycolumn() { return this._export_settings.keycolumn; }
         set keycolumn(v) { this._export_settings.keycolumn = v || "ID"; }
@@ -638,7 +638,7 @@
         }
 
         get allowcsv() { return this._export_settings.allowcsv; }
-        set allowcsv(v) { this._export_settings.allowcsv = this._toBoolean(v, true); this._applyAcceptedTypes(); }
+        set allowcsv(v) { this._export_settings.allowcsv = this._toBoolean(v, true); }
 
         get autovalidate() { return this._export_settings.autovalidate; }
         set autovalidate(v) { this._export_settings.autovalidate = this._toBoolean(v, true); }
@@ -807,16 +807,17 @@
 
         _loadExcelLibrary() {
             var that = this;
-            loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js", this._shadowRoot)
-                .then(function () {
-                    that._setStatus("Ready", "ready");
-                    that._log("Excel library loaded successfully", true);
-                })
-                .catch(function () {
-                    that._setStatus("Error", "error");
-                    that._showMessage("error", "Failed to load Excel library");
-                    that._log("Failed to load Excel library", true);
-                });
+            loadScriptOnce(
+                "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",
+                this._shadowRoot
+            ).then(function () {
+                that._setStatus("Ready", "ready");
+                that._log("Excel library loaded successfully", true);
+            }).catch(function () {
+                that._setStatus("Error", "error");
+                that._showMessage("error", "Failed to load Excel library");
+                that._log("Failed to load Excel library", true);
+            });
         }
 
         _downloadTemplate() {
@@ -824,8 +825,32 @@
             var url = this._export_settings.templateurl;
             var fileName = this._export_settings.templatefilename || "Template.xlsm";
 
+            var isSharePoint = /sharepoint\.com|sharepoint-df\.com/i.test(url);
+            var isSacFileLink = /\/sap\/fpa\/ui\/app\.html#\/files/i.test(url);
+
             that._log("Downloading template...", false);
             that._setStatus("Downloading", "processing");
+
+            if (isSharePoint || isSacFileLink) {
+                try {
+                    var aSp = document.createElement("a");
+                    aSp.href = url;
+                    aSp.target = "_blank";
+                    aSp.rel = "noopener noreferrer";
+                    document.body.appendChild(aSp);
+                    aSp.click();
+                    document.body.removeChild(aSp);
+
+                    that._setStatus("Ready", "ready");
+                    that._showMessage("info", "Template link opened. If file does not download, check access/permissions.");
+                    that._log("Opened template link: " + url);
+                } catch (errSp) {
+                    that._setStatus("Error", "error");
+                    that._showMessage("error", "Template open failed: " + errSp.message);
+                    that._log("Template open failed: " + errSp.message, false);
+                }
+                return;
+            }
 
             fetch(url)
                 .then(function (response) {
@@ -886,8 +911,6 @@
             this._validationErrorsParsed = [];
             this._validationMap = {};
             this._uploadedHeaders = [];
-            this._export_settings.validationresult = "true";
-            this._export_settings.validationerrors = "[]";
             this._enableErrorDownload(false);
             this._log("File selected: " + file.name, true);
 
@@ -944,8 +967,8 @@
                     var colMap = prepare.colMap;
                     var keyColumn = that._getKeyColumn(requiredColumns);
                     var idCount = {};
-                    var r = 0;
 
+                    var r = 0;
                     for (r = 1; r < rows.length; r++) {
                         var row = rows[r] || [];
                         var id = String(row[colMap[keyColumn]] || "").trim();
@@ -956,27 +979,14 @@
                     that._setProgress(82, "Validating rows...");
                     that._buildDataFromRows(rows, requiredColumns, colMap, idCount);
 
-                    if (that._previewRows.length > that._export_settings.maxrows) {
+                    if (that._validData.length > that._export_settings.maxrows) {
                         that._setStatus("Error", "error");
-                        that._showMessage("error", "Maximum uploaded records are " + that._export_settings.maxrows);
-                        that._log("Maximum uploaded records are " + that._export_settings.maxrows, true);
+                        that._showMessage("error", "Maximum valid records are " + that._export_settings.maxrows);
+                        that._log("Maximum valid records are " + that._export_settings.maxrows, true);
                         return;
                     }
 
-                    var allRowsForSac = [];
-                    var pr = 0;
-                    var pc = 0;
-
-                    for (pr = 0; pr < that._previewRows.length; pr++) {
-                        var rowObjForSac = {};
-                        for (pc = 0; pc < that._previewColumns.length; pc++) {
-                            var colNameForSac = that._previewColumns[pc];
-                            rowObjForSac[colNameForSac] = that._previewRows[pr][colNameForSac] !== undefined ? "" + that._previewRows[pr][colNameForSac] : "";
-                        }
-                        allRowsForSac.push(rowObjForSac);
-                    }
-
-                    that.unit = JSON.stringify(allRowsForSac);
+                    that.unit = JSON.stringify(that._validData);
                     that._export_settings.rowcount = that._previewRows.length;
                     that._export_settings.validcount = that._validData.length;
                     that._export_settings.invalidcount = that._errorLog.length;
@@ -990,8 +1000,7 @@
                     that.dispatchEvent(new CustomEvent("onStart", {
                         detail: {
                             settings: {},
-                            rowCount: that._previewRows.length,
-                            validCount: that._validData.length,
+                            rowCount: that._validData.length,
                             invalidCount: that._errorLog.length,
                             fileName: file.name,
                             sheetName: actualSheet
@@ -1017,10 +1026,17 @@
                         that._showMessage("success", "Upload completed successfully.");
                     }
 
-                    that._log("Total rows sent to SAC: " + allRowsForSac.length);
-                    that._log("Valid rows (widget checks): " + that._validData.length);
-                    that._log("Invalid rows (widget checks): " + that._errorLog.length);
+                    that._log("Valid rows: " + that._validData.length);
+                    that._log("Invalid rows: " + that._errorLog.length);
                     that._log("Detected headers: " + that._uploadedHeaders.join(", "));
+
+                    var dupIds = Object.keys(idCount).filter(function (id2) {
+                        return idCount[id2] > 1;
+                    });
+
+                    if (dupIds.length > 0) {
+                        that._log("Duplicate key values rejected: " + dupIds.join(", "));
+                    }
 
                 } catch (err) {
                     that._setStatus("Error", "error");
@@ -1173,61 +1189,17 @@
         _applySacValidation() {
             var parsed = this._safeParseArray(this._export_settings.validationerrors);
 
-            this._validationErrorsParsed = parsed;
-            this._buildValidationMap();
-            this._renderPreview();
-
-            var invalidRowsFinal = this._countUniqueInvalidRows();
-            var totalRowsFinal = this._previewRows.length;
-            var validRowsFinal = totalRowsFinal - invalidRowsFinal;
-
-            if (validRowsFinal < 0) {
-                validRowsFinal = 0;
+            if (parsed.length > 0) {
+                this._validationErrorsParsed = parsed;
             }
 
-            this._setSummary(
-                totalRowsFinal,
-                validRowsFinal,
-                invalidRowsFinal,
-                this._sheetName,
-                this._previewColumns.length,
-                this._export_settings.validationresult === "false" ? "Invalid" : "Valid"
-            );
+            this._buildValidationMap();
+            this._renderPreview();
 
             if (this._export_settings.validationresult === "false") {
                 this._showMessage("error", this._buildValidationSummaryText());
                 this._setStatus("Validation Error", "error");
-            } else {
-                if (this._errorLog.length > 0) {
-                    this._showMessage("warn", "Upload parsed with validation issues. Review highlighted rows/cells.");
-                    this._setStatus("Completed with Errors", "warning");
-                } else if (this._previewRows.length > 0) {
-                    this._showMessage("success", "Upload completed successfully.");
-                    this._setStatus("Completed", "completed");
-                } else {
-                    this._hideMessage();
-                    this._setStatus("Ready", "ready");
-                }
             }
-        }
-
-        _countUniqueInvalidRows() {
-            var seen = [];
-            var count = 0;
-            var i = 0;
-
-            for (i = 0; i < this._validationErrorsParsed.length; i++) {
-                var err = this._validationErrorsParsed[i];
-                if (err && err.rowIndex !== undefined && err.rowIndex !== null) {
-                    var key = String(err.rowIndex);
-                    if (seen.indexOf(key) === -1) {
-                        seen.push(key);
-                        count = count + 1;
-                    }
-                }
-            }
-
-            return count;
         }
 
         _buildValidationSummaryText() {
@@ -1390,11 +1362,6 @@
             this._uploadedHeaders = [];
             this._sheetName = "-";
             this._currentFileName = "";
-            this._export_settings.validationresult = "true";
-            this._export_settings.validationerrors = "[]";
-            this._export_settings.rowcount = 0;
-            this._export_settings.validcount = 0;
-            this._export_settings.invalidcount = 0;
             this._enableErrorDownload(false);
             this._setStatus("Ready", "ready");
             this._hideProgress();
@@ -1455,7 +1422,7 @@
         _escapeCsv(value) {
             var str = value == null ? "" : String(value);
             if (str.indexOf(",") > -1 || str.indexOf('"') > -1 || str.indexOf("\n") > -1) {
-                str = '"' + str.split('"').join('""') + '"';
+                str = '"' + str.replace(/"/g, '""') + '"';
             }
             return str;
         }
