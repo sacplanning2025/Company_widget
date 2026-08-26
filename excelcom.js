@@ -511,48 +511,39 @@
                 flex:0 0 auto;
             }
 
-            @media (max-width: 980px){
-                .summary-grid{
-                    grid-template-columns:repeat(2, minmax(0, 1fr));
-                }
+@media (max-width: 980px){
+    .upload-top-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
 
-                .top-bar{
-                    align-items:flex-start;
-                }
+    .upload-left{
+        min-width:100%;
+        flex-wrap:wrap;
+    }
 
-                .top-bar-right{
-                    justify-content:flex-start;
-                }
+    .upload-right{
+        flex:1 1 auto;
+        width:100%;
+    }
 
-                .upload-top-row{
-                    flex-direction:column;
-                    align-items:stretch;
-                }
+    .file-input{
+        min-width:100%;
+        max-width:100%;
+        width:100%;
+        flex:1 1 auto;
+    }
 
-                .upload-left{
-                    min-width:100%;
-                }
+    .search-input{
+        min-width:100%;
+    }
 
-                .upload-right{
-                    flex:1 1 auto;
-                    width:100%;
-                }
+    .toolbar-btn,
+    .action-btn{
+        min-width:auto;
+    }
+}
 
-                .file-input{
-                    min-width:100%;
-                    width:100%;
-                    flex:1 1 auto;
-                }
-
-                .search-input{
-                    min-width:100%;
-                }
-
-                .toolbar-btn,
-                .action-btn{
-                    min-width:auto;
-                }
-            }
         </style>
 
         <div class="excel-widget">
