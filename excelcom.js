@@ -138,29 +138,49 @@
             }
 
             .upload-area{
-                border:1px dashed #b8c4d1;
-                border-radius:10px;
-                padding:10px;
-                background:var(--cw-soft2);
-                margin-bottom:0;
-                flex:0 0 auto;
-            }
-            .upload-row{
-                display:flex;
-                gap:10px;
-                align-items:center;
-                flex-wrap:wrap;
-            }
+            border:1px solid #e3eaf2;
+            border-radius:12px;
+            padding:12px;
+            background:#fafcff;
+            margin-bottom:0;
+            flex:0 0 auto;
+        }
+
+            .upload-top-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:14px;
+            flex-wrap:wrap;
+        }
+        .upload-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+            flex:1 1 auto;
+            min-width:420px;
+        }
+        .upload-right{
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            flex:0 0 320px;
+            max-width:100%;
+        }
+
             .file-input{
-                font-size:13px;
-                padding:10px 12px;
-                border:1px solid var(--cw-border);
-                border-radius:10px;
-                background:#fff;
-                min-width:420px;
-                height:42px;
-                max-width:100%;
-            }
+            font-size:13px;
+            padding:10px 12px;
+            border:1px solid var(--cw-border);
+            border-radius:10px;
+            background:#fff;
+            min-width:320px;
+            height:42px;
+            max-width:100%;
+            flex:1 1 320px;
+        }
+
             .action-btn{
                 min-width:88px;
                 height:42px;
@@ -169,31 +189,23 @@
                 border-radius:10px;
             }
             .mini-text{
-                font-size:11px;
-                color:var(--cw-sub);
-                margin-top:6px;
-                white-space:pre-wrap;
-            }
-
-            .search-row{
-                margin-top:8px;
-                display:flex;
-                gap:10px;
-                flex-wrap:wrap;
-                align-items:center;
-            }
+            font-size:11px;
+            color:var(--cw-sub);
+            margin-top:8px;
+            white-space:normal;
+        }
             .search-input{
-                min-width:260px;
-                max-width:100%;
-                padding:10px 12px;
-                border:1px solid var(--cw-border);
-                border-radius:10px;
-                font-size:13px;
-                outline:none;
-                background:#fff;
-                flex:1;
-                height:40px;
-            }
+            width:100%;
+            min-width:260px;
+            padding:10px 12px;
+            border:1px solid var(--cw-border);
+            border-radius:10px;
+            font-size:13px;
+            outline:none;
+            background:#fff;
+            height:42px;
+        }
+
             .search-input:focus{
                 border-color:var(--cw-primary);
                 box-shadow:0 0 0 2px rgba(10,110,209,0.12);
@@ -231,22 +243,24 @@
             }
 
             .summary-grid{
-                display:none;
-                grid-template-columns:repeat(6, minmax(0, 1fr));
-                gap:8px;
-                margin-top:0;
-                flex:0 0 auto;
-            }
+            display:none;
+            grid-template-columns:repeat(6, minmax(0, 1fr));
+            gap:8px;
+            margin-top:10px;
+            flex:0 0 auto;
+        }
+
             .summary-grid.show{
                 display:grid;
             }
             .summary-item{
-                border:1px solid #e5e7eb;
-                border-radius:9px;
-                padding:6px 10px;
-                background:#fafbfc;
-                min-height:48px;
-            }
+            border:1px solid #edf1f5;
+            border-radius:10px;
+            padding:8px 10px;
+            background:#ffffff;
+            min-height:52px;
+        }
+
             .summary-item .k{
                 font-size:11px;
                 color:var(--cw-sub);
@@ -377,18 +391,39 @@
                 flex:0 0 auto;
             }
 
-            @media (max-width: 980px){
-                .summary-grid{
-                    grid-template-columns:repeat(2, minmax(0, 1fr));
-                }
-                .file-input{
-                    min-width:260px;
-                    width:100%;
-                }
-                .toolbar-row{
-                    align-items:flex-start;
-                }
-            }
+           @media (max-width: 980px){
+    .summary-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+
+    .upload-top-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .upload-left{
+        min-width:100%;
+    }
+
+    .upload-right{
+        flex:1 1 auto;
+        width:100%;
+    }
+
+    .file-input{
+        min-width:100%;
+        width:100%;
+    }
+
+    .search-input{
+        min-width:100%;
+    }
+
+    .toolbar-row{
+        align-items:flex-start;
+    }
+}
+
         </style>
 
         <div class="excel-widget">
@@ -412,29 +447,20 @@
                 </div>
 
                 <div class="upload-area" id="dropZone">
-                    <div class="upload-row">
+                <div class="upload-top-row">
+                    <div class="upload-left">
                         <input type="file" id="fileInput" class="file-input" />
                         <button type="button" class="toolbar-btn primary action-btn" id="uploadBtn">Upload</button>
                         <button type="button" class="toolbar-btn action-btn" id="clearBtn">Clear</button>
                     </div>
-
-                    <div class="mini-text" id="templateInfo">Required columns will be validated automatically.</div>
-
-                    <div class="search-row">
+            
+                    <div class="upload-right">
                         <input type="text" id="searchInput" class="search-input" placeholder="Search in preview..." />
                     </div>
                 </div>
-
-                <div class="progress-wrap" id="progressWrap">
-                    <div class="progress-label-row">
-                        <span id="progressText">Preparing upload...</span>
-                        <span id="progressPercent">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                </div>
-
+            
+                <div class="mini-text" id="templateInfo">Required columns will be validated automatically.</div>
+            
                 <div class="summary-grid" id="summaryGrid">
                     <div class="summary-item"><div class="k">Rows Read</div><div class="v" id="sumRows">0</div></div>
                     <div class="summary-item"><div class="k">Valid Rows</div><div class="v" id="sumValid">0</div></div>
@@ -442,6 +468,18 @@
                     <div class="summary-item"><div class="k">Sheet</div><div class="v" id="sumSheet">-</div></div>
                     <div class="summary-item"><div class="k">Columns</div><div class="v" id="sumColumns">0</div></div>
                     <div class="summary-item"><div class="k">Validation</div><div class="v" id="sumValidation">-</div></div>
+                </div>
+            </div>
+            
+            <div class="progress-wrap" id="progressWrap">
+
+                    <div class="progress-label-row">
+                        <span id="progressText">Preparing upload...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
                 </div>
 
                 <div class="msg" id="messageBox"></div>
