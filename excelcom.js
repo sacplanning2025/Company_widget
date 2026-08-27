@@ -1119,24 +1119,33 @@
                         return;
                     }
 
-                    var allRowsForSac = [];
-                    var pr = 0;
-                    var pc = 0;
+                    var payloadLines = [];
+var headerLine = that._previewColumns.join("|");
+payloadLines.push(headerLine);
 
-                    for (pr = 0; pr < that._previewRows.length; pr++) {
-                        var rowObjForSac = {};
-                        for (pc = 0; pc < that._previewColumns.length; pc++) {
-                            var colNameForSac = that._previewColumns[pc];
-                            if (that._previewRows[pr][colNameForSac] !== undefined && that._previewRows[pr][colNameForSac] !== null) {
-                                rowObjForSac[colNameForSac] = String(that._previewRows[pr][colNameForSac]);
-                            } else {
-                                rowObjForSac[colNameForSac] = "";
-                            }
-                        }
-                        allRowsForSac.push(rowObjForSac);
-                    }
+var pr = 0;
+var pc = 0;
 
-                    that.unit = JSON.stringify(allRowsForSac);
+for (pr = 0; pr < that._previewRows.length; pr++) {
+    var rowVals = [];
+    for (pc = 0; pc < that._previewColumns.length; pc++) {
+        var colNameForSac = that._previewColumns[pc];
+        var cellValForSac = "";
+
+        if (that._previewRows[pr][colNameForSac] !== undefined && that._previewRows[pr][colNameForSac] !== null) {
+            cellValForSac = String(that._previewRows[pr][colNameForSac]);
+        }
+
+        cellValForSac = cellValForSac.replace(/\|/g, " ");
+        cellValForSac = cellValForSac.replace(/\r/g, " ");
+        cellValForSac = cellValForSac.replace(/\n/g, " ");
+        rowVals.push(cellValForSac);
+    }
+    payloadLines.push(rowVals.join("|"));
+}
+
+that.unit = payloadLines.join("\n");
+
                     that._export_settings.rowcount = that._previewRows.length;
                     that._export_settings.validcount = that._validData.length;
                     that._export_settings.invalidcount = that._errorLog.length;
@@ -1203,35 +1212,36 @@
             reader.readAsBinaryString(file);
         }
 
-        _continueUpload() {
-            if (!this._previewRows || this._previewRows.length === 0) {
-                this._setStatus("Warning", "warning");
-                this._showMessage("warn", "No preview data available");
-                return;
-            }
+       _continueUpload() {
+    if (!this._previewRows || this._previewRows.length === 0) {
+        this._setStatus("Warning", "warning");
+        this._showMessage("warn", "No preview data available");
+        return;
+    }
 
-            if (this._errorLog && this._errorLog.length > 0) {
-                this._setStatus("Warning", "warning");
-                this._showMessage("warn", "Fix preview errors before upload");
-                return;
-            }
+    if (this._export_settings.validationresult === "false") {
+        this._setStatus("Validation Error", "error");
+        this._showMessage("warn", "Fix preview validation errors before upload");
+        return;
+    }
 
-            this._setStatus("Uploading", "processing");
-            this._hideMessage();
+    this._setStatus("Uploading", "processing");
+    this._hideMessage();
 
-            this._export_settings.lastevent = "continueUpload";
-            this._firePropertiesChanged("continueUpload");
+    this._export_settings.lastevent = "continueUpload";
+    this._firePropertiesChanged("continueUpload");
 
-            this.dispatchEvent(new CustomEvent("onContinueUpload", {
-                detail: {
-                    rowCount: this._previewRows.length,
-                    validCount: this._validData.length,
-                    invalidCount: this._errorLog.length,
-                    fileName: this._currentFileName,
-                    sheetName: this._sheetName
-                }
-            }));
+    this.dispatchEvent(new CustomEvent("onContinueUpload", {
+        detail: {
+            rowCount: this._previewRows.length,
+            validCount: this._validData.length,
+            invalidCount: this._export_settings.invalidcount,
+            fileName: this._currentFileName,
+            sheetName: this._sheetName
         }
+    }));
+}
+
 
         _prepareColumnMapFromHeaders() {
             var requiredColumns = this._getRequiredColumns();
