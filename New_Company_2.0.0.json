@@ -1,11 +1,10 @@
-
 {
   "id": "com.fd.djaja.sap.sac.excelcom",
-  "version": "7.0.0",
+  "version": "6.0.0",
   "name": "CompanyUpload",
-  "description": "Excel preview, validation and final upload widget",
+  "description": "Advanced Excel upload widget",
   "newInstancePrefix": "CompanyUploadAdvanced",
-  "icon": "data:image/png;base64,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",
+  "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAACApSURBVHhe7dZ5i+57etXhvIa8NEUUURRRRBFFRBER0YiIKCKKiIgiIpp56CSdzjwPPcR5yDzPb6J9jrmbs0+dtat29Tm9Vie5Lvj8f8N3PfWrrwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPhy9ZVf9fnPS6tuhjPpJqnVzRA20iilVjfDmXST1OpmCBtplFKrm+FMuklqdTOEjTRKqdXNcCbdJLW6GcJGGqXU6mY4k26SWt0MYSONUmp1M5xJN0mtboawkUYptboZzqSbpFY3Q9hIo5Ra3Qxn0k1Sq5shbKRRSq1uhjPpJqnVzRA20iilVjfDmXST1OpmCBtplFKrm+FMuklqdTOEjTRKqdXNcCbdJLW6GcJGGqXU6mY4k26SWt0MYSONUmp1M5xJN0mtboawkUYptboZzqSbpFY3Q9hIo5Ra3Qxn0k1Sq5shbKRRSq1uhjPpJqnVzRA20iilVjfDmXST1OpmCBtplFKrm+FMuklqdTOEjTRKqdXNcCbdJLW6GcJGGqXU6mY4k26SWt0MYSONUmp1M5xJN0mtboawkUYptboZzqSbpFY3Q9hIo2z2dT/1ln76/b7+i+wb3qWf+XDf+BH6ppf62dw3f5F9y2v7ud/tE1d6k2Y3w5l0U7NP/5aWpTdpdjOEjTTKZj7wzxc/4s/15AP/UulNmt0MZ9JNzdJHSb3SmzS7GcJGGmWz9GH/QvGD/rTHR9cH/t371ielN2l2M5xJNzVLHyX1Sm/S7GYIG2mUzeJH/c0eH10f+Hfv6Qf+pdKbNLsZzqSbmn3m8RHSrvQmzW6GsJFG2cwH/nWlj/i79m3v9fMfLL1Js5vhTLqpWfooqVd6k2Y3Q9hIo2yWPuLPFT/qb/b4yKbSx/tdih/x53p8ZL+cPvAvld6k2c1wJt3ULH2U1Cu9SbObIWykUTbzgX/3vpgP/Ht9+zOlN2l2M5xJNzVLHyX1Sm/S7GYIG2mUzXzg3+9L8YF/rk8+Sm/S7GY4k25qlj5K6pXepNnNEDbSKJv5wL9c+ni/S+994D/UL3yw9CbNboYz6aZm6aOkXulNmt0MYSONsln6qL9Z/Ig/1+Mj6wP/fN/xRulNmt0MZ9JNzdJHSb3SmzS7GcJGGmWz+BF/rsdH1gf++d78wL9UepNmN8OZdFOz9FFSr/QmzW6GsJFG2cwH/kmPj/JLpQ/5u/apJ6U3aXYznEk3NUsfJfVKb9LsZggbaZTN0kf8udKH+137g/iB///94ttLb9LsZjiTbmqWPkrqld6k2c0QNtIom/nAv67XfuC/0He+pfQmzW6GM+mmZumjpF7pTZrdDGEjjbJZ+pC/LR/4t5c+7u9SepNmN8OZdFOz9FFSr/QmzW6GsJFG2cwH/tHjQ/xS6eP9Ln3Xm/3Sh0tv0uxmOJNuapY+SuqV3qTZzRA20iibpQ/609LH+13ygX97332lN2l2M5xJNzX77G9rWXqTZjdD2EijbOYD/3wf9QP/UulNmt0MZ9JNzdJHSb3SmzS7GcJGGmWz9GH/Qj7wby99zN+l7/nlD5bepNnNcCbd1Cx9lNQrvUmzmyFspFE284HPpY/3u/T0A/9S6U2a3Qxn0k3N0kdJvdKbNLsZwkYaZTMf+NeVPuLv2veG0ps0uxnOpJuapY+SeqU3aXYzhI00ymbpI/5cPvBvL33g39qv/G7pTZrdDGfSTc3SR0m90ps0uxnCRhplMx/4dy9+yN/WfeDf6/ueKb1Js5vhTLqpWfooqVd6k2Y3Q9hIo2zmA/9+8UP+th4f73f5wD/X9z9Kb9LsZjiTbmqWPkrqld6k2c0QNtIom/nAv6XHx/nj+MC/VHqTZjfDmXRTs/RRUq/0Js1uhrCRRtksfdTfzAf+7aUP+of61Q/3A2+U3qTZzXAm3dQsfZTUK71Js5shbKRRNvOBf3vxg/60+6i/7QP/UulNmt0MZ9JNzdJHSb3SmzS7GcJGGmWz9HF/r/TxfpfSh/tdix/yt/X4+P5e+MA/7QeflN6k2c1wJt3ULH2U1Cu9SbObIWykUTZLH/HnSh/udy1+yN/W4+P7++ED/6F+7YOlN2l2M5xJNzVLHyX1Sm/S7GYIG2mUzXzgX1f8qL/Zkw/8037oSelNmt0MZ9JNzT73+AhpV3qTZjdD2EijbJY+5G8rfsjf1uPj6wP/culNmt0MZ9JNzdJHSb3SmzS7GcJGGmUzH/gnPT7Kz5U+4q/ph5+U3qTZzXAm3dQsfZTUK71Js5shbKRRNosf9/d6fHx94F/f0w/8h/r1D5bepNnNcCbd1Cx9lNQrvUmzmyFspFE284F/XfGj/mZPPvBP+5EnpTdpdjOcSTc1Sx8l9Upv0uxmCBtplM3Sh/0LxQ/60x4fXR/493v6gX+p9CbNboYz6aZm6aOkXulNmt0MYSONsln8qL/Z46PrA/9+6SP+mn70SelNmt0MZ9JNzdJHSb3SmzS7GcJGGmUzH/gPlj7ar+npB/5D/cYHS2/S7GY4k25qlj5K6pXepNnNEDbSKJulj/hzxY/6mz0+ss+VPtqvKX7U3+zxkX2u9NF+TfGj/mZPPvBP+7EnpTdpdjOcSTc1+9zvaFl6k2Y3Q9hIo2zmA//B4kf9zR4f7ed6+oF/qfQmzW6GM+mmZumjpF7pTZrdDGEjjbKZD/yTHh/l50of8df0409Kb9LsZjiTbmqWPkrqld6k2c0QNtIom/nAf7D00X5NTz/wH+o3P1h6k2Y3w5l0U7P0UVKv9CbNboawkUbZLH3Enyt+1N/s8ZF9rvTRfk3xo/5mj4/sc6WP9muKH/U3e/KBf9pPPCm9SbOb4Uy6qVn6KKlXepNmN0PYSKNs5gP/weJH/c0eH+3nevqBf6n0Js1uhjPppmY/+fgIaVd6k2Y3Q9hIo2zmA/+kx0f5udJH/KOU3qTZzXAm3dQsfZTUK71Js5shbKRRNvOB/2DpI/1R+/QzpTdpdjOcSTc1Sx8l9Upv0uxmCBtplM3SR/y54kf9zR4f2edKH+3XFD/qb/b4qD5X+kB/1NKH/UP9Vi69SbOb4Uy6qVn6KKlXepNmN0PYSKNs5gP/cvGD/rTwcX+X0ps0uxnOpJuapY+SeqU3aXYzhI00ymY+8I8P8bsUPt6v7TOh9CbNboYz6aZm6aOkXulNmt0MYSONspkP/PX4GH/U0gf+pdKbNLsZzqSbmqWPknqlN2l2M4SNNMpm6SP+XPGj/maPj+lzpQ/0Ry1+0J/2+Nh+1NIH/KOW3qTZzXAm3dQsfZTUK71Js5shbKRRNvOBf7/0gf64++xvf7D0Js1uhjPppmbpo6Re6U2a3QxhI42ymQ/8x9vTD/xLpTdpdjOcSTc1Sx8l9Upv0uxmCBtplM184F9X+oh/lNKbNLsZzqSbmqWPknqlN2l2M4SNNMpm6YP92uIH/WmPj+dHLX2QP+7SR/pL0eeu9CbNboYz6aZm6aOkXulNmt0MYSONsln6oD8tftCf9vh4ftTSB/njLn2MvxR94QP/UulNmt0MZ9JNzdJHSb3SmzS7GcJGGmUzH/gvrvQxf3X+APoH4A946U2a3QxhI42ymQ98Ln6wX9vjD9xLpTdpdjOcSTc1Sx8l9Upv0uxmCBtplM3Sh/xtpQ/yx136GH8pih/s1/b4A/ZS6Y/em6U3aXYznEk3NUtvol7pTZrdDGEjjbKZD/wzPf5AvVT6o/aa0ps0uxnOpJuapTdRr/QmzW6GsJFG2Sx9pD9K6WP8pSh+sF/b4w/QS6U/Wh9n6U2a3Qxn0k3N0puoV3qTZjdD2EijbJY+4s+VPsZfiuIH+7U9/sC8VPqj1Cy9SbOb4Uy6qVl6E/VKb9LsZggbaZTNfOC3pTdpdjOcSTc1S2+iXulNmt0MYSONsln6OH8cxQ/2a3v8gXip9Efl91LpTZrdDGfSTc3Sm6hXepNmN0PYSKNslj7e71L8YL+2xx+Al0p/NH4/ld6k2c1wJt3ULL2JeqU3aXYzhI00ymbp4/5e8YP92h4/8JdKfxT+IJXepNnNcCbd1Cy9iXqlN2l2M4SNNMpm8cP9rj1+wC+VfvR6v/QmzW6GM+mmZulN1Cu9SbObIWykUTaLH/Yv9PiBvlT6UevdS2/S7GY4k25qlt5EvdKbNLsZwkYaZbP0UX+z9KPVx1d6k2Y3w5l0U7P0JuqV3qTZzRA20iibpR+leqU3aXYznEk3NUtvol7pTZrdDGEjjbJZ+lGqV3qTZjfDmXRTs/Qm6pXepNnNEDbSKJulH6V6pTdpdjOcSTc1S2+iXulNmt0MYSONsln6UapXepNmN8OZdFOz9Cbqld6k2c0QNtIom6UfpXqlN2l2M5xJNzVLb6Je6U2a3QxhI42yWfpRqld6k2Y3w5l0U7P0JuqV3qTZzRA20iibpR+leqU3aXYznEk3NUtvol7pTZrdDGEjjbJZ+lGqV3qTZjfDmXRTs/Qm6pXepNnNEDbSKJulH6V6pTdpdjOcSTc1S2+iXulNmt0MYSONsln6UapXepNmN8OZdFOz9Cbqld6k2c0QNtIom6UfpXqlN2l2M5xJNzVLb6Je6U2a3QxhI42yWfpRqld6k2Y3w5l0U7P0JuqV3qTZzRA20iibpR+leqU3aXYznEk3NUtvol7pTZrdDGEjjbJZ+lGqV3qTZjfDmXRTs/Qm6pXepNnNEDbSKJulH6V6pTdpdjOcSTc1S2+iXulNmt0MYSONsln6UapXepNmN8OZdFOz9Cbqld6k2c0QNtIom6UfpXqlN2l2M5xJNzVLb6Je6U2a3QxhI42yWfpRqld6k2Y3w5l0U7P0JuqV3qTZzRA20iibpR+leqU3aXYznEk3NUtvol7pTZrdDGEjjbJZ+lGqV3qTZjfDmXRTs/Qm6pXepNnNEDbSKJulH6V6pTdpdjOcSTc1S2+iXulNmt0MYSONsln6UapXepNmN8OZdFOz9Cbqld6k2c0QNtIopVY3w5l0k9TqZggbaZRSq5vhTLpJanUzhI00SqnVzXAm3SS1uhnCRhql1OpmOJNuklrdDGEjjVJqdTOcSTdJrW6GsJFGKbW6Gc6km6RWN0PYSKOUWt0MZ9JNUqubIWykUUqtboYz6Sap1c0QNtIopVY3w5l0k9TqZggbaZRSq5vhTLpJanUzhI00SqnVzXAm3SS1uhnCRhql1OpmOJNuklrdDGEjjVJqdTOcSTdJrW6GsJFGKbW6Gc6km6RWN0PYSKOUWt0MZ9JNUqubIWykUUqtboYz6Sap1c0QNtIopVY3w5l0k9TqZggbaZRSq5vhTLpJanUzhI00SqnVzXAm3SS1uhnCRhql1OpmOJNuklrdDGEjjVJqdTOcSTdJrW6GsJFGKbW6Gc6km6RWN0PYSKOUWt0MZ9JNUqubIWykUUqtboYz6Sap1c0QNtIopVY3w5l0k9TqZggbaZRSq5vhTLpJanUzhI00SqnVzXAm3SS1uhnCRhql1OpmOJNuklrdDGEjjVJqdTOcSTdJrW6GsJFGKbW6Gc6km6RWN0PYSKOUWt0MZ9JNUqubIWykUUqtboYz6Sap1c0QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgy8xXfMX/A3u+0TSzcP6kAAAAAElFTkSuQmCC",
   "vendor": "Arnav",
   "eula": "",
   "license": "",
@@ -27,60 +26,268 @@
     }
   ],
   "properties": {
-    "metadata": { "type": "string", "description": "For internal use", "default": "" },
-    "title": { "type": "string", "description": "Widget title", "default": "Excel Upload" },
-    "subtitle": { "type": "string", "description": "Widget subtitle", "default": "Preview, validate and upload Excel file" },
-    "icon": { "type": "string", "description": "Optional icon name", "default": "" },
-    "unit": { "type": "string", "description": "Preview payload JSON output", "default": "" },
-    "validpayload": { "type": "string", "description": "Valid rows payload JSON", "default": "" },
-    "footer": { "type": "string", "description": "Footer help text", "default": "Supported template: Sheet1 with required business columns" },
-    "errorlogfilename": { "type": "string", "description": "Error log file name", "default": "Excel_Upload_Error_Log.csv" },
-    "templatefilename": { "type": "string", "description": "Template download file name", "default": "New_Position_Creation_V2.1.xlsm" },
-    "templateurl": { "type": "string", "description": "Template download URL", "default": "https://raw.githubusercontent.com/sacplanning2025/Company_widget/main/New_Position_Creation_V2.1.xlsm" },
-    "requiredcolumns": { "type": "string", "description": "Comma separated business fields expected from upload", "default": "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED" },
-    "keycolumn": { "type": "string", "description": "Column used for duplicate detection", "default": "ID" },
-    "maxrows": { "type": "integer", "description": "Maximum number of rows", "default": 2000 },
-    "previewrows": { "type": "integer", "description": "Maximum rows shown in preview", "default": 1000 },
-    "allowcsv": { "type": "boolean", "description": "Allow csv upload", "default": true },
-    "autovalidate": { "type": "boolean", "description": "Auto validate after preview", "default": true },
-    "showpreview": { "type": "boolean", "description": "Show preview section", "default": true },
-    "showlogs": { "type": "boolean", "description": "Show log section", "default": true },
-    "stricttemplate": { "type": "boolean", "description": "Require all expected columns to exist", "default": false },
-    "validationresult": { "type": "string", "description": "Validation result from SAC, true or false", "default": "true" },
-    "validationerrors": { "type": "string", "description": "Validation errors JSON from SAC", "default": "[]" },
-    "previewcompleted": { "type": "string", "description": "true when preview is completed", "default": "false" },
-    "continueenabled": { "type": "string", "description": "true when continue upload button should be enabled", "default": "false" },
-    "lastevent": { "type": "string", "description": "Last widget event name", "default": "" },
-    "invalidcount": { "type": "integer", "description": "Invalid row count", "default": 0 },
-    "validcount": { "type": "integer", "description": "Valid row count", "default": 0 },
-    "rowcount": { "type": "integer", "description": "Total processed row count", "default": 0 }
+    "metadata": {
+      "type": "string",
+      "description": "For internal use",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "description": "Widget title",
+      "default": "Excel Upload"
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Widget subtitle",
+      "default": "Upload and validate Excel file"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Optional icon name",
+      "default": ""
+    },
+    "unit": {
+      "type": "string",
+      "description": "Valid payload JSON output",
+      "default": ""
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer help text",
+      "default": "Supported template: Sheet1 with required business columns"
+    },
+    "errorlogfilename": {
+      "type": "string",
+      "description": "Error log file name",
+      "default": "Excel_Upload_Error_Log.csv"
+    },
+    "validationlogfilename": {
+      "type": "string",
+      "description": "Validation log file name",
+      "default": "Excel_Upload_Validation_Log.csv"
+    },
+    "templatefilename": {
+      "type": "string",
+      "description": "Template download file name",
+      "default": "New_Position_Creation_V2.1.xlsm"
+    },
+    "templateurl": {
+      "type": "string",
+      "description": "Template download URL",
+      "default": "https://raw.githubusercontent.com/sacplanning2025/Company_widget/main/New_Position_Creation_V2.1.xlsm"
+    },
+    "requiredcolumns": {
+      "type": "string",
+      "description": "Comma separated business fields expected from upload",
+      "default": "ID,DESCRIPTION,H1,COMPANY,COSTCENTER,ASSET_CLASS,CAPITALIZED"
+    },
+    "keycolumn": {
+      "type": "string",
+      "description": "Column used for duplicate detection",
+      "default": "ID"
+    },
+    "maxrows": {
+      "type": "integer",
+      "description": "Maximum number of valid rows",
+      "default": 2000
+    },
+    "previewrows": {
+      "type": "integer",
+      "description": "Maximum rows shown in preview",
+      "default": 100
+    },
+    "allowcsv": {
+      "type": "boolean",
+      "description": "Allow csv upload",
+      "default": true
+    },
+    "autovalidate": {
+      "type": "boolean",
+      "description": "Auto validate after upload",
+      "default": true
+    },
+    "showpreview": {
+      "type": "boolean",
+      "description": "Show preview section",
+      "default": true
+    },
+    "showlogs": {
+      "type": "boolean",
+      "description": "Show log section",
+      "default": true
+    },
+    "allowmapping": {
+      "type": "boolean",
+      "description": "Allow dynamic mapping between uploaded headers and required fields",
+      "default": true
+    },
+    "stricttemplate": {
+      "type": "boolean",
+      "description": "Require all mapped fields to exist before processing",
+      "default": false
+    },
+    "validationresult": {
+      "type": "string",
+      "description": "Validation result from SAC, true or false",
+      "default": "true"
+    },
+    "validationerrors": {
+      "type": "string",
+      "description": "Validation errors JSON from SAC",
+      "default": "[]"
+    },
+    "lastevent": {
+      "type": "string",
+      "description": "Last widget event name",
+      "default": ""
+    },
+    "invalidcount": {
+      "type": "integer",
+      "description": "Invalid row count",
+      "default": 0
+    },
+    "validcount": {
+      "type": "integer",
+      "description": "Valid row count",
+      "default": 0
+    },
+    "rowcount": {
+      "type": "integer",
+      "description": "Total processed row count",
+      "default": 0
+    }
   },
   "methods": {
-    "getTitle": { "returnType": "string", "description": "Get widget title", "parameters": [], "body": "return this.title;" },
-    "setTitle": { "description": "Set widget title", "parameters": [{ "name": "value", "type": "string", "description": "New title" }], "body": "this.title = value;" },
-    "getSubTitle": { "returnType": "string", "description": "Get widget subtitle", "parameters": [], "body": "return this.subtitle;" },
-    "setSubTitle": { "description": "Set widget subtitle", "parameters": [{ "name": "value", "type": "string", "description": "New subtitle" }], "body": "this.subtitle = value;" },
-    "getUnit": { "returnType": "string", "description": "Get preview payload JSON", "parameters": [], "body": "return this.unit;" },
-    "setUnit": { "description": "Set preview payload JSON", "parameters": [{ "name": "value", "type": "string", "description": "Payload" }], "body": "this.unit = value;" },
-    "getValidPayload": { "returnType": "string", "description": "Get valid payload JSON", "parameters": [], "body": "return this.validpayload;" },
-    "setValidPayload": { "description": "Set valid payload JSON", "parameters": [{ "name": "value", "type": "string", "description": "Valid payload" }], "body": "this.validpayload = value;" },
-    "getValidationResult": { "returnType": "string", "description": "Get validation result", "parameters": [], "body": "return this.validationresult;" },
-    "setValidationResult": { "description": "Set validation result", "parameters": [{ "name": "value", "type": "string", "description": "true or false" }], "body": "this.validationresult = value;" },
-    "getValidationErrors": { "returnType": "string", "description": "Get validation errors JSON", "parameters": [], "body": "return this.validationerrors;" },
-    "setValidationErrors": { "description": "Set validation errors JSON", "parameters": [{ "name": "value", "type": "string", "description": "JSON array of row/cell errors" }], "body": "this.validationerrors = value;" },
-    "getPreviewCompleted": { "returnType": "string", "description": "Get preview completed flag", "parameters": [], "body": "return this.previewcompleted;" },
-    "setPreviewCompleted": { "description": "Set preview completed flag", "parameters": [{ "name": "value", "type": "string", "description": "true or false" }], "body": "this.previewcompleted = value;" },
-    "getContinueEnabled": { "returnType": "string", "description": "Get continue enabled flag", "parameters": [], "body": "return this.continueenabled;" },
-    "setContinueEnabled": { "description": "Set continue enabled flag", "parameters": [{ "name": "value", "type": "string", "description": "true or false" }], "body": "this.continueenabled = value;" },
-    "getLastEvent": { "returnType": "string", "description": "Get last event", "parameters": [], "body": "return this.lastevent;" },
-    "setLastEvent": { "description": "Set last event", "parameters": [{ "name": "value", "type": "string", "description": "Event name" }], "body": "this.lastevent = value;" },
-    "getRowCount": { "returnType": "integer", "description": "Get total processed row count", "parameters": [], "body": "return this.rowcount;" },
-    "getValidCount": { "returnType": "integer", "description": "Get valid row count", "parameters": [], "body": "return this.validcount;" },
-    "getInvalidCount": { "returnType": "integer", "description": "Get invalid row count", "parameters": [], "body": "return this.invalidcount;" }
+    "getTitle": {
+      "returnType": "string",
+      "description": "Get widget title",
+      "parameters": [],
+      "body": "return this.title;"
+    },
+    "setTitle": {
+      "description": "Set widget title",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "New title"
+        }
+      ],
+      "body": "this.title = value;"
+    },
+    "getSubTitle": {
+      "returnType": "string",
+      "description": "Get widget subtitle",
+      "parameters": [],
+      "body": "return this.subtitle;"
+    },
+    "setSubTitle": {
+      "description": "Set widget subtitle",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "New subtitle"
+        }
+      ],
+      "body": "this.subtitle = value;"
+    },
+    "getUnit": {
+      "returnType": "string",
+      "description": "Get valid payload JSON",
+      "parameters": [],
+      "body": "return this.unit;"
+    },
+    "setUnit": {
+      "description": "Set valid payload JSON",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Payload"
+        }
+      ],
+      "body": "this.unit = value;"
+    },
+    "getValidationResult": {
+      "returnType": "string",
+      "description": "Get validation result",
+      "parameters": [],
+      "body": "return this.validationresult;"
+    },
+    "setValidationResult": {
+      "description": "Set validation result",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "true or false"
+        }
+      ],
+      "body": "this.validationresult = value;"
+    },
+    "getValidationErrors": {
+      "returnType": "string",
+      "description": "Get validation errors JSON",
+      "parameters": [],
+      "body": "return this.validationerrors;"
+    },
+    "setValidationErrors": {
+      "description": "Set validation errors JSON",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "JSON array of row/cell errors"
+        }
+      ],
+      "body": "this.validationerrors = value;"
+    },
+    "getLastEvent": {
+      "returnType": "string",
+      "description": "Get last event",
+      "parameters": [],
+      "body": "return this.lastevent;"
+    },
+    "setLastEvent": {
+      "description": "Set last event",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Event name"
+        }
+      ],
+      "body": "this.lastevent = value;"
+    },
+    "getRowCount": {
+      "returnType": "integer",
+      "description": "Get total processed row count",
+      "parameters": [],
+      "body": "return this.rowcount;"
+    },
+    "getValidCount": {
+      "returnType": "integer",
+      "description": "Get valid row count",
+      "parameters": [],
+      "body": "return this.validcount;"
+    },
+    "getInvalidCount": {
+      "returnType": "integer",
+      "description": "Get invalid row count",
+      "parameters": [],
+      "body": "return this.invalidcount;"
+    }
   },
   "events": {
-    "onPreview": { "description": "Triggered after preview payload is prepared." },
-    "onContinueUpload": { "description": "Triggered when user confirms final upload after preview." },
-    "onClear": { "description": "Triggered when widget is cleared." }
+    "onStart": {
+      "description": "Triggered after upload parsing is completed."
+    },
+    "onValidate": {
+      "description": "Triggered when validation is refreshed."
+    },
+    "onClear": {
+      "description": "Triggered when widget is cleared."
+    }
   }
 }
