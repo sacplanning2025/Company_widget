@@ -14,6 +14,7 @@
                 --cw-primary-dark:#085caf;
                 --cw-border:#d9d9d9;
                 --cw-soft:#f7f9fb;
+                --cw-soft2:#fafcff;
                 --cw-text:#1f2d3d;
                 --cw-sub:#6a6d70;
                 --cw-success-bg:#f6ffed;
@@ -52,6 +53,11 @@
                 gap:8px;
             }
 
+            .upload-header,
+            .toolbar-row{
+                display:none;
+            }
+
             .top-bar{
                 display:flex;
                 justify-content:space-between;
@@ -59,6 +65,7 @@
                 gap:10px;
                 flex-wrap:wrap;
                 padding-bottom:6px;
+                border-bottom:none;
             }
 
             .top-bar-left{
@@ -86,6 +93,7 @@
                 font-weight:700;
                 color:var(--cw-primary);
                 line-height:1.15;
+                letter-spacing:0;
             }
 
             .upload-subtitle{
@@ -107,6 +115,7 @@
                 align-items:center;
                 justify-content:center;
                 min-height:34px;
+                box-shadow:none;
             }
 
             .status-ready{
@@ -151,6 +160,8 @@
                 cursor:pointer;
                 transition:all 0.2s ease;
                 min-height:34px;
+                min-width:auto;
+                box-shadow:none;
             }
 
             .toolbar-btn:hover{
@@ -181,6 +192,7 @@
                 border-radius:12px;
                 padding:12px;
                 background:#fafcff;
+                margin-bottom:0;
                 flex:0 0 auto;
             }
 
@@ -190,6 +202,8 @@
                 align-items:center;
                 gap:14px;
                 flex-wrap:wrap;
+                padding-bottom:0;
+                border-bottom:none;
             }
 
             .upload-left{
@@ -281,6 +295,7 @@
                 padding:8px 10px;
                 background:#ffffff;
                 min-height:52px;
+                box-shadow:none;
             }
 
             .summary-item .k{
@@ -299,6 +314,7 @@
 
             .progress-wrap{
                 display:none;
+                margin-top:0;
                 flex:0 0 auto;
             }
 
@@ -339,8 +355,33 @@
                 display:none !important;
             }
 
+            .msg.error{
+                background:var(--cw-error-bg);
+                border:1px solid var(--cw-error-bd);
+                color:var(--cw-error-tx);
+            }
+
+            .msg.warn{
+                background:var(--cw-warn-bg);
+                border:1px solid var(--cw-warn-bd);
+                color:#8a6d1d;
+            }
+
+            .msg.success{
+                background:var(--cw-success-bg);
+                border:1px solid var(--cw-success-bd);
+                color:var(--cw-success-tx);
+            }
+
+            .msg.info{
+                background:var(--cw-info-bg);
+                border:1px solid var(--cw-info-bd);
+                color:var(--cw-info-tx);
+            }
+
             .preview-wrap{
                 display:none;
+                margin-top:0;
                 border:1px solid #dfe6ee;
                 border-radius:12px;
                 overflow:hidden;
@@ -382,12 +423,16 @@
                 flex:1 1 auto;
                 min-height:0;
                 height:100%;
+                max-height:none;
+                padding-top:0;
             }
 
             table{
                 width:max-content;
                 min-width:100%;
                 border-collapse:collapse;
+                border:none;
+                border-radius:0;
             }
 
             th,
@@ -421,6 +466,8 @@
             td.invalid-cell{
                 background:#fff1f0 !important;
                 border-left:3px solid #ff4d4f;
+                color:inherit;
+                font-weight:inherit;
             }
 
             .cell-error{
@@ -435,6 +482,7 @@
 
             .log-box{
                 display:none;
+                margin-top:0;
                 border:1px solid #e5e7eb;
                 border-radius:10px;
                 background:#fafbfc;
@@ -452,15 +500,8 @@
                 display:block;
             }
 
-            .action-footer{
-                display:flex;
-                justify-content:flex-end;
-                gap:8px;
-                padding-top:8px;
-                flex:0 0 auto;
-            }
-
             .footer-note{
+                margin-top:0;
                 font-size:11px;
                 color:var(--cw-sub);
                 white-space:pre-wrap;
@@ -507,7 +548,7 @@
                     <div class="top-bar-left">
                         <div class="title-wrap">
                             <div class="upload-title" id="titleEl">Excel Upload</div>
-                            <div class="upload-subtitle" id="subtitleEl">Preview and upload Excel file</div>
+                            <div class="upload-subtitle" id="subtitleEl">Upload and validate Excel file</div>
                         </div>
                     </div>
 
@@ -523,7 +564,7 @@
                     <div class="upload-top-row">
                         <div class="upload-left">
                             <input type="file" id="fileInput" class="file-input" />
-                            <button type="button" class="toolbar-btn primary action-btn" id="previewBtn">Preview</button>
+                            <button type="button" class="toolbar-btn primary action-btn" id="uploadBtn">Upload</button>
                             <button type="button" class="toolbar-btn action-btn" id="clearBtn">Clear</button>
                         </div>
 
@@ -546,7 +587,7 @@
 
                 <div class="progress-wrap" id="progressWrap">
                     <div class="progress-label-row">
-                        <span id="progressText">Preparing preview...</span>
+                        <span id="progressText">Preparing upload...</span>
                         <span id="progressPercent">0%</span>
                     </div>
                     <div class="progress-bar">
@@ -567,10 +608,6 @@
                             <tbody id="previewBody"></tbody>
                         </table>
                     </div>
-                </div>
-
-                <div class="action-footer" id="actionFooter">
-                    <button type="button" class="toolbar-btn primary" id="continueUploadBtn" style="display:none;">Continue to Upload</button>
                 </div>
 
                 <div class="log-box" id="logBox"></div>
@@ -637,7 +674,6 @@
             this._applyVisibility();
             this._loadExcelLibrary();
             this._renderPreview();
-            this._showContinueButton(false);
         }
 
         onCustomWidgetBeforeUpdate(changedProperties) {
@@ -795,12 +831,8 @@
                     that._downloadErrorLog();
                 });
 
-                that._shadowRoot.getElementById("previewBtn").addEventListener("click", function () {
-                    that._processPreview();
-                });
-
-                that._shadowRoot.getElementById("continueUploadBtn").addEventListener("click", function () {
-                    that._continueUpload();
+                that._shadowRoot.getElementById("uploadBtn").addEventListener("click", function () {
+                    that._processUpload();
                 });
 
                 that._shadowRoot.getElementById("clearBtn").addEventListener("click", function () {
@@ -852,12 +884,15 @@
             if (titleEl) {
                 titleEl.textContent = this._export_settings.title || "Excel Upload";
             }
+
             if (subtitleEl) {
-                subtitleEl.textContent = this._export_settings.subtitle || "Preview and upload Excel file";
+                subtitleEl.textContent = this._export_settings.subtitle || "Upload and validate Excel file";
             }
+
             if (footerEl) {
                 footerEl.textContent = this._export_settings.footer || "Supported template: Sheet1 with required business columns";
             }
+
             if (templateInfo) {
                 templateInfo.innerHTML = "Required Columns: <b>" + this._getRequiredColumns().join(", ") + "</b>";
             }
@@ -960,6 +995,7 @@
             }
 
             box.classList.add("show");
+
             if (box.textContent) {
                 box.textContent += "\n" + message;
             } else {
@@ -969,24 +1005,6 @@
 
         _enableErrorDownload(enable) {
             this._shadowRoot.getElementById("downloadErrorBtn").disabled = !enable;
-        }
-
-        _showContinueButton(show) {
-            var btn = this._shadowRoot.getElementById("continueUploadBtn");
-            if (btn) {
-                if (show) {
-                    btn.style.display = "inline-flex";
-                } else {
-                    btn.style.display = "none";
-                }
-            }
-        }
-
-        _setContinueEnabled(enable) {
-            var btn = this._shadowRoot.getElementById("continueUploadBtn");
-            if (btn) {
-                btn.disabled = !enable;
-            }
         }
 
         _loadExcelLibrary() {
@@ -1010,8 +1028,21 @@
             var url = this._export_settings.templateurl;
             var fileName = this._export_settings.templatefilename || "Template.xlsm";
 
-            var isSharePoint = /sharepoint\.com|sharepoint-df\.com/i.test(url);
-            var isSacFileLink = /\/sap\/fpa\/ui\/app\.html#\/files/i.test(url);
+            var lowerUrl = "";
+            if (url) {
+                lowerUrl = String(url).toLowerCase();
+            }
+
+            var isSharePoint = false;
+            var isSacFileLink = false;
+
+            if (lowerUrl.indexOf("sharepoint.com") > -1 || lowerUrl.indexOf("sharepoint-df.com") > -1) {
+                isSharePoint = true;
+            }
+
+            if (lowerUrl.indexOf("/sap/fpa/ui/app.html#/files") > -1) {
+                isSacFileLink = true;
+            }
 
             that._log("Downloading template...", false);
             that._setStatus("Downloading", "processing");
@@ -1065,7 +1096,7 @@
                 });
         }
 
-        _processPreview() {
+        _processUpload() {
             var that = this;
             var input = this._shadowRoot.getElementById("fileInput");
             var file = undefined;
@@ -1078,8 +1109,8 @@
 
             if (!file) {
                 this._setStatus("Warning", "warning");
-                this._showMessage("warn", "Please select a file before preview");
-                this._log("Please select a file before preview", true);
+                this._showMessage("warn", "Please select a file before upload");
+                this._log("Please select a file before upload", true);
                 return;
             }
 
@@ -1091,7 +1122,7 @@
             }
 
             this._currentFileName = file.name;
-            this._setStatus("Previewing", "processing");
+            this._setStatus("Processing", "processing");
             this._setProgress(10, "Reading file...");
             this._errorLog = [];
             this._validData = [];
@@ -1100,9 +1131,9 @@
             this._validationErrorsParsed = [];
             this._validationMap = {};
             this._uploadedHeaders = [];
+            this._export_settings.validationresult = "true";
+            this._export_settings.validationerrors = "[]";
             this._enableErrorDownload(false);
-            this._showContinueButton(false);
-            this._setContinueEnabled(false);
             this._log("File selected: " + file.name, true);
 
             var reader = new FileReader();
@@ -1129,22 +1160,22 @@
                     }
 
                     that._sheetName = actualSheet;
-                    that._setProgress(45, "Reading rows...");
 
+                    that._setProgress(45, "Reading rows...");
                     var sheet = workbook.Sheets[actualSheet];
                     var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
 
                     if (!rows || rows.length <= 1) {
                         that._setStatus("Error", "error");
-                        that._showMessage("error", "There is no record to preview");
-                        that._log("There is no record to preview", true);
+                        that._showMessage("error", "There is no record to be uploaded");
+                        that._log("There is no record to be uploaded", true);
                         return;
                     }
 
                     var header = rows[0] || [];
                     that._uploadedHeaders = [];
-
                     var h = 0;
+
                     for (h = 0; h < header.length; h++) {
                         that._uploadedHeaders.push(String(header[h] || "").trim());
                     }
@@ -1169,6 +1200,7 @@
                     for (r = 1; r < rows.length; r++) {
                         var row = rows[r] || [];
                         var id = String(row[colMap[keyColumn]] || "").trim();
+
                         if (!id) {
                             continue;
                         }
@@ -1180,7 +1212,7 @@
                         }
                     }
 
-                    that._setProgress(82, "Building preview...");
+                    that._setProgress(82, "Validating rows...");
                     that._buildDataFromRows(rows, requiredColumns, colMap, idCount);
 
                     if (that._previewRows.length > that._export_settings.maxrows) {
@@ -1217,7 +1249,6 @@
                     }
 
                     that.unit = payloadLines.join("\n");
-
                     that._export_settings.rowcount = that._previewRows.length;
                     that._export_settings.validcount = that._validData.length;
                     that._export_settings.invalidcount = that._errorLog.length;
@@ -1233,13 +1264,19 @@
                     that._buildValidationMap();
                     that._renderPreview();
                     that._enableErrorDownload(that._errorLog.length > 0);
-                    that._showContinueButton(true);
 
-                    if (that._errorLog.length > 0) {
-                        that._setContinueEnabled(false);
-                    } else {
-                        that._setContinueEnabled(true);
-                    }
+                    that._firePropertiesChanged("previewCompleted");
+
+                    that.dispatchEvent(new CustomEvent("onValidate", {
+                        detail: {
+                            settings: {},
+                            rowCount: that._previewRows.length,
+                            validCount: that._validData.length,
+                            invalidCount: that._errorLog.length,
+                            fileName: file.name,
+                            sheetName: actualSheet
+                        }
+                    }));
 
                     that._setSummary(
                         that._previewRows.length,
@@ -1250,45 +1287,42 @@
                         that._errorLog.length > 0 ? "Invalid" : "Valid"
                     );
 
-                    that._setProgress(100, "Preview ready");
+                    that._setProgress(100, "Completed");
 
                     if (that._errorLog.length > 0) {
-                        that._setStatus("Preview Ready with Errors", "warning");
+                        that._setStatus("Completed with Errors", "warning");
+                        that._hideMessage();
                     } else {
-                        that._setStatus("Preview Ready", "completed");
+                        that._setStatus("Completed", "completed");
+                        that._hideMessage();
                     }
 
-                    that._log("Preview rows: " + that._previewRows.length);
+                    that._log("Rows read: " + that._previewRows.length);
                     that._log("Valid rows: " + that._validData.length);
                     that._log("Invalid rows: " + that._errorLog.length);
                     that._log("Detected headers: " + that._uploadedHeaders.join(", "));
 
-                    that._export_settings.lastevent = "previewCompleted";
-                    that._firePropertiesChanged("previewCompleted");
-                    that._fireSacEvent("onValidate");
+                    var dupIds = [];
+                    for (var key in idCount) {
+                        if (Object.prototype.hasOwnProperty.call(idCount, key)) {
+                            if (idCount[key] > 1) {
+                                dupIds.push(key);
+                            }
+                        }
+                    }
+
+                    if (dupIds.length > 0) {
+                        that._log("Duplicate key values rejected: " + dupIds.join(", "));
+                    }
+
                 } catch (err) {
                     that._setStatus("Error", "error");
-                    that._showMessage("error", "Preview failed: " + err.message);
-                    that._log("Preview failed: " + err.message, true);
+                    that._showMessage("error", "Processing failed: " + err.message);
+                    that._log("Processing failed: " + err.message, true);
                 }
             };
 
             reader.readAsBinaryString(file);
-        }
-
-        _continueUpload() {
-            if (!this._previewRows || this._previewRows.length === 0) {
-                this._setStatus("Warning", "warning");
-                this._showMessage("warn", "No preview data available");
-                return;
-            }
-
-            this._setStatus("Uploading", "processing");
-            this._hideMessage();
-
-            this._export_settings.lastevent = "continueUpload";
-            this._firePropertiesChanged("continueUpload");
-            this._fireSacEvent("onValidate");
         }
 
         _prepareColumnMapFromHeaders() {
@@ -1340,6 +1374,7 @@
             for (r = 1; r < rows.length; r++) {
                 var row2 = rows[r] || [];
                 var rowNumber = r + 1;
+                var previewIndex = previewRows.length;
                 var rowObj = {};
                 var previewRowObj = { _rowNumber: rowNumber };
                 var isBlankRow = true;
@@ -1368,7 +1403,7 @@
                     if (!rowObj[reqCol]) {
                         errors.push(reqCol + " is mandatory");
                         cellErrors.push({
-                            rowIndex: rowNumber,
+                            rowIndex: previewIndex,
                             field: reqCol,
                             message: "Blank cell not allowed"
                         });
@@ -1378,7 +1413,7 @@
                 if (rowObj[keyColumn] && idCount[rowObj[keyColumn]] > 1) {
                     errors.push("Duplicate " + keyColumn + " '" + rowObj[keyColumn] + "' - all " + idCount[rowObj[keyColumn]] + " occurrences rejected");
                     cellErrors.push({
-                        rowIndex: rowNumber,
+                        rowIndex: previewIndex,
                         field: keyColumn,
                         message: "Duplicate value not allowed"
                     });
@@ -1417,7 +1452,7 @@
                 }
             }
 
-            if (out.length) {
+            if (out.length > 0) {
                 return out;
             }
 
@@ -1450,8 +1485,9 @@
 
             for (i = 0; i < this._validationErrorsParsed.length; i++) {
                 var err = this._validationErrorsParsed[i];
-                var mappedIndex = this._mapSacRowToPreviewIndex(err.rowIndex);
-                invalidRowMap[String(mappedIndex)] = true;
+                if (err.rowIndex !== undefined) {
+                    invalidRowMap[String(err.rowIndex)] = true;
+                }
             }
 
             var invalidRowsFinal = 0;
@@ -1484,23 +1520,12 @@
             if (this._export_settings.validationresult === "false") {
                 this._hideMessage();
                 this._setStatus("Validation Error", "error");
-                this._showContinueButton(true);
-                this._setContinueEnabled(false);
             } else {
                 this._hideMessage();
-
                 if (this._previewRows.length > 0) {
-                    if (this._export_settings.lastevent === "continueUpload") {
-                        this._setStatus("Upload Completed", "completed");
-                    } else {
-                        this._setStatus("Preview Ready", "completed");
-                    }
-
-                    this._showContinueButton(true);
-                    this._setContinueEnabled(true);
+                    this._setStatus("Completed", "completed");
                 } else {
                     this._setStatus("Ready", "ready");
-                    this._showContinueButton(false);
                 }
             }
 
@@ -1517,46 +1542,30 @@
 
             for (i = 0; i < this._validationErrorsParsed.length; i++) {
                 var err = this._validationErrorsParsed[i];
-                var field = err.field || "";
-                var mappedRowIndex = this._mapSacRowToPreviewIndex(err.rowIndex);
-                var key = String(mappedRowIndex) + "|" + field;
+                var rowIndex = "";
+                var field = "";
+
+                if (err.rowIndex !== undefined) {
+                    rowIndex = String(err.rowIndex);
+                }
+
+                if (err.field !== undefined) {
+                    field = err.field;
+                }
+
+                var key = rowIndex + "|" + field;
 
                 if (!this._validationMap[key]) {
                     this._validationMap[key] = [];
                 }
                 this._validationMap[key].push(err.message || "Invalid value");
 
-                var rowKey = String(mappedRowIndex) + "|__row__";
+                var rowKey = rowIndex + "|__row__";
                 if (!this._validationMap[rowKey]) {
                     this._validationMap[rowKey] = [];
                 }
                 this._validationMap[rowKey].push(err.message || "Invalid value");
             }
-        }
-
-        _mapSacRowToPreviewIndex(rowIndex) {
-            if (rowIndex === undefined) {
-                return 0;
-            }
-
-            var sacRowNo = parseInt(rowIndex, 10);
-            if (isNaN(sacRowNo)) {
-                return 0;
-            }
-
-            var i = 0;
-            for (i = 0; i < this._previewRows.length; i++) {
-                if (parseInt(this._previewRows[i]._rowNumber, 10) === sacRowNo) {
-                    return i;
-                }
-            }
-
-            var fallback = sacRowNo - 2;
-            if (fallback < 0) {
-                fallback = 0;
-            }
-
-            return fallback;
         }
 
         _renderPreview() {
@@ -1581,13 +1590,13 @@
             }
 
             var cols = [];
-            if (this._previewColumns && this._previewColumns.length) {
+            if (this._previewColumns && this._previewColumns.length > 0) {
                 cols = this._previewColumns.slice(0);
             } else {
                 var sample = this._previewRows[0];
-                for (var k in sample) {
-                    if (k !== "_rowNumber") {
-                        cols.push(k);
+                for (var kk in sample) {
+                    if (kk !== "_rowNumber") {
+                        cols.push(kk);
                     }
                 }
             }
@@ -1687,17 +1696,14 @@
 
         _getOriginalPreviewIndex(rowObj) {
             var i = 0;
-
             for (i = 0; i < this._previewRows.length; i++) {
                 if (this._previewRows[i] === rowObj) {
                     return i;
                 }
-
                 if (this._previewRows[i]._rowNumber === rowObj._rowNumber) {
                     return i;
                 }
             }
-
             return 0;
         }
 
@@ -1718,17 +1724,18 @@
             this._sheetName = "-";
             this._currentFileName = "";
             this._enableErrorDownload(false);
-            this._showContinueButton(false);
             this._setStatus("Ready", "ready");
             this._hideProgress();
             this._hideMessage();
             this._setSummary(0, 0, 0, "-", 0, "-");
             this._renderPreview();
             this._log("Cleared previous file and output", true);
-
             this._export_settings.lastevent = "clear";
             this._firePropertiesChanged("clear");
-            this._fireSacEvent("onClear");
+
+            this.dispatchEvent(new CustomEvent("onClear", {
+                detail: {}
+            }));
         }
 
         _downloadErrorLog() {
@@ -1743,13 +1750,27 @@
             }
 
             for (i = 0; i < this._validationErrorsParsed.length; i++) {
+                var validationField = "";
+                var validationMessage = "";
+                var validationRow = "";
+
+                if (this._validationErrorsParsed[i].field !== undefined) {
+                    validationField = this._validationErrorsParsed[i].field;
+                }
+                if (this._validationErrorsParsed[i].message !== undefined) {
+                    validationMessage = this._validationErrorsParsed[i].message;
+                }
+                if (this._validationErrorsParsed[i].rowIndex !== undefined) {
+                    validationRow = this._validationErrorsParsed[i].rowIndex;
+                }
+
                 combined.push({
-                    RowNumber: this._validationErrorsParsed[i].rowIndex,
-                    ErrorMessage: (this._validationErrorsParsed[i].field || "") + ": " + (this._validationErrorsParsed[i].message || "")
+                    RowNumber: validationRow,
+                    ErrorMessage: validationField + ": " + validationMessage
                 });
             }
 
-            if (!combined.length) {
+            if (combined.length === 0) {
                 this._showMessage("info", "No error log available to download");
                 this._log("No error log available to download");
                 return;
@@ -1794,12 +1815,12 @@
 
         _escapeCsv(value) {
             var str = "";
-            if (value !== undefined) {
+            if (value !== undefined && value !== null) {
                 str = String(value);
             }
 
             if (str.indexOf(",") > -1 || str.indexOf('"') > -1 || str.indexOf("\n") > -1) {
-                str = '"' + str.replace(/"/g, '""') + '"';
+                str = '"' + str.split('"').join('""') + '"';
             }
 
             return str;
@@ -1823,12 +1844,6 @@
             }));
         }
 
-        _fireSacEvent(eventName) {
-            this.dispatchEvent(new CustomEvent(eventName, {
-                detail: {}
-            }));
-        }
-
         _toBoolean(v, defaultValue) {
             if (v === true || v === "true") {
                 return true;
@@ -1841,10 +1856,10 @@
 
         _escapeHtml(str) {
             return String(str)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;");
+                .split("&").join("&amp;")
+                .split("<").join("&lt;")
+                .split(">").join("&gt;")
+                .split('"').join("&quot;");
         }
     }
 
@@ -1857,7 +1872,9 @@
                 return;
             }
 
-            var existing = shadowRoot.querySelector('script[src="' + src + '"]');
+            var selector = 'script[src="' + src + '"]';
+            var existing = shadowRoot.querySelector(selector);
+
             if (existing) {
                 existing.addEventListener("load", resolve);
                 existing.addEventListener("error", reject);
@@ -1872,6 +1889,7 @@
         });
     }
 })();
+
 
 
 
