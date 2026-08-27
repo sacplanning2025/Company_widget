@@ -30,9 +30,14 @@
                 --cw-info-tx:#0958d9;
             }
 
-            *{ box-sizing:border-box; }
+            *{
+                box-sizing:border-box;
+            }
 
-            .excel-widget{ width:100%; height:100%; }
+            .excel-widget{
+                width:100%;
+                height:100%;
+            }
 
             .upload-card{
                 border:1px solid var(--cw-border);
@@ -56,10 +61,25 @@
                 padding-bottom:6px;
             }
 
-            .top-bar-left{ display:flex; align-items:flex-start; min-width:auto; }
-            .top-bar-right{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
+            .top-bar-left{
+                display:flex;
+                align-items:flex-start;
+                min-width:auto;
+            }
 
-            .title-wrap{ display:flex; flex-direction:column; gap:2px; }
+            .top-bar-right{
+                display:flex;
+                align-items:center;
+                justify-content:flex-end;
+                gap:8px;
+                flex-wrap:wrap;
+            }
+
+            .title-wrap{
+                display:flex;
+                flex-direction:column;
+                gap:2px;
+            }
 
             .upload-title{
                 font-size:15px;
@@ -89,11 +109,35 @@
                 min-height:34px;
             }
 
-            .status-ready{ background:#f5f6f7; color:#354a5f; border-color:var(--cw-border); }
-            .status-processing{ background:#fff7e6; color:#8a5a00; border-color:#ffd591; }
-            .status-completed{ background:var(--cw-success-bg); color:var(--cw-success-tx); border-color:var(--cw-success-bd); }
-            .status-error{ background:var(--cw-error-bg); color:var(--cw-error-tx); border-color:var(--cw-error-bd); }
-            .status-warning{ background:var(--cw-warn-bg); color:var(--cw-warn-tx); border-color:var(--cw-warn-bd); }
+            .status-ready{
+                background:#f5f6f7;
+                color:#354a5f;
+                border-color:var(--cw-border);
+            }
+
+            .status-processing{
+                background:#fff7e6;
+                color:#8a5a00;
+                border-color:#ffd591;
+            }
+
+            .status-completed{
+                background:var(--cw-success-bg);
+                color:var(--cw-success-tx);
+                border-color:var(--cw-success-bd);
+            }
+
+            .status-error{
+                background:var(--cw-error-bg);
+                color:var(--cw-error-tx);
+                border-color:var(--cw-error-bd);
+            }
+
+            .status-warning{
+                background:var(--cw-warn-bg);
+                color:var(--cw-warn-tx);
+                border-color:var(--cw-warn-bd);
+            }
 
             .toolbar-btn{
                 appearance:none;
@@ -127,7 +171,10 @@
                 border-color:var(--cw-primary-dark);
             }
 
-            .toolbar-btn:disabled{ opacity:0.55; cursor:not-allowed; }
+            .toolbar-btn:disabled{
+                opacity:0.55;
+                cursor:not-allowed;
+            }
 
             .upload-area{
                 border:1px solid #e3eaf2;
@@ -212,7 +259,9 @@
                 line-height:1.4;
             }
 
-            .mini-text b{ color:var(--cw-text); }
+            .mini-text b{
+                color:var(--cw-text);
+            }
 
             .summary-grid{
                 display:none;
@@ -222,7 +271,9 @@
                 flex:0 0 auto;
             }
 
-            .summary-grid.show{ display:grid; }
+            .summary-grid.show{
+                display:grid;
+            }
 
             .summary-item{
                 border:1px solid #edf1f5;
@@ -251,7 +302,9 @@
                 flex:0 0 auto;
             }
 
-            .progress-wrap.show{ display:block; }
+            .progress-wrap.show{
+                display:block;
+            }
 
             .progress-label-row{
                 display:flex;
@@ -278,8 +331,13 @@
                 transition:width 0.25s ease;
             }
 
-            .msg{ display:none !important; }
-            .msg.show{ display:none !important; }
+            .msg{
+                display:none !important;
+            }
+
+            .msg.show{
+                display:none !important;
+            }
 
             .preview-wrap{
                 display:none;
@@ -332,7 +390,8 @@
                 border-collapse:collapse;
             }
 
-            th, td{
+            th,
+            td{
                 border-bottom:1px solid #eef2f6;
                 padding:7px 10px;
                 text-align:left;
@@ -351,8 +410,13 @@
                 font-weight:700;
             }
 
-            tr:hover td{ background:#fafcff; }
-            tr.invalid-row td{ background:#fff7f7; }
+            tr:hover td{
+                background:#fafcff;
+            }
+
+            tr.invalid-row td{
+                background:#fff7f7;
+            }
 
             td.invalid-cell{
                 background:#fff1f0 !important;
@@ -384,7 +448,9 @@
                 flex:0 0 auto;
             }
 
-            .log-box.show{ display:block; }
+            .log-box.show{
+                display:block;
+            }
 
             .action-footer{
                 display:flex;
@@ -424,8 +490,14 @@
                     flex:1 1 auto;
                 }
 
-                .search-input{ min-width:100%; }
-                .toolbar-btn, .action-btn{ min-width:auto; }
+                .search-input{
+                    min-width:100%;
+                }
+
+                .toolbar-btn,
+                .action-btn{
+                    min-width:auto;
+                }
             }
         </style>
 
@@ -604,10 +676,29 @@
 
         static get observedAttributes() {
             return [
-                "title","subtitle","icon","unit","footer","errorlogfilename","templatefilename","templateurl",
-                "requiredcolumns","keycolumn","maxrows","previewrows","allowcsv","autovalidate","showpreview",
-                "showlogs","stricttemplate","validationresult","validationerrors","lastevent","invalidcount",
-                "validcount","rowcount"
+                "title",
+                "subtitle",
+                "icon",
+                "unit",
+                "footer",
+                "errorlogfilename",
+                "templatefilename",
+                "templateurl",
+                "requiredcolumns",
+                "keycolumn",
+                "maxrows",
+                "previewrows",
+                "allowcsv",
+                "autovalidate",
+                "showpreview",
+                "showlogs",
+                "stricttemplate",
+                "validationresult",
+                "validationerrors",
+                "lastevent",
+                "invalidcount",
+                "validcount",
+                "rowcount"
             ];
         }
 
@@ -650,13 +741,21 @@
         get maxrows() { return this._export_settings.maxrows; }
         set maxrows(v) {
             var n = parseInt(v, 10);
-            this._export_settings.maxrows = isNaN(n) || n <= 0 ? 2000 : n;
+            if (isNaN(n) || n <= 0) {
+                this._export_settings.maxrows = 2000;
+            } else {
+                this._export_settings.maxrows = n;
+            }
         }
 
         get previewrows() { return this._export_settings.previewrows; }
         set previewrows(v) {
             var n = parseInt(v, 10);
-            this._export_settings.previewrows = isNaN(n) || n <= 0 ? 1000 : n;
+            if (isNaN(n) || n <= 0) {
+                this._export_settings.previewrows = 1000;
+            } else {
+                this._export_settings.previewrows = n;
+            }
             this._renderPreview();
         }
 
@@ -670,7 +769,7 @@
         set showpreview(v) { this._export_settings.showpreview = this._toBoolean(v, true); this._applyVisibility(); }
 
         get showlogs() { return this._export_settings.showlogs; }
-        set showlogs(v) { this._export_settings.showlogs = this._toBoolean(v, true); }
+        set showlogs(v) { this._export_settings.showlogs = this._toBoolean(v, true); this._applyVisibility(); }
 
         get stricttemplate() { return this._export_settings.stricttemplate; }
         set stricttemplate(v) { this._export_settings.stricttemplate = this._toBoolean(v, false); }
@@ -735,6 +834,7 @@
                     e.preventDefault();
                     dropZone.style.borderColor = "#b8c4d1";
                     dropZone.style.background = "";
+
                     if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                         that._shadowRoot.getElementById("fileInput").files = e.dataTransfer.files;
                         that._log("File dropped: " + e.dataTransfer.files[0].name, false);
@@ -749,16 +849,31 @@
             var footerEl = this._shadowRoot.getElementById("footerNote");
             var templateInfo = this._shadowRoot.getElementById("templateInfo");
 
-            if (titleEl) titleEl.textContent = this._export_settings.title || "Excel Upload";
-            if (subtitleEl) subtitleEl.textContent = this._export_settings.subtitle || "Preview and upload Excel file";
-            if (footerEl) footerEl.textContent = this._export_settings.footer || "Supported template: Sheet1 with required business columns";
-            if (templateInfo) templateInfo.innerHTML = "Required Columns: <b>" + this._getRequiredColumns().join(", ") + "</b>";
+            if (titleEl) {
+                titleEl.textContent = this._export_settings.title || "Excel Upload";
+            }
+            if (subtitleEl) {
+                subtitleEl.textContent = this._export_settings.subtitle || "Preview and upload Excel file";
+            }
+            if (footerEl) {
+                footerEl.textContent = this._export_settings.footer || "Supported template: Sheet1 with required business columns";
+            }
+            if (templateInfo) {
+                templateInfo.innerHTML = "Required Columns: <b>" + this._getRequiredColumns().join(", ") + "</b>";
+            }
         }
 
         _applyAcceptedTypes() {
             var input = this._shadowRoot.getElementById("fileInput");
-            var accept = this._export_settings.allowcsv ? ".xls,.xlsx,.xlsm,.csv" : ".xls,.xlsx,.xlsm";
-            if (input) input.setAttribute("accept", accept);
+            var accept = ".xls,.xlsx,.xlsm";
+
+            if (this._export_settings.allowcsv) {
+                accept = ".xls,.xlsx,.xlsm,.csv";
+            }
+
+            if (input) {
+                input.setAttribute("accept", accept);
+            }
         }
 
         _applyVisibility() {
@@ -766,13 +881,19 @@
             var logBox = this._shadowRoot.getElementById("logBox");
 
             if (previewWrap) {
-                if (this._export_settings.showpreview && this._previewVisible) previewWrap.classList.add("show");
-                else previewWrap.classList.remove("show");
+                if (this._export_settings.showpreview && this._previewVisible) {
+                    previewWrap.classList.add("show");
+                } else {
+                    previewWrap.classList.remove("show");
+                }
             }
 
             if (logBox) {
-                if (this._export_settings.showlogs && logBox.textContent !== "") logBox.classList.add("show");
-                else logBox.classList.remove("show");
+                if (this._export_settings.showlogs && logBox.textContent !== "") {
+                    logBox.classList.add("show");
+                } else {
+                    logBox.classList.remove("show");
+                }
             }
         }
 
@@ -780,11 +901,18 @@
             var badge = this._shadowRoot.getElementById("statusBadge");
             badge.textContent = text;
             badge.className = "status-badge";
-            if (type === "processing") badge.classList.add("status-processing");
-            else if (type === "completed") badge.classList.add("status-completed");
-            else if (type === "error") badge.classList.add("status-error");
-            else if (type === "warning") badge.classList.add("status-warning");
-            else badge.classList.add("status-ready");
+
+            if (type === "processing") {
+                badge.classList.add("status-processing");
+            } else if (type === "completed") {
+                badge.classList.add("status-completed");
+            } else if (type === "error") {
+                badge.classList.add("status-error");
+            } else if (type === "warning") {
+                badge.classList.add("status-warning");
+            } else {
+                badge.classList.add("status-ready");
+            }
         }
 
         _setProgress(percent, text) {
@@ -822,10 +950,21 @@
 
         _log(message, reset) {
             var box = this._shadowRoot.getElementById("logBox");
-            if (reset) box.textContent = "";
-            if (!this._export_settings.showlogs) return;
+
+            if (reset) {
+                box.textContent = "";
+            }
+
+            if (!this._export_settings.showlogs) {
+                return;
+            }
+
             box.classList.add("show");
-            box.textContent += (box.textContent ? "\n" : "") + message;
+            if (box.textContent) {
+                box.textContent += "\n" + message;
+            } else {
+                box.textContent = message;
+            }
         }
 
         _enableErrorDownload(enable) {
@@ -834,16 +973,25 @@
 
         _showContinueButton(show) {
             var btn = this._shadowRoot.getElementById("continueUploadBtn");
-            if (btn) btn.style.display = show ? "inline-flex" : "none";
+            if (btn) {
+                if (show) {
+                    btn.style.display = "inline-flex";
+                } else {
+                    btn.style.display = "none";
+                }
+            }
         }
 
         _setContinueEnabled(enable) {
             var btn = this._shadowRoot.getElementById("continueUploadBtn");
-            if (btn) btn.disabled = !enable;
+            if (btn) {
+                btn.disabled = !enable;
+            }
         }
 
         _loadExcelLibrary() {
             var that = this;
+
             loadScriptOnce(
                 "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",
                 this._shadowRoot
@@ -862,8 +1010,8 @@
             var url = this._export_settings.templateurl;
             var fileName = this._export_settings.templatefilename || "Template.xlsm";
 
-            var isSharePoint = /sharepoint\\.com|sharepoint-df\\.com/i.test(url);
-            var isSacFileLink = /\\/sap\\/fpa\\/ui\\/app\\.html#\\/files/i.test(url);
+            var isSharePoint = /sharepoint\.com|sharepoint-df\.com/i.test(url);
+            var isSacFileLink = /\/sap\/fpa\/ui\/app\.html#\/files/i.test(url);
 
             that._log("Downloading template...", false);
             that._setStatus("Downloading", "processing");
@@ -891,7 +1039,9 @@
 
             fetch(url)
                 .then(function (response) {
-                    if (!response.ok) throw new Error("HTTP " + response.status + " - Template file not found");
+                    if (!response.ok) {
+                        throw new Error("HTTP " + response.status + " - Template file not found");
+                    }
                     return response.blob();
                 })
                 .then(function (blob) {
@@ -918,7 +1068,11 @@
         _processPreview() {
             var that = this;
             var input = this._shadowRoot.getElementById("fileInput");
-            var file = input.files && input.files[0] ? input.files[0] : null;
+            var file = undefined;
+
+            if (input.files && input.files[0]) {
+                file = input.files[0];
+            }
 
             this._hideMessage();
 
@@ -960,7 +1114,12 @@
                     var data = e.target.result;
                     var workbook = XLSX.read(data, { type: "binary" });
 
-                    var actualSheet = workbook.SheetNames.indexOf("Sheet1") > -1 ? "Sheet1" : workbook.SheetNames[0];
+                    var actualSheet = "";
+                    if (workbook.SheetNames.indexOf("Sheet1") > -1) {
+                        actualSheet = "Sheet1";
+                    } else {
+                        actualSheet = workbook.SheetNames[0];
+                    }
 
                     if (!actualSheet) {
                         that._setStatus("Error", "error");
@@ -1010,8 +1169,15 @@
                     for (r = 1; r < rows.length; r++) {
                         var row = rows[r] || [];
                         var id = String(row[colMap[keyColumn]] || "").trim();
-                        if (!id) continue;
-                        idCount[id] = (idCount[id] || 0) + 1;
+                        if (!id) {
+                            continue;
+                        }
+
+                        if (idCount[id] === undefined) {
+                            idCount[id] = 1;
+                        } else {
+                            idCount[id] = idCount[id] + 1;
+                        }
                     }
 
                     that._setProgress(82, "Building preview...");
@@ -1032,36 +1198,48 @@
 
                     for (pr = 0; pr < that._previewRows.length; pr++) {
                         var rowVals = [];
+
                         for (pc = 0; pc < requiredColumns.length; pc++) {
                             var colNameForSac = requiredColumns[pc];
                             var cellValForSac = "";
 
-                            if (that._previewRows[pr][colNameForSac] !== undefined && that._previewRows[pr][colNameForSac] !== null) {
+                            if (that._previewRows[pr][colNameForSac] !== undefined) {
                                 cellValForSac = String(that._previewRows[pr][colNameForSac]);
                             }
 
-                            cellValForSac = cellValForSac.replace(/\\|/g, " ");
-                            cellValForSac = cellValForSac.replace(/\\r/g, " ");
-                            cellValForSac = cellValForSac.replace(/\\n/g, " ");
+                            cellValForSac = cellValForSac.split("|").join(" ");
+                            cellValForSac = cellValForSac.split("\r").join(" ");
+                            cellValForSac = cellValForSac.split("\n").join(" ");
                             rowVals.push(cellValForSac);
                         }
+
                         payloadLines.push(rowVals.join("|"));
                     }
 
-                    that.unit = payloadLines.join("\\n");
+                    that.unit = payloadLines.join("\n");
 
                     that._export_settings.rowcount = that._previewRows.length;
                     that._export_settings.validcount = that._validData.length;
                     that._export_settings.invalidcount = that._errorLog.length;
 
-                    that._export_settings.validationresult = that._errorLog.length > 0 ? "false" : "true";
+                    if (that._errorLog.length > 0) {
+                        that._export_settings.validationresult = "false";
+                    } else {
+                        that._export_settings.validationresult = "true";
+                    }
+
                     that._export_settings.validationerrors = JSON.stringify(that._validationErrorsParsed);
 
                     that._buildValidationMap();
                     that._renderPreview();
                     that._enableErrorDownload(that._errorLog.length > 0);
                     that._showContinueButton(true);
-                    that._setContinueEnabled(that._errorLog.length === 0);
+
+                    if (that._errorLog.length > 0) {
+                        that._setContinueEnabled(false);
+                    } else {
+                        that._setContinueEnabled(true);
+                    }
 
                     that._setSummary(
                         that._previewRows.length,
@@ -1088,7 +1266,6 @@
                     that._export_settings.lastevent = "previewCompleted";
                     that._firePropertiesChanged("previewCompleted");
                     that._fireSacEvent("onValidate");
-
                 } catch (err) {
                     that._setStatus("Error", "error");
                     that._showMessage("error", "Preview failed: " + err.message);
@@ -1235,16 +1412,29 @@
 
             for (i = 0; i < parts.length; i++) {
                 var v = String(parts[i] || "").trim();
-                if (v !== "") out.push(v);
+                if (v !== "") {
+                    out.push(v);
+                }
             }
 
-            return out.length ? out : ["ID", "DESCRIPTION", "H1", "COMPANY", "COSTCENTER", "ASSET_CLASS", "CAPITALIZED"];
+            if (out.length) {
+                return out;
+            }
+
+            return ["ID", "DESCRIPTION", "H1", "COMPANY", "COSTCENTER", "ASSET_CLASS", "CAPITALIZED"];
         }
 
         _getKeyColumn(requiredColumns) {
             var key = String(this._export_settings.keycolumn || "").trim();
-            if (key !== "") return key;
-            if (requiredColumns.indexOf("ID") > -1) return "ID";
+
+            if (key !== "") {
+                return key;
+            }
+
+            if (requiredColumns.indexOf("ID") > -1) {
+                return "ID";
+            }
+
             return requiredColumns[0];
         }
 
@@ -1273,7 +1463,10 @@
 
             var totalRowsFinal = this._previewRows.length;
             var validRowsFinal = totalRowsFinal - invalidRowsFinal;
-            if (validRowsFinal < 0) validRowsFinal = 0;
+
+            if (validRowsFinal < 0) {
+                validRowsFinal = 0;
+            }
 
             this._export_settings.invalidcount = invalidRowsFinal;
             this._export_settings.validcount = validRowsFinal;
@@ -1295,12 +1488,14 @@
                 this._setContinueEnabled(false);
             } else {
                 this._hideMessage();
+
                 if (this._previewRows.length > 0) {
                     if (this._export_settings.lastevent === "continueUpload") {
                         this._setStatus("Upload Completed", "completed");
                     } else {
                         this._setStatus("Preview Ready", "completed");
                     }
+
                     this._showContinueButton(true);
                     this._setContinueEnabled(true);
                 } else {
@@ -1309,7 +1504,11 @@
                 }
             }
 
-            this._enableErrorDownload(this._validationErrorsParsed.length > 0 || this._errorLog.length > 0);
+            if (this._validationErrorsParsed.length > 0 || this._errorLog.length > 0) {
+                this._enableErrorDownload(true);
+            } else {
+                this._enableErrorDownload(false);
+            }
         }
 
         _buildValidationMap() {
@@ -1322,27 +1521,42 @@
                 var mappedRowIndex = this._mapSacRowToPreviewIndex(err.rowIndex);
                 var key = String(mappedRowIndex) + "|" + field;
 
-                if (!this._validationMap[key]) this._validationMap[key] = [];
+                if (!this._validationMap[key]) {
+                    this._validationMap[key] = [];
+                }
                 this._validationMap[key].push(err.message || "Invalid value");
 
                 var rowKey = String(mappedRowIndex) + "|__row__";
-                if (!this._validationMap[rowKey]) this._validationMap[rowKey] = [];
+                if (!this._validationMap[rowKey]) {
+                    this._validationMap[rowKey] = [];
+                }
                 this._validationMap[rowKey].push(err.message || "Invalid value");
             }
         }
 
         _mapSacRowToPreviewIndex(rowIndex) {
-            if (rowIndex === undefined || rowIndex === null) return 0;
+            if (rowIndex === undefined) {
+                return 0;
+            }
 
             var sacRowNo = parseInt(rowIndex, 10);
-            if (isNaN(sacRowNo)) return 0;
+            if (isNaN(sacRowNo)) {
+                return 0;
+            }
 
             var i = 0;
             for (i = 0; i < this._previewRows.length; i++) {
-                if (parseInt(this._previewRows[i]._rowNumber, 10) === sacRowNo) return i;
+                if (parseInt(this._previewRows[i]._rowNumber, 10) === sacRowNo) {
+                    return i;
+                }
             }
 
-            return Math.max(0, sacRowNo - 2);
+            var fallback = sacRowNo - 2;
+            if (fallback < 0) {
+                fallback = 0;
+            }
+
+            return fallback;
         }
 
         _renderPreview() {
@@ -1366,11 +1580,15 @@
                 return;
             }
 
-            var cols = this._previewColumns && this._previewColumns.length ? this._previewColumns.slice(0) : [];
-            if (cols.length === 0) {
+            var cols = [];
+            if (this._previewColumns && this._previewColumns.length) {
+                cols = this._previewColumns.slice(0);
+            } else {
                 var sample = this._previewRows[0];
                 for (var k in sample) {
-                    if (k !== "_rowNumber") cols.push(k);
+                    if (k !== "_rowNumber") {
+                        cols.push(k);
+                    }
                 }
             }
 
@@ -1381,10 +1599,12 @@
 
             for (i = 0; i < this._previewRows.length; i++) {
                 var row = this._previewRows[i];
+
                 if (sText === "") {
                     filteredRows.push(row);
                 } else {
                     var matched = false;
+
                     for (j = 0; j < cols.length; j++) {
                         var val = String(row[cols[j]] || "").toLowerCase();
                         if (val.indexOf(sText) > -1) {
@@ -1392,17 +1612,25 @@
                             break;
                         }
                     }
-                    if (matched) filteredRows.push(row);
+
+                    if (matched) {
+                        filteredRows.push(row);
+                    }
                 }
             }
 
             var limit = this._export_settings.previewrows;
             var totalMatched = filteredRows.length;
+
             if (filteredRows.length > limit) {
                 filteredRows = filteredRows.slice(0, limit);
             }
 
-            meta.textContent = filteredRows.length + " row(s) shown" + (totalMatched > limit ? " of " + totalMatched : "");
+            if (totalMatched > limit) {
+                meta.textContent = filteredRows.length + " row(s) shown of " + totalMatched;
+            } else {
+                meta.textContent = filteredRows.length + " row(s) shown";
+            }
 
             var headHtml = "<tr><th>#</th>";
             for (j = 0; j < cols.length; j++) {
@@ -1416,7 +1644,11 @@
                 var rowObj = filteredRows[i];
                 var originalIndex = this._getOriginalPreviewIndex(rowObj);
                 var rowKey = String(originalIndex) + "|__row__";
-                var rowClass = this._validationMap[rowKey] ? "invalid-row" : "";
+                var rowClass = "";
+
+                if (this._validationMap[rowKey]) {
+                    rowClass = "invalid-row";
+                }
 
                 bodyHtml += '<tr class="' + rowClass + '">';
                 bodyHtml += "<td>" + this._escapeHtml(String(rowObj._rowNumber || (originalIndex + 2))) + "</td>";
@@ -1424,8 +1656,16 @@
                 for (j = 0; j < cols.length; j++) {
                     var field = cols[j];
                     var cellKey = String(originalIndex) + "|" + field;
-                    var invalidClass = this._validationMap[cellKey] ? "invalid-cell" : "";
-                    var cellVal = rowObj[field] === undefined || rowObj[field] === null ? "" : String(rowObj[field]);
+                    var invalidClass = "";
+                    var cellVal = "";
+
+                    if (this._validationMap[cellKey]) {
+                        invalidClass = "invalid-cell";
+                    }
+
+                    if (rowObj[field] !== undefined) {
+                        cellVal = String(rowObj[field]);
+                    }
 
                     bodyHtml += '<td class="' + invalidClass + '">';
                     bodyHtml += this._escapeHtml(cellVal);
@@ -1447,10 +1687,17 @@
 
         _getOriginalPreviewIndex(rowObj) {
             var i = 0;
+
             for (i = 0; i < this._previewRows.length; i++) {
-                if (this._previewRows[i] === rowObj) return i;
-                if (this._previewRows[i]._rowNumber === rowObj._rowNumber) return i;
+                if (this._previewRows[i] === rowObj) {
+                    return i;
+                }
+
+                if (this._previewRows[i]._rowNumber === rowObj._rowNumber) {
+                    return i;
+                }
             }
+
             return 0;
         }
 
@@ -1524,7 +1771,10 @@
         _safeParseArray(text) {
             try {
                 var parsed = JSON.parse(text || "[]");
-                return Array.isArray(parsed) ? parsed : [];
+                if (Array.isArray(parsed)) {
+                    return parsed;
+                }
+                return [];
             } catch (e) {
                 return [];
             }
@@ -1543,10 +1793,15 @@
         }
 
         _escapeCsv(value) {
-            var str = value == null ? "" : String(value);
+            var str = "";
+            if (value !== undefined) {
+                str = String(value);
+            }
+
             if (str.indexOf(",") > -1 || str.indexOf('"') > -1 || str.indexOf("\n") > -1) {
                 str = '"' + str.replace(/"/g, '""') + '"';
             }
+
             return str;
         }
 
@@ -1575,8 +1830,12 @@
         }
 
         _toBoolean(v, defaultValue) {
-            if (v === true || v === "true") return true;
-            if (v === false || v === "false") return false;
+            if (v === true || v === "true") {
+                return true;
+            }
+            if (v === false || v === "false") {
+                return false;
+            }
             return defaultValue;
         }
 
@@ -1613,6 +1872,7 @@
         });
     }
 })();
+
 
 
 /*(function () {
