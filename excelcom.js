@@ -30,14 +30,9 @@
                 --cw-info-tx:#0958d9;
             }
 
-            *{
-                box-sizing:border-box;
-            }
+            *{ box-sizing:border-box; }
 
-            .excel-widget{
-                width:100%;
-                height:100%;
-            }
+            .excel-widget{ width:100%; height:100%; }
 
             .upload-card{
                 border:1px solid var(--cw-border);
@@ -61,25 +56,10 @@
                 padding-bottom:6px;
             }
 
-            .top-bar-left{
-                display:flex;
-                align-items:flex-start;
-                min-width:auto;
-            }
+            .top-bar-left{ display:flex; align-items:flex-start; min-width:auto; }
+            .top-bar-right{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
 
-            .top-bar-right{
-                display:flex;
-                align-items:center;
-                justify-content:flex-end;
-                gap:8px;
-                flex-wrap:wrap;
-            }
-
-            .title-wrap{
-                display:flex;
-                flex-direction:column;
-                gap:2px;
-            }
+            .title-wrap{ display:flex; flex-direction:column; gap:2px; }
 
             .upload-title{
                 font-size:15px;
@@ -109,35 +89,11 @@
                 min-height:34px;
             }
 
-            .status-ready{
-                background:#f5f6f7;
-                color:#354a5f;
-                border-color:var(--cw-border);
-            }
-
-            .status-processing{
-                background:#fff7e6;
-                color:#8a5a00;
-                border-color:#ffd591;
-            }
-
-            .status-completed{
-                background:var(--cw-success-bg);
-                color:var(--cw-success-tx);
-                border-color:var(--cw-success-bd);
-            }
-
-            .status-error{
-                background:var(--cw-error-bg);
-                color:var(--cw-error-tx);
-                border-color:var(--cw-error-bd);
-            }
-
-            .status-warning{
-                background:var(--cw-warn-bg);
-                color:var(--cw-warn-tx);
-                border-color:var(--cw-warn-bd);
-            }
+            .status-ready{ background:#f5f6f7; color:#354a5f; border-color:var(--cw-border); }
+            .status-processing{ background:#fff7e6; color:#8a5a00; border-color:#ffd591; }
+            .status-completed{ background:var(--cw-success-bg); color:var(--cw-success-tx); border-color:var(--cw-success-bd); }
+            .status-error{ background:var(--cw-error-bg); color:var(--cw-error-tx); border-color:var(--cw-error-bd); }
+            .status-warning{ background:var(--cw-warn-bg); color:var(--cw-warn-tx); border-color:var(--cw-warn-bd); }
 
             .toolbar-btn{
                 appearance:none;
@@ -171,10 +127,7 @@
                 border-color:var(--cw-primary-dark);
             }
 
-            .toolbar-btn:disabled{
-                opacity:0.55;
-                cursor:not-allowed;
-            }
+            .toolbar-btn:disabled{ opacity:0.55; cursor:not-allowed; }
 
             .upload-area{
                 border:1px solid #e3eaf2;
@@ -259,9 +212,7 @@
                 line-height:1.4;
             }
 
-            .mini-text b{
-                color:var(--cw-text);
-            }
+            .mini-text b{ color:var(--cw-text); }
 
             .summary-grid{
                 display:none;
@@ -271,9 +222,7 @@
                 flex:0 0 auto;
             }
 
-            .summary-grid.show{
-                display:grid;
-            }
+            .summary-grid.show{ display:grid; }
 
             .summary-item{
                 border:1px solid #edf1f5;
@@ -302,9 +251,7 @@
                 flex:0 0 auto;
             }
 
-            .progress-wrap.show{
-                display:block;
-            }
+            .progress-wrap.show{ display:block; }
 
             .progress-label-row{
                 display:flex;
@@ -331,13 +278,8 @@
                 transition:width 0.25s ease;
             }
 
-            .msg{
-                display:none !important;
-            }
-
-            .msg.show{
-                display:none !important;
-            }
+            .msg{ display:none !important; }
+            .msg.show{ display:none !important; }
 
             .preview-wrap{
                 display:none;
@@ -390,8 +332,7 @@
                 border-collapse:collapse;
             }
 
-            th,
-            td{
+            th, td{
                 border-bottom:1px solid #eef2f6;
                 padding:7px 10px;
                 text-align:left;
@@ -410,13 +351,8 @@
                 font-weight:700;
             }
 
-            tr:hover td{
-                background:#fafcff;
-            }
-
-            tr.invalid-row td{
-                background:#fff7f7;
-            }
+            tr:hover td{ background:#fafcff; }
+            tr.invalid-row td{ background:#fff7f7; }
 
             td.invalid-cell{
                 background:#fff1f0 !important;
@@ -448,9 +384,7 @@
                 flex:0 0 auto;
             }
 
-            .log-box.show{
-                display:block;
-            }
+            .log-box.show{ display:block; }
 
             .action-footer{
                 display:flex;
@@ -490,14 +424,8 @@
                     flex:1 1 auto;
                 }
 
-                .search-input{
-                    min-width:100%;
-                }
-
-                .toolbar-btn,
-                .action-btn{
-                    min-width:auto;
-                }
+                .search-input{ min-width:100%; }
+                .toolbar-btn, .action-btn{ min-width:auto; }
             }
         </style>
 
@@ -676,29 +604,10 @@
 
         static get observedAttributes() {
             return [
-                "title",
-                "subtitle",
-                "icon",
-                "unit",
-                "footer",
-                "errorlogfilename",
-                "templatefilename",
-                "templateurl",
-                "requiredcolumns",
-                "keycolumn",
-                "maxrows",
-                "previewrows",
-                "allowcsv",
-                "autovalidate",
-                "showpreview",
-                "showlogs",
-                "stricttemplate",
-                "validationresult",
-                "validationerrors",
-                "lastevent",
-                "invalidcount",
-                "validcount",
-                "rowcount"
+                "title","subtitle","icon","unit","footer","errorlogfilename","templatefilename","templateurl",
+                "requiredcolumns","keycolumn","maxrows","previewrows","allowcsv","autovalidate","showpreview",
+                "showlogs","stricttemplate","validationresult","validationerrors","lastevent","invalidcount",
+                "validcount","rowcount"
             ];
         }
 
@@ -761,7 +670,7 @@
         set showpreview(v) { this._export_settings.showpreview = this._toBoolean(v, true); this._applyVisibility(); }
 
         get showlogs() { return this._export_settings.showlogs; }
-        set showlogs(v) { this._export_settings.showlogs = this._toBoolean(v, true); this._applyVisibility(); }
+        set showlogs(v) { this._export_settings.showlogs = this._toBoolean(v, true); }
 
         get stricttemplate() { return this._export_settings.stricttemplate; }
         set stricttemplate(v) { this._export_settings.stricttemplate = this._toBoolean(v, false); }
@@ -925,16 +834,12 @@
 
         _showContinueButton(show) {
             var btn = this._shadowRoot.getElementById("continueUploadBtn");
-            if (btn) {
-                btn.style.display = show ? "inline-flex" : "none";
-            }
+            if (btn) btn.style.display = show ? "inline-flex" : "none";
         }
 
         _setContinueEnabled(enable) {
             var btn = this._shadowRoot.getElementById("continueUploadBtn");
-            if (btn) {
-                btn.disabled = !enable;
-            }
+            if (btn) btn.disabled = !enable;
         }
 
         _loadExcelLibrary() {
@@ -957,8 +862,8 @@
             var url = this._export_settings.templateurl;
             var fileName = this._export_settings.templatefilename || "Template.xlsm";
 
-            var isSharePoint = /sharepoint\.com|sharepoint-df\.com/i.test(url);
-            var isSacFileLink = /\/sap\/fpa\/ui\/app\.html#\/files/i.test(url);
+            var isSharePoint = /sharepoint\\.com|sharepoint-df\\.com/i.test(url);
+            var isSacFileLink = /\\/sap\\/fpa\\/ui\\/app\\.html#\\/files/i.test(url);
 
             that._log("Downloading template...", false);
             that._setStatus("Downloading", "processing");
@@ -986,9 +891,7 @@
 
             fetch(url)
                 .then(function (response) {
-                    if (!response.ok) {
-                        throw new Error("HTTP " + response.status + " - Template file not found");
-                    }
+                    if (!response.ok) throw new Error("HTTP " + response.status + " - Template file not found");
                     return response.blob();
                 })
                 .then(function (blob) {
@@ -1045,6 +948,7 @@
             this._uploadedHeaders = [];
             this._enableErrorDownload(false);
             this._showContinueButton(false);
+            this._setContinueEnabled(false);
             this._log("File selected: " + file.name, true);
 
             var reader = new FileReader();
@@ -1066,8 +970,8 @@
                     }
 
                     that._sheetName = actualSheet;
-
                     that._setProgress(45, "Reading rows...");
+
                     var sheet = workbook.Sheets[actualSheet];
                     var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
 
@@ -1080,6 +984,7 @@
 
                     var header = rows[0] || [];
                     that._uploadedHeaders = [];
+
                     var h = 0;
                     for (h = 0; h < header.length; h++) {
                         that._uploadedHeaders.push(String(header[h] || "").trim());
@@ -1112,73 +1017,51 @@
                     that._setProgress(82, "Building preview...");
                     that._buildDataFromRows(rows, requiredColumns, colMap, idCount);
 
-                    if (that._validData.length > that._export_settings.maxrows) {
+                    if (that._previewRows.length > that._export_settings.maxrows) {
                         that._setStatus("Error", "error");
-                        that._showMessage("error", "Maximum valid records are " + that._export_settings.maxrows);
-                        that._log("Maximum valid records are " + that._export_settings.maxrows, true);
+                        that._showMessage("error", "Maximum records are " + that._export_settings.maxrows);
+                        that._log("Maximum records are " + that._export_settings.maxrows, true);
                         return;
                     }
 
                     var payloadLines = [];
-var headerLine = that._previewColumns.join("|");
-payloadLines.push(headerLine);
+                    payloadLines.push(requiredColumns.join("|"));
 
-var pr = 0;
-var pc = 0;
+                    var pr = 0;
+                    var pc = 0;
 
-for (pr = 0; pr < that._previewRows.length; pr++) {
-    var rowVals = [];
-    for (pc = 0; pc < that._previewColumns.length; pc++) {
-        var colNameForSac = that._previewColumns[pc];
-        var cellValForSac = "";
+                    for (pr = 0; pr < that._previewRows.length; pr++) {
+                        var rowVals = [];
+                        for (pc = 0; pc < requiredColumns.length; pc++) {
+                            var colNameForSac = requiredColumns[pc];
+                            var cellValForSac = "";
 
-        if (that._previewRows[pr][colNameForSac] !== undefined && that._previewRows[pr][colNameForSac] !== null) {
-            cellValForSac = String(that._previewRows[pr][colNameForSac]);
-        }
+                            if (that._previewRows[pr][colNameForSac] !== undefined && that._previewRows[pr][colNameForSac] !== null) {
+                                cellValForSac = String(that._previewRows[pr][colNameForSac]);
+                            }
 
-        cellValForSac = cellValForSac.replace(/\|/g, " ");
-        cellValForSac = cellValForSac.replace(/\r/g, " ");
-        cellValForSac = cellValForSac.replace(/\n/g, " ");
-        rowVals.push(cellValForSac);
-    }
-    payloadLines.push(rowVals.join("|"));
-}
+                            cellValForSac = cellValForSac.replace(/\\|/g, " ");
+                            cellValForSac = cellValForSac.replace(/\\r/g, " ");
+                            cellValForSac = cellValForSac.replace(/\\n/g, " ");
+                            rowVals.push(cellValForSac);
+                        }
+                        payloadLines.push(rowVals.join("|"));
+                    }
 
-that.unit = payloadLines.join("\n");
+                    that.unit = payloadLines.join("\\n");
 
                     that._export_settings.rowcount = that._previewRows.length;
                     that._export_settings.validcount = that._validData.length;
                     that._export_settings.invalidcount = that._errorLog.length;
 
-                    if (that._errorLog.length > 0) {
-                        that._export_settings.validationresult = "false";
-                    } else {
-                        that._export_settings.validationresult = "true";
-                    }
+                    that._export_settings.validationresult = that._errorLog.length > 0 ? "false" : "true";
                     that._export_settings.validationerrors = JSON.stringify(that._validationErrorsParsed);
 
                     that._buildValidationMap();
                     that._renderPreview();
                     that._enableErrorDownload(that._errorLog.length > 0);
                     that._showContinueButton(true);
-
-                    if (that._errorLog.length > 0) {
-                        that._setContinueEnabled(false);
-                    } else {
-                        that._setContinueEnabled(true);
-                    }
-
-                    that._firePropertiesChanged("previewCompleted");
-
-                    that.dispatchEvent(new CustomEvent("onPreviewCompleted", {
-                        detail: {
-                            rowCount: that._previewRows.length,
-                            validCount: that._validData.length,
-                            invalidCount: that._errorLog.length,
-                            fileName: file.name,
-                            sheetName: actualSheet
-                        }
-                    }));
+                    that._setContinueEnabled(that._errorLog.length === 0);
 
                     that._setSummary(
                         that._previewRows.length,
@@ -1202,6 +1085,10 @@ that.unit = payloadLines.join("\n");
                     that._log("Invalid rows: " + that._errorLog.length);
                     that._log("Detected headers: " + that._uploadedHeaders.join(", "));
 
+                    that._export_settings.lastevent = "previewCompleted";
+                    that._firePropertiesChanged("previewCompleted");
+                    that._fireSacEvent("onValidate");
+
                 } catch (err) {
                     that._setStatus("Error", "error");
                     that._showMessage("error", "Preview failed: " + err.message);
@@ -1212,36 +1099,20 @@ that.unit = payloadLines.join("\n");
             reader.readAsBinaryString(file);
         }
 
-       _continueUpload() {
-    if (!this._previewRows || this._previewRows.length === 0) {
-        this._setStatus("Warning", "warning");
-        this._showMessage("warn", "No preview data available");
-        return;
-    }
+        _continueUpload() {
+            if (!this._previewRows || this._previewRows.length === 0) {
+                this._setStatus("Warning", "warning");
+                this._showMessage("warn", "No preview data available");
+                return;
+            }
 
-    if (this._export_settings.validationresult === "false") {
-        this._setStatus("Validation Error", "error");
-        this._showMessage("warn", "Fix preview validation errors before upload");
-        return;
-    }
+            this._setStatus("Uploading", "processing");
+            this._hideMessage();
 
-    this._setStatus("Uploading", "processing");
-    this._hideMessage();
-
-    this._export_settings.lastevent = "continueUpload";
-    this._firePropertiesChanged("continueUpload");
-
-    this.dispatchEvent(new CustomEvent("onContinueUpload", {
-        detail: {
-            rowCount: this._previewRows.length,
-            validCount: this._validData.length,
-            invalidCount: this._export_settings.invalidcount,
-            fileName: this._currentFileName,
-            sheetName: this._sheetName
+            this._export_settings.lastevent = "continueUpload";
+            this._firePropertiesChanged("continueUpload");
+            this._fireSacEvent("onValidate");
         }
-    }));
-}
-
 
         _prepareColumnMapFromHeaders() {
             var requiredColumns = this._getRequiredColumns();
@@ -1320,7 +1191,7 @@ that.unit = payloadLines.join("\n");
                     if (!rowObj[reqCol]) {
                         errors.push(reqCol + " is mandatory");
                         cellErrors.push({
-                            rowIndex: previewRows.length - 1,
+                            rowIndex: rowNumber,
                             field: reqCol,
                             message: "Blank cell not allowed"
                         });
@@ -1330,7 +1201,7 @@ that.unit = payloadLines.join("\n");
                 if (rowObj[keyColumn] && idCount[rowObj[keyColumn]] > 1) {
                     errors.push("Duplicate " + keyColumn + " '" + rowObj[keyColumn] + "' - all " + idCount[rowObj[keyColumn]] + " occurrences rejected");
                     cellErrors.push({
-                        rowIndex: previewRows.length - 1,
+                        rowIndex: rowNumber,
                         field: keyColumn,
                         message: "Duplicate value not allowed"
                     });
@@ -1364,9 +1235,7 @@ that.unit = payloadLines.join("\n");
 
             for (i = 0; i < parts.length; i++) {
                 var v = String(parts[i] || "").trim();
-                if (v !== "") {
-                    out.push(v);
-                }
+                if (v !== "") out.push(v);
             }
 
             return out.length ? out : ["ID", "DESCRIPTION", "H1", "COMPANY", "COSTCENTER", "ASSET_CLASS", "CAPITALIZED"];
@@ -1374,12 +1243,8 @@ that.unit = payloadLines.join("\n");
 
         _getKeyColumn(requiredColumns) {
             var key = String(this._export_settings.keycolumn || "").trim();
-            if (key !== "") {
-                return key;
-            }
-            if (requiredColumns.indexOf("ID") > -1) {
-                return "ID";
-            }
+            if (key !== "") return key;
+            if (requiredColumns.indexOf("ID") > -1) return "ID";
             return requiredColumns[0];
         }
 
@@ -1395,9 +1260,8 @@ that.unit = payloadLines.join("\n");
 
             for (i = 0; i < this._validationErrorsParsed.length; i++) {
                 var err = this._validationErrorsParsed[i];
-                if (err.rowIndex !== undefined && err.rowIndex !== null) {
-                    invalidRowMap[String(err.rowIndex)] = true;
-                }
+                var mappedIndex = this._mapSacRowToPreviewIndex(err.rowIndex);
+                invalidRowMap[String(mappedIndex)] = true;
             }
 
             var invalidRowsFinal = 0;
@@ -1409,10 +1273,11 @@ that.unit = payloadLines.join("\n");
 
             var totalRowsFinal = this._previewRows.length;
             var validRowsFinal = totalRowsFinal - invalidRowsFinal;
+            if (validRowsFinal < 0) validRowsFinal = 0;
 
-            if (validRowsFinal < 0) {
-                validRowsFinal = 0;
-            }
+            this._export_settings.invalidcount = invalidRowsFinal;
+            this._export_settings.validcount = validRowsFinal;
+            this._export_settings.rowcount = totalRowsFinal;
 
             this._setSummary(
                 totalRowsFinal,
@@ -1431,7 +1296,11 @@ that.unit = payloadLines.join("\n");
             } else {
                 this._hideMessage();
                 if (this._previewRows.length > 0) {
-                    this._setStatus("Preview Ready", "completed");
+                    if (this._export_settings.lastevent === "continueUpload") {
+                        this._setStatus("Upload Completed", "completed");
+                    } else {
+                        this._setStatus("Preview Ready", "completed");
+                    }
                     this._showContinueButton(true);
                     this._setContinueEnabled(true);
                 } else {
@@ -1439,6 +1308,8 @@ that.unit = payloadLines.join("\n");
                     this._showContinueButton(false);
                 }
             }
+
+            this._enableErrorDownload(this._validationErrorsParsed.length > 0 || this._errorLog.length > 0);
         }
 
         _buildValidationMap() {
@@ -1447,17 +1318,31 @@ that.unit = payloadLines.join("\n");
 
             for (i = 0; i < this._validationErrorsParsed.length; i++) {
                 var err = this._validationErrorsParsed[i];
-                var rowIndex = err.rowIndex !== undefined ? String(err.rowIndex) : "";
                 var field = err.field || "";
-                var key = rowIndex + "|" + field;
+                var mappedRowIndex = this._mapSacRowToPreviewIndex(err.rowIndex);
+                var key = String(mappedRowIndex) + "|" + field;
 
                 if (!this._validationMap[key]) this._validationMap[key] = [];
                 this._validationMap[key].push(err.message || "Invalid value");
 
-                var rowKey = rowIndex + "|__row__";
+                var rowKey = String(mappedRowIndex) + "|__row__";
                 if (!this._validationMap[rowKey]) this._validationMap[rowKey] = [];
                 this._validationMap[rowKey].push(err.message || "Invalid value");
             }
+        }
+
+        _mapSacRowToPreviewIndex(rowIndex) {
+            if (rowIndex === undefined || rowIndex === null) return 0;
+
+            var sacRowNo = parseInt(rowIndex, 10);
+            if (isNaN(sacRowNo)) return 0;
+
+            var i = 0;
+            for (i = 0; i < this._previewRows.length; i++) {
+                if (parseInt(this._previewRows[i]._rowNumber, 10) === sacRowNo) return i;
+            }
+
+            return Math.max(0, sacRowNo - 2);
         }
 
         _renderPreview() {
@@ -1593,27 +1478,41 @@ that.unit = payloadLines.join("\n");
             this._setSummary(0, 0, 0, "-", 0, "-");
             this._renderPreview();
             this._log("Cleared previous file and output", true);
+
             this._export_settings.lastevent = "clear";
             this._firePropertiesChanged("clear");
-
-            this.dispatchEvent(new CustomEvent("onClear", { detail: {} }));
+            this._fireSacEvent("onClear");
         }
 
         _downloadErrorLog() {
-            if (!this._errorLog || this._errorLog.length === 0) {
+            var combined = [];
+            var i = 0;
+
+            for (i = 0; i < this._errorLog.length; i++) {
+                combined.push({
+                    RowNumber: this._errorLog[i].RowNumber,
+                    ErrorMessage: this._errorLog[i].ErrorMessage
+                });
+            }
+
+            for (i = 0; i < this._validationErrorsParsed.length; i++) {
+                combined.push({
+                    RowNumber: this._validationErrorsParsed[i].rowIndex,
+                    ErrorMessage: (this._validationErrorsParsed[i].field || "") + ": " + (this._validationErrorsParsed[i].message || "")
+                });
+            }
+
+            if (!combined.length) {
                 this._showMessage("info", "No error log available to download");
                 this._log("No error log available to download");
                 return;
             }
 
             var rows = ["RowNumber,ErrorMessage"];
-            var i = 0;
-
-            for (i = 0; i < this._errorLog.length; i++) {
-                var item = this._errorLog[i];
+            for (i = 0; i < combined.length; i++) {
                 rows.push([
-                    this._escapeCsv(item.RowNumber),
-                    this._escapeCsv(item.ErrorMessage)
+                    this._escapeCsv(combined[i].RowNumber),
+                    this._escapeCsv(combined[i].ErrorMessage)
                 ].join(","));
             }
 
@@ -1669,6 +1568,12 @@ that.unit = payloadLines.join("\n");
             }));
         }
 
+        _fireSacEvent(eventName) {
+            this.dispatchEvent(new CustomEvent(eventName, {
+                detail: {}
+            }));
+        }
+
         _toBoolean(v, defaultValue) {
             if (v === true || v === "true") return true;
             if (v === false || v === "false") return false;
@@ -1708,6 +1613,7 @@ that.unit = payloadLines.join("\n");
         });
     }
 })();
+
 
 /*(function () {
     "use strict";
